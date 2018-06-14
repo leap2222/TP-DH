@@ -1,0 +1,214 @@
+@import "normalize.css";
+@import url("http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css");
+@import url('https://fonts.googleapis.com/css?family=Pattaya');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow');
+
+* {
+  box-sizing: border-box;
+  /* border: solid red 1px; */
+}
+
+body {
+  background-color: white;
+  font-family: 'PT Sans Narrow', sans-serif;
+  color: black;
+  max-width: 350px;
+  margin: none;
+}
+
+p {
+    font-family: 'Playfair Display', serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-nav {
+  width: 100%;
+  text-align: center;
+}
+
+
+.main-footer a {
+	display: block;
+	text-align: center;
+}
+
+.main-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.footer {
+  background-color: #000000;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 30px;
+  text-align: center;
+  font-size: 2em;
+}
+
+.footer a {
+  color: white;
+}
+
+
+.main-nav a {
+  color: black;
+}
+
+.main-nav li {
+  padding: 8px 0px 8px 0px;
+  border: solid grey 1px;
+  background-color: white;
+}
+
+.main-nav li:hover{
+  transition: 500ms;
+  color: white;
+  background-color: black;
+}
+
+.logo {
+  max-width: 300px;
+}
+
+h1{
+  font-family: 'Pattaya', sans-serif;
+  font-weight: bolder;
+  font-size: 2em;
+  text-align: center;
+}
+
+ul {
+  padding: 0px;
+}
+
+li{
+  margin: 10px;
+  padding: 0px;
+  list-style: none;
+  border-radius: 10px;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+.toggle-nav {
+  display: block;
+  text-align: center;
+}
+
+.formulario {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.texto {
+  border: none;
+  font-weight: bold;
+  font-family: 'Playfair Display', serif;
+  background: none;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.registrar {
+  display:block;
+  text-align: center;
+  padding: 5px;
+  color: black;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-style: none;
+}
+
+/* .login input { */
+  /* padding: 10px;
+} */
+
+.login button {
+  margin-top: 15px;
+  color: black;
+  width: 100%;
+  padding: 10px;
+}
+
+.login input:not([type='checkbox']) {
+  width: 100%;
+  text-align: center;
+  border-radius: 2px;
+  background-color: grey;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 1.25em;
+  margin: 5px 0px 5px 0px;
+}
+
+.centrar {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.login input[type='checkbox'] {
+  text-align: center;
+  margin: auto;
+}
+
+::placeholder{
+  color: white;
+}
+
+
+.main-nav {
+/*  display: flex; */
+  flex-wrap: nowrap;
+  display:none;
+  justify-content: space-around;
+  border-style:none;
+}
+
+
+/* @media (min-width: 479px) {
+  ul {
+    display: none;
+  }
+
+  input {
+    display: none;
+  }
+
+  p {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px;
+    line-height: 6px;
+    padding: 0px 5px 5px 5px;
+    border-radius: 10%;
+  }
+
+  .texto {
+    margin-top: 5px;
+  }
+} */

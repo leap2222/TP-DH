@@ -1,0 +1,12 @@
+.Index
+  (Portada y Proximos Eventos)
+
+.  Barra Navegacion
+  . Eventos
+  . Quienes Somos
+  . Preguntas Comunes
+  . Registro - Login
+
+. Header
+
+. Footer

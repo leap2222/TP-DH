@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Registrarse</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<h1 align="center">
+      <strong>Registrarse</strong>
+    </h1>
+    <section class="registracion">
+      <form action="submit.php" method="post">
+        <fieldset>
+          <legend>Datos personales</legend>
+          <label>Nombre:</label>
+          <input type="text" name="nombre" placeholder="Paco">
+          <br><br>
+
+          <label>Apellido</label>
+          <input type="text" name="apellido" placeholder="Pérez">
+          <br><br>
+
+          <label>Correo:</label>
+          <input type="email" name="correo">
+          <br><br>
+
+          <label>Pasatiempos:</label>
+          <label>
+            <input type="checkbox" name="hobbies[]" value="L" checked>
+            Lectura
+          </label>
+          <label>
+            <input type="checkbox" name="hobbies[]" value="M">
+            Música
+          </label>
+          <label>
+            <input type="checkbox" name="hobbies[]" value="P">
+            Programación
+          </label>
+          <br><br>
+
+          <label>Género:</label>
+          <label>
+            <input type="radio" name="gender" value="F" checked>
+            Femenino
+          </label>
+          <label>
+            <input type="radio" name="gender" value="M">
+            Masculino
+          </label>
+          <label>
+            <input type="radio" name="gender" value="O">
+            Otro
+          </label>
+          <br><br>
+
+          <label>Teléfono de contacto:</label>
+          <i>+54 15</i>
+          <input type="tel" name="telefono">
+          <br><br>
+
+          <label>Edad:</label>
+          <input type="number" name="edad">
+          <br><br>
+
+          <label>Sitio web:</label>
+          <input type="url" name="website">
+          <br><br>
+
+          <label>Contraseña:</label>
+          <input type="password" name="clave">
+          <br><br>
+
+          <label>Subí tu imagen:</label>
+          <input type="file" name="foto" accept="image/jpeg" multiple>
+          <br><br>
+
+          <label>País de nacimiento:</label>
+          <select name="pais">
+            <option value="0">Elegí</option>
+            <optgroup label="Sur América">
+              <option value="Ar">Argentina</option>
+              <option value="Br">Brasil</option>
+              <option value="Co">Colombia</option>
+            </optgroup>
+          </select>
+          <br><br>
+
+          <label>Tu mensaje:</label>
+          <textarea name="mensaje"></textarea>
+          <br><br>
+
+          <button type="submit">ENVIAR</button>
+          <button type="reset">BORRAR</button>
+        </fieldset>
+      </form>
+    </section>
+  </body>
+</html>

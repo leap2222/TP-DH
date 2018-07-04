@@ -7,28 +7,6 @@
 		$_SESSION['id'] = $_COOKIE['id'];
 	}
 
-	// == FUNCTION - crearUsuario ==
-	/*
-		- Recibe dos parámetros -> $_POST y el nombre del campo de subir imagen
-		- Con estos datos, genera un array nuevo
-		- Usa la función traerUltimoID() para generar un ID para cada usuario
-		- Retorna el array con el usuario final
-	*/
-	function crearUsuario($data, $imagen) {
-		$usuario = [
-			'id' => traerUltimoID(),
-			'name' => $data['name'],
-			'email' => $data['email'],
-			'pais' => $data['pais'],
-			'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
-			'foto' => 'img/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
-		];
-
-	   return $usuario;
-	}
-
-
-
 	// == FUNCTION - validar ==
 	/*
 		- Recibe dos parámetros -> $_POST y el nombre del campo de subir imagen
@@ -39,7 +17,8 @@
 	function validar($data, $archivo) {
 		$errores = [];
 
-		$name = trim($_POST['name']);
+		$nombre = trim($_POST['nombre']);
+		$apellido = trim($_POST['apellido']);
 		$email = trim($_POST['email']);
 		$pais = trim($_POST['pais']);
 		$pass = trim($_POST['pass']);
@@ -48,8 +27,12 @@
 
 		// Valido cada campo del formulario y por cada error genero una posición en el array de errores ($errores) que inicialmente estaba vacío
 
-		if ($name == '') { // Si el nombre está vacio
-			$errores['name'] = "Completa tu nombre";
+		if ($nombre == '') { // Si el nombre está vacio
+			$errores['nombre'] = "Completa tu nombre";
+		}
+
+		if($apellido == ''){
+			$errores['apellido'] = "Completa tu apellido";
 		}
 
 		if ($pais == '') { // Si el país no fué elegido
@@ -60,7 +43,7 @@
 			$errores['email'] = "Completa tu email";
 		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			// Si el email no es un formato valido
-			$errores['email'] = "Por favor poner un email de verdad, gatx.";
+			$errores['email'] = "Por favor poner un email valido";
 		} elseif (existeEmail($email)) { // Si el email ya está registrado vacio
 			$errores['email'] = "Este email ya existe.";
 		}
@@ -200,9 +183,6 @@
 		return $errores;
 	}
 
-
-
-
 	// == FUNCTION - guardarUsuario ==
 	/*
 		- Recibe dos parámetros -> $_POST y el nombre del campo de la imagen
@@ -223,6 +203,25 @@
 		return $usuario;
 	}
 
+	// == FUNCTION - crearUsuario ==
+	/*
+		- Recibe dos parámetros -> $_POST y el nombre del campo de subir imagen
+		- Con estos datos, genera un array nuevo
+		- Usa la función traerUltimoID() para generar un ID para cada usuario
+		- Retorna el array con el usuario final
+	*/
+	function crearUsuario($data, $imagen) {
+		$usuario = [
+			'id' => traerUltimoID(),
+			'name' => $data['name'],
+			'email' => $data['email'],
+			'pais' => $data['pais'],
+			'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
+			'foto' => 'img/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
+		];
+
+	   return $usuario;
+	}
 
 
 	// == FUNCTION - validarLogin ==

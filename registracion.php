@@ -16,6 +16,8 @@
 	$edad = '';
 	$tel = '';
 	$pais = '';
+	$website = '';
+	$mensaje = '';
 
 	// Array de errores vacío
 	$errores = [];
@@ -28,8 +30,9 @@
 		$email = trim($_POST['email']);
 		$edad = trim($_POST['edad']);
 		$tel = trim($_POST['tel']);
-		//$pais = trim($_POST['pais']);
-
+		$pais = trim($_POST['pais']);
+		$website = trim($_POST['website']);
+		$mensaje = trim($_POST['mensaje']);
 
 		// Valido y guardo en errores
 		$errores = validar($_POST, 'avatar');
@@ -79,7 +82,7 @@
           <legend>Datos personales</legend>
 					<div class="form-group <?= isset($errores['nombre']) ? 'has-error' : null ?>">
 						<label class="control-label">Nombre:*</label>
-	          <input class="form-control" type="text" nombre="nombre" placeholder="Paco" value="<?=$nombre?>">
+	          <input class="form-control" type="text" name="nombre" placeholder="Paco" value="<?=$nombre?>">
 						<span class="help-block" style="<?= !isset($errores['nombre']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['nombre']) ? $errores['nombre'] : ''; ?>
@@ -89,7 +92,7 @@
 
 					<div class="form-group <?= isset($errores['apellido']) ? 'has-error' : null ?>">
 	          <label class="control-label">Apellido:*</label>
-	          <input class="form-control" type="text" nombre="apellido" placeholder="Pérez" value="<?=$apellido?>">
+	          <input class="form-control" type="text" name="apellido" placeholder="Pérez" value="<?=$apellido?>">
 						<span class="help-block" style="<?= !isset($errores['apellido']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['apellido']) ? $errores['apellido'] : ''; ?>
@@ -99,7 +102,7 @@
 
 					<div class="form-group <?= isset($errores['email']) ? 'has-error' : null ?>">
 	          <label class="control-label">Correo:*</label>
-	          <input class="form-control" type="email" nombre="correo" value="<?=$email?>">
+	          <input class="form-control" type="email" name="correo" value="<?=$email?>">
 						<span class="help-block" style="<?= !isset($errores['email']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['email']) ? $errores['email'] : ''; ?>
@@ -109,7 +112,7 @@
 
 					<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
 						<label class="control-label">Contraseña:*</label>
-						<input class="form-control" type="password" nombre="pass" value="">
+						<input class="form-control" type="password" name="pass" value="">
 						<span class="help-block" style="<?= !isset($errores['pass']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
@@ -129,7 +132,7 @@
 
 					<div class="form-group <?= isset($errores['edad']) ? 'has-error' : null ?>">
 						<label class="control-label">Edad:</label>
-						<input class="form-control" type="number" nombre="edad" value="<?=$edad?>">
+						<input class="form-control" type="number" name="edad" value="<?=$edad?>">
 						<span class="help-block" style="<?= !isset($errores['edad']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['edad']) ? $errores['edad'] : ''; ?>
@@ -140,7 +143,7 @@
 					<div class="form-group <?= isset($errores['tel']) ? 'has-error' : null ?>">
 						<label class="control-label">Teléfono de contacto:</label>
 						<i>+54 15</i>
-						<input class="form-control" type="tel" nombre="tel" value="<?=$tel?>">
+						<input class="form-control" type="tel" name="tel" value="<?=$tel?>">
 						<span class="help-block" style="<?= !isset($errores['tel']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['tel']) ? $errores['tel'] : ''; ?>
@@ -150,7 +153,7 @@
 
 					<div class="form-group <?= isset($errores['pais']) ? 'has-error' : null ?>">
 						<label class="control-label">País de nacimiento:*</label>
-						<select class="form-control" nombre="pais">
+						<select class="form-control" name="pais">
 								<option value="0">Elegí</option>
 								<?php foreach ($paises as $value): ?>
 									<?php if ($value == $pais): ?>
@@ -170,39 +173,39 @@
 					<label>Género:</label>
 					<br>
 					<label>
-            <input type="radio" nombre="gender" value="F" checked>
+            <input type="radio" name="gender" value="F" checked>
             Femenino
           </label>
 					<br>
           <label>
-            <input type="radio" nombre="gender" value="M">
+            <input type="radio" name="gender" value="M">
             Masculino
           </label>
 					<br>
           <label>
-            <input type="radio" nombre="gender" value="O">
+            <input type="radio" name="gender" value="O">
             Otro
           </label>
           <br><br>
 
           <label>Pasatiempos:</label>
           <label>
-            <input type="checkbox" nombre="hobbies[]" value="L" checked>
+            <input type="checkbox" name="hobbies[]" value="L" checked>
             Lectura
           </label>
           <label>
-            <input type="checkbox" nombre="hobbies[]" value="M">
+            <input type="checkbox" name="hobbies[]" value="M">
             Música
           </label>
           <label>
-            <input type="checkbox" nombre="hobbies[]" value="P">
+            <input type="checkbox" name="hobbies[]" value="P">
             Programación
           </label>
           <br><br>
 
 					<div class="form-group <?= isset($errores['website']) ? 'has-error' : null ?>">
 	          <label class="control-label">Sitio web:</label>
-	          <input class="form-control" type="url" nombre="website" value="<?=$website?>">
+	          <input class="form-control" type="url" name="website" value="<?=$website?>">
 						<span class="help-block" style="<?= !isset($errores['website']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['website']) ? $errores['website'] : ''; ?>
@@ -210,12 +213,12 @@
 					</div>
 					<br>
           <label>Subí tu Foto:</label>
-          <input type="file" nombre="foto" accept="image/jpeg" multiple>
+          <input type="file" name="foto" accept="image/jpeg" multiple>
           <br><br>
 
 					<div class="form-group <?= isset($errores['mensaje']) ? 'has-error' : null ?>">
 	          <label class="control-label">Tu mensaje:</label>
-						<textarea class="form-control" nombre="mensaje" value="<?=$mensaje?>"></textarea>
+						<textarea class="form-control" name="mensaje" value="<?=$mensaje?>"></textarea>
 						<span class="help-block" style="<?= !isset($errores['mensaje']) ? 'display: none;' : ''; ?>">
 							<b class="glyphicon glyphicon-exclamation-sign"></b>
 							<?= isset($errores['mensaje']) ? $errores['mensaje'] : ''; ?>
@@ -223,7 +226,7 @@
 					</div>
 					<br>
 
-          <button class="btn btn-primary" type="submit">ENVIAR</button>
+          <input class="btn btn-primary" type="submit" value="ENVIAR">
           <button type="reset">BORRAR</button>
         </fieldset>
       </form>

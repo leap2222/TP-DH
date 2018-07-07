@@ -60,7 +60,7 @@
 			$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
 
 			if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
-				$errores['avatar'] = "Formatos admitidos: JPG o PNG";
+				$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
 			}
 
 		}
@@ -168,7 +168,7 @@
 				// Armo la ruta donde queda gurdada la imagen
 				$dondeEstoyParado = dirname(__FILE__);
 
-				$rutaFinalConNombre = $dondeEstoyParado.'\/img/'.$_POST['email'].'.'.$ext;
+				$rutaFinalConNombre = $dondeEstoyParado.'\/images/'.$_POST['email'].'.'.$ext;
 
 				// Subo la imagen definitivamente
 				move_uploaded_file($archivoFisico, $rutaFinalConNombre);
@@ -217,7 +217,7 @@
 			'email' => $data['email'],
 			'pais' => $data['pais'],
 			'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
-			'foto' => 'img/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
+			'foto' => 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
 		];
 
 	   return $usuario;
@@ -265,7 +265,7 @@
 	function loguear($usuario) {
 		// Guardo en $_SESSION el ID del USUARIO
 	   $_SESSION['id'] = $usuario['id'];
-		header('location: Perfil.php');
+		header('location: perfil.php');
 		exit;
 	}
 

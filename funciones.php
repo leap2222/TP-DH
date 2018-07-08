@@ -264,7 +264,7 @@
 	*/
 	function loguear($usuario) {
 		// Guardo en $_SESSION el ID del USUARIO
-	   $_SESSION['id'] = $usuario['id'];
+	  $_SESSION['id'] = $usuario['id'];
 		header('location: perfil.php');
 		exit;
 	}

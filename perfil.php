@@ -1,10 +1,10 @@
 <?php
 	require_once('funciones.php');
 
-	if (!estaLogueado()) {
-		header('location: login.php');
-		exit;
-	}
+	// if (!estaLogueado()) {
+	// 	header('location: index_login.php');
+	// 	exit;
+	// }
 
 	$usuario = traerPorId($_SESSION['id']);
 ?>
@@ -17,10 +17,13 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>Hola <?=$usuario['name']?></h1>
+			<h1>Bienvenido a Multilanguage <?=$usuario['name']?></h1>
 			<img class="img-rounded" src="<?=$usuario['foto']?>" width="200">
 			<br><br>
 			<a class="btn btn-warning" href="logout.php">CERRAR SESIÓN</a>
+
+			<a class="btn btn-primary" href="editar.php">Editar Datos</a>
+
 		</div>
 	</body>
 </html>

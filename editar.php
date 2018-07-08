@@ -1,23 +1,25 @@
 <?php
 	require_once('funciones.php');
 
-	if (estaLogueado()) {
-		header('location: perfil.php');
-		exit;
-	}
+	// if (estaLogueado()) {
+	// 	header('location: perfil.php');
+	// 	exit;
+	// }
 
 	// Array de países para el foreach en el select
 	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];
 
-	// Variables para persistencia
-	$nombre = '';
-	$apellido = '';
-	$email = '';
-	$edad = '';
-	$tel = '';
-	$pais = '';
-	$website = '';
-	$mensaje = '';
+  $usuario = traerPorId($_SESSION['id']);
+
+	// Datos del usuario
+	$nombre = $usuario['name'];
+	$apellido = $usuario['apellido'];
+	$email = $usuario['email'];
+	$edad = $usuario['edad'];
+	$tel = $usuario['tel'];
+	$pais = $usuario['pais'];
+	$website = $usuario['website'];
+	$mensaje = $usuario['mensaje'];
 
 	// Array de errores vacío
 	$errores = [];
@@ -74,13 +76,13 @@
 			</div>
 		<?php endif; ?>
 		<h1 align="center">
-      <strong>Registrarse</strong>
+      <strong>Datos del Usuario</strong>
     </h1>
     <section class="registracion">
 			<form method="post" enctype="multipart/form-data">
         <fieldset>
           <legend>Datos personales</legend>
-
+          <img class="img-rounded" src="<?=$usuario['foto']?>" width="200">
 					<div class="row justify-content-md-center">
 						<div class="col-sm-12">
 							<div class="form-group <?= isset($errores['nombre']) ? 'has-error' : null ?>">

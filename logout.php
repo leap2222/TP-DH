@@ -1,7 +1,7 @@
 <?php
 	session_start();
-	setcookie('id', '', time()-10);
+	setcookie('id', '', time()+300);
 	session_destroy();
-	header('location: registracion.php');
+	header('location: index_login.php');
 	exit;
 ?>

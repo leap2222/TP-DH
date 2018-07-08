@@ -213,14 +213,26 @@
 	function crearUsuario($data, $imagen) {
 		$usuario = [
 			'id' => traerUltimoID(),
-			'name' => $data['name'],
+			'nombre' => $data['nombre'],
+			'apellido' => $data['apellido'],
 			'email' => $data['email'],
+			'edad' => $data['edad'],
+			'tel' => $data['tel'],
 			'pais' => $data['pais'],
+			'website' => $data['website'],
+			'mensaje' => $data['mensaje'],
 			'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
 			'foto' => 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
 		];
-
-	   return $usuario;
+	  return $usuario;
+		// $nombre = trim($_POST['nombre']);
+		// $apellido = trim($_POST['apellido']);
+		// $email = trim($_POST['email']);
+		// $edad = trim($_POST['edad']);
+		// $tel = trim($_POST['tel']);
+		// $pais = trim($_POST['pais']);
+		// $website = trim($_POST['website']);
+		// $mensaje = trim($_POST['mensaje']);
 	}
 
 

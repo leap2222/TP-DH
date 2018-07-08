@@ -12,7 +12,7 @@
   $usuario = traerPorId($_SESSION['id']);
 
 	// Datos del usuario
-	$nombre = $usuario['name'];
+	$nombre = $usuario['nombre'];
 	$apellido = $usuario['apellido'];
 	$email = $usuario['email'];
 	$edad = $usuario['edad'];
@@ -54,7 +54,6 @@
 			}
 		}
 	}
-
 ?>
 
 <!DOCTYPE html>
@@ -228,7 +227,7 @@
 						<div class="col-xs-12">
 							<div class="form-group <?= isset($errores['avatar']) ? 'has-error' : null ?>">
 								<label for="name" class="control-label">Subir Foto*:</label>
-								<input class="form-control" type="file" name="avatar" value="<?= isset($_FILES['avatar']) ? $_FILES['avatar']['name'] : null ?>">
+								<input class="form-control" type="file" name="avatar" value="<?= isset($usuario['foto']) ? $_FILES['avatar']['name'] : null ?>">
 								<span class="help-block" style="<?= !isset($errores['avatar']) ? 'display: none;' : '' ; ?>">
 									<b class="glyphicon glyphicon-exclamation-sign"></b>
 									<?= isset($errores['avatar']) ? $errores['avatar'] : '' ;?>

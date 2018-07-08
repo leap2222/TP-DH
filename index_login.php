@@ -26,7 +26,7 @@
 			// Seteo la cookie
 			if (isset($_POST["recordar"])) {
 	        setcookie('id', $usuario['id'], time() + 300); // 5 minutos
-	      }
+	    }
 
 			header('location: perfil.php');
 			exit;
@@ -146,14 +146,13 @@
 				</div>
 			</div>
 
-		      <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
-		      <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-		    	<script>
-		    		$('.toggle-nav').click(function () {
-		    			$('.main-nav').slideToggle();
+		  <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
+		  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+		  <script>
+		  		$('.toggle-nav').click(function () {
+		   			$('.main-nav').slideToggle();
 		    		});
-		    	</script>
-
+		  </script>
     </div>
   </body>
 </html>

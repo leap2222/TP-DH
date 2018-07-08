@@ -236,7 +236,7 @@
 							</div>
 						</div>
 					</div>
-          <input class="btn btn-primary" type="submit" value="ENVIAR">
+          <input class="btn btn-primary" type="submit" value="GUARDAR">
           <button type="reset">BORRAR</button>
         </fieldset>
       </form>

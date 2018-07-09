@@ -32,6 +32,7 @@
 			exit;
 		}
 	}
+	
 ?>
 <!DOCTYPE html>
 <html>

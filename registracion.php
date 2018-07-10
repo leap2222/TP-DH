@@ -15,10 +15,6 @@
 		}
 	}
 
-	if($editar) {
-		echo "MODO EDICION<br>";
-	}
-
 	// Array de países para el foreach en el select
 	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];
 
@@ -36,23 +32,41 @@
 	// Array de errores vacío
 	$errores = [];
 
+
 	// Si envían algo por $_POST
-	if ($_POST) {
-		// Persisto los datos con la información que envía el usuario por $_POST
-		$nombre = trim($_POST['nombre']);
-		$apellido = trim($_POST['apellido']);
-		$email = trim($_POST['email']);
-		$edad = trim($_POST['edad']);
-		$tel = trim($_POST['tel']);
-		$pais = trim($_POST['pais']);
-		$website = trim($_POST['website']);
-		$mensaje = trim($_POST['mensaje']);
-		$sexo = trim($_POST['sexo']);
+	if ($_POST or $editar) {
+		// Persisto los datos con la información que envía el usuario por $_POST}
+
+		if($editar) {
+			echo "MODO EDICION<br>";
+			$usuario = traerPorId($_SESSION['id']);
+			$nombre = $usuario['nombre'];
+			$apellido = $usuario['apellido'];
+			$email = $usuario['email'];
+			$edad = $usuario['edad'];
+			$tel = $usuario['tel'];
+			$pais = $usuario['pais'];
+			$website = $usuario['website'];
+			$mensaje = $usuario['mensaje'];
+			$sexo = $usuario['sexo'];
 
 		// Valido y guardo en errores
-		$errores = validar($_POST, 'avatar');
+		} else {
+			$nombre = trim($_POST['nombre']);
+			$apellido = trim($_POST['apellido']);
+			$email = trim($_POST['email']);
+			$edad = trim($_POST['edad']);
+			$tel = trim($_POST['tel']);
+			$pais = trim($_POST['pais']);
+			$website = trim($_POST['website']);
+			$mensaje = trim($_POST['mensaje']);
+			$sexo = trim($_POST['sexo']);
+			$errores = validar($_POST, 'avatar');
+		}
 
-		// Si el array de errorres está vacío, es porque no hubo errores, por lo tanto procedo con lo siguiente
+		// falta diferenciar si esta grabando, si es editar o dar de alta.
+		//
+		// Si el array de errores está vacío, es porque no hubo errores, por lo tanto procedo con lo siguiente
 		if (empty($errores)) {
 
 			$errores = guardarImagen('avatar');

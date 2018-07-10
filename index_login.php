@@ -6,13 +6,9 @@
 		exit;
 	}
 
-	// Variables para persistencia
 	$email = '';
-
-	// Array de errores vacío
 	$errores = [];
 
-	// Si envían algo por $_POST
 	if ($_POST) {
 		$email = trim($_POST['email']);
 
@@ -23,7 +19,6 @@
 
 			loguear($usuario);
 
-			// Seteo la cookie
 			if (isset($_POST["recordar"])) {
 	        setcookie('id', $usuario['id'], time() + 300); // 5 minutos
 	    }
@@ -32,7 +27,7 @@
 			exit;
 		}
 	}
-	
+
 ?>
 <!DOCTYPE html>
 <html>

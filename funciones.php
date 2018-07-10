@@ -17,12 +17,12 @@
 	function validar($data, $archivo) {
 		$errores = [];
 
-		$nombre = trim($_POST['nombre']);
-		$apellido = trim($_POST['apellido']);
-		$email = trim($_POST['email']);
-		$pais = trim($_POST['pais']);
-		$pass = trim($_POST['pass']);
-		$rpass = trim($_POST['rpass']);
+		$nombre = trim($data['nombre']);
+		$apellido = trim($data['apellido']);
+		$email = trim($data['email']);
+		$pais = trim($data['pais']);
+		$pass = trim($data['pass']);
+		$rpass = trim($data['rpass']);
 
 
 		// Valido cada campo del formulario y por cada error genero una posición en el array de errores ($errores) que inicialmente estaba vacío
@@ -55,7 +55,7 @@
 		}
 
 		if ($_FILES[$archivo]['error'] != UPLOAD_ERR_OK) { // Si no subieron ninguna imagen
-			$errores['avatar'] = "Che subí una foto";
+			$errores['avatar'] = "No subiste ninguna foto!";
 		} else {
 			$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
 
@@ -226,14 +226,6 @@
 			'foto' => 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
 		];
 	  return $usuario;
-		// $nombre = trim($_POST['nombre']);
-		// $apellido = trim($_POST['apellido']);
-		// $email = trim($_POST['email']);
-		// $edad = trim($_POST['edad']);
-		// $tel = trim($_POST['tel']);
-		// $pais = trim($_POST['pais']);
-		// $website = trim($_POST['website']);
-		// $mensaje = trim($_POST['mensaje']);
 	}
 
 

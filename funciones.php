@@ -25,9 +25,7 @@
 		$rpass = trim($data['rpass']);
 
 
-		// Valido cada campo del formulario y por cada error genero una posición en el array de errores ($errores) que inicialmente estaba vacío
-
-		if ($nombre == '') { // Si el nombre está vacio
+		if ($nombre == '') {
 			$errores['nombre'] = "Completa tu nombre";
 		}
 
@@ -35,16 +33,15 @@
 			$errores['apellido'] = "Completa tu apellido";
 		}
 
-		if ($pais == '') { // Si el país no fué elegido
+		if ($pais == '') {
 			$errores['pais'] = "Decime de donde sos";
 		}
 
-		if ($email == '') { // Si el email está vacio
+		if ($email == '') {
 			$errores['email'] = "Completa tu email";
-		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			// Si el email no es un formato valido
+		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Mail invalido
 			$errores['email'] = "Por favor poner un email valido";
-		} elseif (existeEmail($email)) { // Si el email ya está registrado vacio
+		} elseif (existeEmail($email)) {
 			$errores['email'] = "Este email ya existe.";
 		}
 
@@ -98,29 +95,16 @@
 	}
 
 
-
-	// == FUNCTION - traerUltimoID ==
-	/*
-		- NO recibe parámetros
-		- Usa la función traerTodos()
-		- Retorna un número. En el 1er usuario registrado devuelve 1 y en los siguientes al ID actual le suma 1
-	*/
-	function traerUltimoID(){
-		// me traigo todos los usuarios
+	function nuevoID(){
 		$usuarios = traerTodos();
 
 		if (count($usuarios) == 0) {
 			return 1;
 		}
 
-		// En caso de que haya usuarios agarro el ultimo usuario
-		$elUltimo = array_pop($usuarios);
+		$Ultimo = array_pop($usuarios);
 
-		// Pregunto por le ID de ese ultimo usuario
-		$id = $elUltimo['id'];
-
-		// A ese ID le sumo 1, para asignarle el nuevo ID al usuario que se esta registrando
-		return $id + 1;
+		return $Ultimo['id'] + 1;
 	}
 
 	// == FUNCTION - existeEmail ==
@@ -203,16 +187,9 @@
 		return $usuario;
 	}
 
-	// == FUNCTION - crearUsuario ==
-	/*
-		- Recibe dos parámetros -> $_POST y el nombre del campo de subir imagen
-		- Con estos datos, genera un array nuevo
-		- Usa la función traerUltimoID() para generar un ID para cada usuario
-		- Retorna el array con el usuario final
-	*/
 	function crearUsuario($data, $imagen) {
 		$usuario = [
-			'id' => traerUltimoID(),
+			'id' => nuevoID(),
 			'nombre' => $data['nombre'],
 			'apellido' => $data['apellido'],
 			'email' => $data['email'],

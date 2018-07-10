@@ -32,7 +32,6 @@
 	// Array de errores vacío
 	$errores = [];
 
-
 	// Si envían algo por $_POST
 	if ($_POST or $editar) {
 		// Persisto los datos con la información que envía el usuario por $_POST}

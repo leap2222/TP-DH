@@ -66,8 +66,8 @@
 
 			        <nav class="main-nav">
 			          <ul>
-			            <a href="http://localhost/estebanraffo/TP-DH/quienesSomos.html"><li>QUIENES SOMOS</li></a>
-			            <a href="http://localhost/estebanraffo/TP-DH/preguntasFrecuentes.html"><li>PREGUNTAS FRECUENTES</li></a>
+			            <a href="quienesSomos.html"><li>QUIENES SOMOS</li></a>
+			            <a href="preguntasFrecuentes.html"><li>PREGUNTAS FRECUENTES</li></a>
 			            <a href="#"><li>PROXIMOS EVENTOS</li></a>
 			          </ul>
 			        </nav>

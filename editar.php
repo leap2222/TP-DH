@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	$_SESSION['editar'] = true;
+	setcookie('editar', 'true', time() + 300); // 5 minutos
 	session_destroy();
 	header('location: registracion.php');
 	exit;

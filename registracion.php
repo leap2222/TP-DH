@@ -4,10 +4,10 @@
 	$editar = false;
 
 	if(estaLogueado()) {
-		if(isset($_SESSION['editar'])) {
-			if $_SESSION['editar'] == true {
+		if(isset($_COOKIE['editar'])) {
+			if($_COOKIE['editar'] == 'true') {
 				$editar = true;
-				$_SESSION['editar'] = '';
+				$_COOKIE['editar'] = '';
 			}
 		} else {
 			header('location: perfil.php');
@@ -15,7 +15,9 @@
 		}
 	}
 
-	var_dump($editar);
+	if($editar) {
+		echo "MODO EDICION<br>";
+	}
 
 	// Array de países para el foreach en el select
 	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];

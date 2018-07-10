@@ -1,10 +1,21 @@
 <?php
 	require_once('funciones.php');
 
-	if (estaLogueado()) {
-		header('location: perfil.php');
-		exit;
+	$editar = false;
+
+	if(estaLogueado()) {
+		if(isset($_SESSION['editar'])) {
+			if $_SESSION['editar'] == true {
+				$editar = true;
+				$_SESSION['editar'] = '';
+			}
+		} else {
+			header('location: perfil.php');
+			exit;
+		}
 	}
+
+	var_dump($editar);
 
 	// Array de países para el foreach en el select
 	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];
@@ -196,20 +207,6 @@
 			          </label>
 			          <br><br>
 
-			          <label>Pasatiempos:</label>
-			          <label>
-			            <input type="checkbox" name="hobbies[]" value="L" checked>
-			            Lectura
-			          </label>
-			          <label>
-			            <input type="checkbox" name="hobbies[]" value="M">
-			            Música
-			          </label>
-			          <label>
-			            <input type="checkbox" name="hobbies[]" value="P">
-			            Idiomas
-			          </label>
-			          <br><br>
 							</div>
 						</div>
 

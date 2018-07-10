@@ -1,13 +1,14 @@
 <?php
 	require_once('funciones.php');
 
-	// if (!estaLogueado()) {
-	// 	header('location: index_login.php');
-	// 	exit;
-	// }
+	if (!estaLogueado()) {
+	 	header('location: index_login.php');
+	 	exit;
+	}
 
 	$usuario = traerPorId($_SESSION['id']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 	<head>
@@ -17,7 +18,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>Bienvenido a Multilanguage <?=$usuario['nombre']?></h1>
+			<h1>Hola <?=$usuario['nombre']?>, Bienvenido a Multilanguage Meetings!</h1>
 			<img class="img-rounded" src="<?=$usuario['foto']?>" width="200">
 			<br><br>
 			<a class="btn btn-warning" href="logout.php">CERRAR SESIÓN</a>

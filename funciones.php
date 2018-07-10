@@ -168,7 +168,7 @@
 				// Armo la ruta donde queda gurdada la imagen
 				$dondeEstoyParado = dirname(__FILE__);
 
-				$rutaFinalConNombre = $dondeEstoyParado.'\/images/'.$_POST['email'].'.'.$ext;
+				$rutaFinalConNombre = $dondeEstoyParado.'/images/'.$_POST['email'].'.'.$ext;
 
 				// Subo la imagen definitivamente
 				move_uploaded_file($archivoFisico, $rutaFinalConNombre);
@@ -217,6 +217,7 @@
 			'apellido' => $data['apellido'],
 			'email' => $data['email'],
 			'edad' => $data['edad'],
+			'sexo' => $data['sexo'],
 			'tel' => $data['tel'],
 			'pais' => $data['pais'],
 			'website' => $data['website'],

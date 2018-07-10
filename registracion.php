@@ -16,6 +16,7 @@
 	$edad = '';
 	$tel = '';
 	$pais = '';
+	$sexo = '';
 	$website = '';
 	$mensaje = '';
 
@@ -33,6 +34,7 @@
 		$pais = trim($_POST['pais']);
 		$website = trim($_POST['website']);
 		$mensaje = trim($_POST['mensaje']);
+		$sexo = trim($_POST['sexo']);
 
 		// Valido y guardo en errores
 		$errores = validar($_POST, 'avatar');
@@ -179,17 +181,17 @@
 								<label>Género:</label>
 								<br>
 								<label>
-			            <input type="radio" name="gender" value="F" checked>
+			            <input type="radio" name="sexo" value="F" <?= $sexo == 'F' ? 'checked' : '' ?>>
 			            Femenino
 			          </label>
 								<br>
 			          <label>
-			            <input type="radio" name="gender" value="M">
+			            <input type="radio" name="sexo" value="M" <?= $sexo == 'M' ? 'checked' : '' ?>>
 			            Masculino
 			          </label>
 								<br>
 			          <label>
-			            <input type="radio" name="gender" value="O">
+			            <input type="radio" name="sexo" value="O" <?= $sexo == 'O' ? 'checked' : '' ?>>
 			            Otro
 			          </label>
 			          <br><br>

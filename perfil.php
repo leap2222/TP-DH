@@ -17,7 +17,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>Bienvenido a Multilanguage <?=$usuario['name']?></h1>
+			<h1>Bienvenido a Multilanguage <?=$usuario['nombre']?></h1>
 			<img class="img-rounded" src="<?=$usuario['foto']?>" width="200">
 			<br><br>
 			<a class="btn btn-warning" href="logout.php">CERRAR SESIÓN</a>

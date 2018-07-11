@@ -11,7 +11,7 @@
 	/*
 		- Recibe dos parámetros -> $_POST y el nombre del campo de subir imagen
 		- Valida en el 1er submit que todos los campos son obligatorios
-		- Usa la función existeEmail() para verificar que no haya registros con el mismo email
+		- Usa la función buscarPorEmail() para verificar que no haya registros con el mismo email
 		- Retorna un array de errores que puede estar vacio
 	*/
 	function validar($data, $archivo) {
@@ -41,7 +41,7 @@
 			$errores['email'] = "Completa tu email";
 		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Mail invalido
 			$errores['email'] = "Por favor poner un email valido";
-		} elseif (existeEmail($email)) {
+		} elseif (buscarPorEmail($email)) {
 			$errores['email'] = "Este email ya existe.";
 		}
 
@@ -107,19 +107,11 @@
 		return $Ultimo['id'] + 1;
 	}
 
-	// == FUNCTION - existeEmail ==
-	/*
-		- Recibe un parámetro -> $_POST['email']
-		- Usa la función traerTodos()
-		- Retorna un array del usuario si encuentra el email. De no encontrarlo, retorna false
-	*/
-	function existeEmail($email){
-		// Traigo todos los usuarios
+
+	function buscarPorEmail($email){
 		$todos = traerTodos();
 
-		// Recorro ese array
 		foreach ($todos as $unUsuario) {
-			// Si el mail del usuario en el array es igual al que me llegó por POST, devuelvo al usuario
 			if ($unUsuario['email'] == $email) {
 				return $unUsuario;
 			}
@@ -209,47 +201,20 @@
 	// == FUNCTION - validarLogin ==
 	/*
 		- Recibe un parámetro -> $_POST
-		- Usa la función existeEmail()
 		- Retorna un array de errores que puede estar vacio
 	*/
-	function validarLogin($data) {
-		$arrayADevolver = [];
-		$email = trim($data['email']);
-		$pass = trim($data['pass']);
+	function Loguear($mail, $pass) {
+		$usuario = buscarPorEmail($mail);
 
-		if ($email == '') {
-			$arrayADevolver['email'] = 'Completá tu email';
-		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$arrayADevolver['email'] = 'Poné un formato de email válido';
-		} elseif (!$usuario = existeEmail($email)) {
-			$arrayADevolver['email'] = 'Este email no está registrado';
-		} else {
-			// Si el mail existe, me guardo al usuario dueño del mismo
-			// $usuario = existeEmail($email);
-
- 			// Pregunto si coindice la password escrita con la guardada en el JSON
-      	if (!password_verify($pass, $usuario["pass"])) {
-         	$arrayADevolver['pass'] = "Credenciales incorrectas";
-      	}
+		if($usuario) {
+   		if(password_verify($pass, $usuario["pass"])) {
+				return $usuario;
+    	}
 		}
 
-		return $arrayADevolver;
+		return false;
 	}
 
-
-
-	// FUNCTION - loguear
-	/*
-		- Recibe un parámetro -> el usuario
-		- Guarda en sesión el ID del usuario que recibe
-		- Redirecciona a perfil.php
-	*/
-	function loguear($usuario) {
-		// Guardo en $_SESSION el ID del USUARIO
-	  $_SESSION['id'] = $usuario['id'];
-		header('location: perfil.php');
-		exit;
-	}
 
 	// FUNCTION - estaLogueado
 	/*

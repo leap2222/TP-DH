@@ -1,8 +1,9 @@
 <?php
 	require_once('funciones.php');
 
-	$editar = false;
+	$accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
+	$editar = false;
 	if(estaLogueado()) {
 		if(isset($_COOKIE['editar'])) {
 			if($_COOKIE['editar'] == 'true') {
@@ -33,11 +34,11 @@
 	$errores = [];
 
 	// Si envían algo por $_POST
-	if ($_POST or $editar) {
+	if ($accion) {
 		// Persisto los datos con la información que envía el usuario por $_POST}
 
-		if($editar) {
-			echo "MODO EDICION<br>";
+		if($accion == 'MODIFICAR') {
+			// lleno el formulario con la informacion del usuario.
 			$usuario = traerPorId($_SESSION['id']);
 			$nombre = $usuario['nombre'];
 			$apellido = $usuario['apellido'];
@@ -48,9 +49,10 @@
 			$website = $usuario['website'];
 			$mensaje = $usuario['mensaje'];
 			$sexo = $usuario['sexo'];
+			$foto = $usuario['foto'];
 
-		// Valido y guardo en errores
-		} else {
+		} elseif($accion == 'AGREGAR') {
+
 			$nombre = trim($_POST['nombre']);
 			$apellido = trim($_POST['apellido']);
 			$email = trim($_POST['email']);
@@ -60,23 +62,20 @@
 			$website = trim($_POST['website']);
 			$mensaje = trim($_POST['mensaje']);
 			$sexo = trim($_POST['sexo']);
+
+			// valido todo
 			$errores = validar($_POST, 'avatar');
-		}
 
-		// falta diferenciar si esta grabando, si es editar o dar de alta.
-		//
-		// Si el array de errores está vacío, es porque no hubo errores, por lo tanto procedo con lo siguiente
-		if (empty($errores)) {
-
-			$errores = guardarImagen('avatar');
-
+			// Si el array de errores está vacío, es porque no hubo errores, por lo tanto procedo con lo siguiente
 			if (empty($errores)) {
-				// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
-				//de $_POST y el avatar
-				$usuario = guardarUsuario($_POST, 'avatar');
-
-				// Logueo al usuario y por lo tanto no es necesario el re-direct
-				loguear($usuario);
+				$errores = guardarImagen('avatar');
+				if (empty($errores)) {
+					// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
+					//de $_POST y el avatar
+					$usuario = guardarUsuario($_POST, 'avatar');
+					// Logueo al usuario y por lo tanto no es necesario el re-direct
+					loguear($usuario);
+				}
 			}
 		}
 	}
@@ -87,7 +86,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Registrarse</title>
+		<title><?= $editar==true ? 'Modificar datos del usuario' : 'Registrarse' ?></title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
@@ -248,8 +247,11 @@
 							</div>
 						</div>
 					</div>
-          <input class="btn btn-primary" type="submit" value="ENVIAR">
-          <button type="reset">BORRAR</button>
+					<?php if(!$editar): ?>
+					  <input class="btn btn-primary" type="submit" name="accion" value="CREAR">
+					<?php else: ?>
+						<input class="btn btn-primary" type="submit" name="accion" value="MODIFICAR">
+					<?php endif; ?>
         </fieldset>
       </form>
     </section>

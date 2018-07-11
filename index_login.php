@@ -10,21 +10,34 @@
 	$errores = [];
 
 	if ($_POST) {
+
+
 		$email = trim($_POST['email']);
+		$clave = $_POST['pass'];
+		$recordar = $_POST['recordar'];
 
-		$errores = validarLogin($_POST);
 
-		if (empty($errores)) {
-			$usuario = existeEmail($email);
+		// me fijo que el mail sea, mas o menos, legal.
+		if ($email == '') {
+			$errores['email'] = 'Completá tu email';
+		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$errores['email'] = 'Poné un formato de email válido';
+		}
 
-			loguear($usuario);
+		// si se pudo Loguear() me devuelve el usuario sino false.
+		$usuario = Loguear($email, $clave);
 
-			if (isset($_POST["recordar"])) {
-	        setcookie('id', $usuario['id'], time() + 300); // 5 minutos
+		if ($usuario) {
+			$_SESSION['id'] = $usuario['id'];
+
+			if ($recordar) {
+	        setcookie('id', $usuario['id'], time() + 3000);
 	    }
 
 			header('location: perfil.php');
 			exit;
+		} else {
+			$errores['email'] = "Error de credenciales al intentar loguear!";
 		}
 	}
 

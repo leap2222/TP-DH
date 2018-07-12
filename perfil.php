@@ -2,7 +2,7 @@
 	require_once('funciones.php');
 
 	if (!estaLogueado()) {
-	 	header('location: index_login.php');
+	 	header('location: login.php');
 	 	exit;
 	}
 

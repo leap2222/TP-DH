@@ -28,7 +28,7 @@
 		$usuario = Loguear($email, $clave);
 
 		if ($usuario) {
-			$_SESSION['id'] = $usuario['id'];
+			$usuario['id'] = $_SESSION['id'];
 
 			if ($recordar) {
 	        setcookie('id', $usuario['id'], time() + 3000);

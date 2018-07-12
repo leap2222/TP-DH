@@ -41,27 +41,33 @@
 			$errores['email'] = "Completa tu email";
 		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Mail invalido
 			$errores['email'] = "Por favor poner un email valido";
-		} elseif (buscarPorEmail($email)) {
-			$errores['email'] = "Este email ya existe.";
+		} else
+			if(!estaLogueado()) {
+				if (buscarPorEmail($email)) {
+				$errores['email'] = "Este email ya existe.";
+			}
 		}
 
-		if ($pass == '' || $rpass == '') { // Si la contraseña o repetir contraseña está(n) vacio(s)
-			$errores['pass'] = "Por favor completa tus passwords";
-		} elseif ($pass != $rpass) {
+		if(!estaLogueado()) {
+			if ($pass == '' || $rpass == '') {
+				$errores['pass'] = "Por favor completa tus passwords";
+			}
+		}
+
+		if ($pass != $rpass) {
 			$errores['pass'] = "Tus contraseñas no coinciden";
 		}
 
 		if ($_FILES[$archivo]['error'] != UPLOAD_ERR_OK) { // Si no subieron ninguna imagen
-			$errores['avatar'] = "No subiste ninguna foto!";
+			if(!estaLogueado()) {
+				$errores['avatar'] = "No subiste ninguna foto!";
+			}
 		} else {
 			$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
-
 			if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
 				$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
 			}
-
 		}
-
 		return $errores;
 	}
 
@@ -126,7 +132,7 @@
 	/*
 		- Recibe un parámetro -> el nombre del campo de la imagen
 		- Se encarga de guardar el archivo de imagen en la ruta definida
-		- Retorna un array de errores si los hay
+		- Retorna nombre del archivo. Nada si hay algun error.
 	*/
 	function guardarImagen($laImagen){
 		$errores = [];
@@ -149,11 +155,11 @@
 				// Subo la imagen definitivamente
 				move_uploaded_file($archivoFisico, $rutaFinalConNombre);
 			} else {
-				$errores['imagen'] = 'El formato tiene que ser JPG, JPEG, PNG o GIF';
+				return $errores['imagen'] = 'El formato tiene que ser JPG, JPEG, PNG o GIF';
 			}
 		} else {
 			// Genero error si no se puede subir
-			$errores['imagen'] = 'No subiste nada';
+			return $errores['imagen'] = 'No subiste nada';
 		}
 
 		return $errores;
@@ -179,9 +185,14 @@
 		return $usuario;
 	}
 
+	function borrarUsuario($email) {
+
+	}
+
+
 	function crearUsuario($data, $imagen) {
 		$usuario = [
-			'id' => nuevoID(),
+			'id' => estaLogueado() ? $_SESSION['id'] : nuevoID(),
 			'nombre' => $data['nombre'],
 			'apellido' => $data['apellido'],
 			'email' => $data['email'],
@@ -194,6 +205,7 @@
 			'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
 			'foto' => 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
 		];
+
 	  return $usuario;
 	}
 
@@ -208,7 +220,9 @@
 
 		if($usuario) {
    		if(password_verify($pass, $usuario["pass"])) {
-				return $usuario;
+				setcookie('id', $usuario['id'], time()+3600);
+				header('location: perfil.php');
+				exit;
     	}
 		}
 

@@ -1,25 +1,14 @@
 <?php
 	require_once('funciones.php');
 
-	$accion = isset($_POST['accion']) ? $_POST['accion'] : '';
-
-	$editar = false;
+	// Si vengo del el perfil para editar.
 	if(estaLogueado()) {
-		if(isset($_COOKIE['editar'])) {
-			if($_COOKIE['editar'] == 'true') {
-				$editar = true;
-				$_COOKIE['editar'] = '';
-			}
-		} else {
-			header('location: perfil.php');
-			exit;
-		}
+		header('location: perfil.php');
+		exit;
 	}
 
-	// Array de países para el foreach en el select
-	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];
-
 	// Variables para persistencia
+	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];
 	$nombre = '';
 	$apellido = '';
 	$email = '';
@@ -29,64 +18,40 @@
 	$sexo = '';
 	$website = '';
 	$mensaje = '';
-
-	// Array de errores vacío
 	$errores = [];
 
 	// Si envían algo por $_POST
-	if ($accion) {
-		// Persisto los datos con la información que envía el usuario por $_POST}
+	if ($_POST) {
 
-		if($accion == 'MODIFICAR') {
-			// lleno el formulario con la informacion del usuario.
-			$usuario = traerPorId($_SESSION['id']);
-			$nombre = $usuario['nombre'];
-			$apellido = $usuario['apellido'];
-			$email = $usuario['email'];
-			$edad = $usuario['edad'];
-			$tel = $usuario['tel'];
-			$pais = $usuario['pais'];
-			$website = $usuario['website'];
-			$mensaje = $usuario['mensaje'];
-			$sexo = $usuario['sexo'];
-			$foto = $usuario['foto'];
+		$nombre = trim($_POST['nombre']);
+		$apellido = trim($_POST['apellido']);
+		$email = trim($_POST['email']);
+		$edad = trim($_POST['edad']);
+		$tel = trim($_POST['tel']);
+		$pais = trim($_POST['pais']);
+		$website = trim($_POST['website']);
+		$mensaje = trim($_POST['mensaje']);
+		$sexo = trim($_POST['sexo']);
 
-		} elseif($accion == 'AGREGAR') {
+		// valido todo
+		$errores = validar($_POST, 'avatar');
 
-			$nombre = trim($_POST['nombre']);
-			$apellido = trim($_POST['apellido']);
-			$email = trim($_POST['email']);
-			$edad = trim($_POST['edad']);
-			$tel = trim($_POST['tel']);
-			$pais = trim($_POST['pais']);
-			$website = trim($_POST['website']);
-			$mensaje = trim($_POST['mensaje']);
-			$sexo = trim($_POST['sexo']);
-
-			// valido todo
-			$errores = validar($_POST, 'avatar');
-
-			// Si el array de errores está vacío, es porque no hubo errores, por lo tanto procedo con lo siguiente
-			if (empty($errores)) {
-				$errores = guardarImagen('avatar');
-				if (empty($errores)) {
-					// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
-					//de $_POST y el avatar
-					$usuario = guardarUsuario($_POST, 'avatar');
-					// Logueo al usuario y por lo tanto no es necesario el re-direct
-					loguear($usuario);
-				}
-			}
+		if (empty($errores)) {
+			$errores = guardarImagen('avatar');
+			// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
+			//de $_POST y el avatar
+			$usuario = guardarUsuario($_POST, 'avatar');
+			// Logueo al usuario y por lo tanto no es necesario el re-direct
+			loguear($email, $_POST['pass']);
 		}
 	}
-
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title><?= $editar==true ? 'Modificar datos del usuario' : 'Registrarse' ?></title>
+		<title>Registrarse</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
@@ -232,7 +197,7 @@
 
 						<div class="col-sm-12">
 			        <label class="control-label">Tu mensaje:</label>
-							<textarea class="form-control" name="mensaje" value="<?=$mensaje?>"></textarea>
+							<textarea class="form-control" name="mensaje"><?=$mensaje?></textarea>
 						</div>
 						<br>
 
@@ -247,11 +212,7 @@
 							</div>
 						</div>
 					</div>
-					<?php if(!$editar): ?>
-					  <input class="btn btn-primary" type="submit" name="accion" value="CREAR">
-					<?php else: ?>
-						<input class="btn btn-primary" type="submit" name="accion" value="MODIFICAR">
-					<?php endif; ?>
+			  	<input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO">
         </fieldset>
       </form>
     </section>

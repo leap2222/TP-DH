@@ -210,11 +210,6 @@
 	}
 
 
-	// == FUNCTION - validarLogin ==
-	/*
-		- Recibe un parámetro -> $_POST
-		- Retorna un array de errores que puede estar vacio
-	*/
 	function Loguear($mail, $pass) {
 		$usuario = buscarPorEmail($mail);
 

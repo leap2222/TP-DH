@@ -78,6 +78,9 @@
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body>
+
+		<?php include 'header.php'; ?>
+
 		<?php if (!empty($errores)): ?>
 			<div class="div-errores alert alert-danger">
 				<ul>
@@ -239,5 +242,7 @@
         </fieldset>
       </form>
     </section>
+		<br>
+		<?php include 'footer.php' ?>
   </body>
 </html>

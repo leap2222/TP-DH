@@ -4,15 +4,15 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Preguntas Frecuentes</title>
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/styles.css">
 	</head>
-	<body>
 
+	<body>
 	<div class="container">
 		<!-- cabecera -->
-		<header class="main-header">
-			<img src="images/foto1.jpg" alt="logotipo" class="logo">
-		</header>
+
+		<?php include 'header.php'; ?>
 
 		<!-- productos -->
 		<section class="preguntas">
@@ -53,10 +53,8 @@
       </ol>
 		</section>
 
-		<footer class="main-footer">
-      <br>
-  		<a href="index.php">VOLVER</a>
-		</footer>
+		<?php include 'footer.php'; ?>
+
 	</div>
 
 	</body>

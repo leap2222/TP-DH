@@ -4,19 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Quienes Somos</title>
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body>
   	<div class="container">
   		<!-- cabecera -->
-  		<header class="main-header">
-  			<h1>Quienes Somos</h1>
-  		</header>
-
-  		<!-- banner -->
-  		<section class="banner">
-  			<img src="images/foto2.png" alt="banner">
-  		</section>
+  		<?php include 'header.php'; ?>
 
   		<!-- Descripcion -->
   		<section class="red-social">
@@ -41,7 +35,8 @@
   		<br>
   		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.3309494247756!2d-58.38378388507433!3d-34.62107608045494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb28ea8781cb%3A0xb791570f7236c962!2sDigital+House!5e0!3m2!1ses!2sar!4v1522976019161" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
   		<br>
-  		<a href="index.php">VOLVER</a>
+
+			<?php include 'footer.php'; ?>
 
   	</div>
 	</body>

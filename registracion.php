@@ -7,12 +7,12 @@
 		exit;
 	}
 
-	/* $ceu = array( "Italia"=>"Roma", "Luxembourg"=>"Luxembourg", "Bélgica"=> "Bruselas", "Dinamarca"=>"Copenhagen", "Finlandia"=>"Helsinki", "Francia" => "Paris", "Slovakia"=>"Bratislava", "Eslovenia"=>"Ljubljana", "Alemania" => "Berlin", "Grecia" => "Athenas", "Irlanda"=>"Dublin", "Holanda"=>"Amsterdam", "Portugal"=>"Lisbon", "España"=>"Madrid", "Suecia"=>"Stockholm", "Reino Unido"=>"London", "Chipre"=>"Nicosia", "Lithuania"=>"Vilnius", "Republica Checa"=>"Prague", "Estonia"=>"Tallin", "Hungría"=>"Budapest", "Latvia"=>"Riga", "Malta"=>"Valletta", "Austria" => "Vienna", "Polonia"=>"Warsaw") ;*/
 
 	// Variables para persistencia
-	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];
+	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
+	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
+	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
 	$nombre = '';
-	$apellido = '';
 	$email = '';
 	$edad = '';
 	$tel = '';
@@ -26,7 +26,6 @@
 	if ($_POST) {
 
 		$nombre = trim($_POST['nombre']);
-		$apellido = trim($_POST['apellido']);
 		$email = trim($_POST['email']);
 		$edad = trim($_POST['edad']);
 		$tel = trim($_POST['tel']);
@@ -44,7 +43,9 @@
 			//de $_POST y el avatar
 			$usuario = guardarUsuario($_POST, 'avatar');
 			// Logueo al usuario y por lo tanto no es necesario el re-direct
-			loguear($email, $_POST['pass']);
+			$usuario = LoginDeUsuario($_POST);
+			header('location: perfil.php');
+			exit;
 		}
 	}
 ?>
@@ -78,21 +79,11 @@
 					<div class="row justify-content-md-center">
 						<div class="col-sm-12">
 							<div class="form-group <?= isset($errores['nombre']) ? 'has-error' : null ?>">
-								<label class="control-label">Nombre:*</label>
+								<label class="control-label">Nombre y Apellido:*</label>
 			          <input class="form-control" type="text" name="nombre" placeholder="Paco" value="<?=$nombre?>">
 								<span class="help-block" style="<?= !isset($errores['nombre']) ? 'display: none;' : ''; ?>">
 									<b class="glyphicon glyphicon-exclamation-sign"></b>
 									<?= isset($errores['nombre']) ? $errores['nombre'] : ''; ?>
-								</span>
-							</div>
-							<br>
-
-							<div class="form-group <?= isset($errores['apellido']) ? 'has-error' : null ?>">
-			          <label class="control-label">Apellido:*</label>
-			          <input class="form-control" type="text" name="apellido" placeholder="Pérez" value="<?=$apellido?>">
-								<span class="help-block" style="<?= !isset($errores['apellido']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['apellido']) ? $errores['apellido'] : ''; ?>
 								</span>
 							</div>
 							<br>

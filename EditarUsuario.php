@@ -57,7 +57,6 @@
 		$usuario = traerPorId($_SESSION['id']);
 
 		$nombre = $usuario['nombre'];
-		$apellido = $usuario['apellido'];
 		$email = $usuario['email'];
 		$edad = $usuario['edad'];
 		$tel = $usuario['tel'];
@@ -101,7 +100,7 @@
 					<div class="row justify-content-md-center">
 						<div class="col-sm-12">
 							<div class="form-group <?= isset($errores['nombre']) ? 'has-error' : null ?>">
-								<label class="control-label">Nombre:*</label>
+								<label class="control-label">Nombre y Apellido:*</label>
 			          <input class="form-control" type="text" name="nombre" placeholder="Paco" value="<?=$nombre?>">
 								<span class="help-block" style="<?= !isset($errores['nombre']) ? 'display: none;' : ''; ?>">
 									<b class="glyphicon glyphicon-exclamation-sign"></b>

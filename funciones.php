@@ -1,4 +1,9 @@
 <?php
+	require_once("connect.php");
+	require_once("Clases/Usuarios.php");
+	require_once("Clases/usuario.php");
+	require_once("Clases/Eventos.php");
+	require_once("Clases/evento.php");
 
 	session_start();
 
@@ -8,17 +13,12 @@
 	}
 
 	// == FUNCTION - validar ==
-	/*
-		- Recibe dos parámetros -> $_POST y el nombre del campo de subir imagen
-		- Valida en el 1er submit que todos los campos son obligatorios
-		- Usa la función buscarPorEmail() para verificar que no haya registros con el mismo email
-		- Retorna un array de errores que puede estar vacio
-	*/
+
 	function validar($data, $archivo) {
 		$errores = [];
 
 		$nombre = trim($data['nombre']);
-		$apellido = trim($data['apellido']);
+		//$apellido = trim($data['apellido']);
 		$email = trim($data['email']);
 		$pais = trim($data['pais']);
 		$pass = trim($data['pass']);
@@ -27,10 +27,6 @@
 
 		if ($nombre == '') {
 			$errores['nombre'] = "Completa tu nombre";
-		}
-
-		if($apellido == ''){
-			$errores['apellido'] = "Completa tu apellido";
 		}
 
 		if ($pais == '') {
@@ -72,61 +68,38 @@
 	}
 
 
-
-	// == FUNCTION - traerTodos ==
+	// FUNCTION - estaLogueado
 	/*
-		- NO recibe parámetros
-		- Lee el JSON y arma un array de arrays de usuarios, cada línea en el JSON será un array de 1 usuario
-		- Retorna el array con todos los usuarios
+		- No recibe parámetros
+		- Pregunta si está guardado en SESIÓN el ID del $usuarios
 	*/
-	function traerTodos() {
-		// Traigo la data de todos los usuarios de 'usuarios.json'
-		$todosJson = file_get_contents('usuarios.json');
-
-		// Esto me arma un array con todos los usuarios
-		$usuariosArray = explode(PHP_EOL, $todosJson);
-
-		// Saco el último elemento que es una línea vacia
-		array_pop($usuariosArray);
-
-		// Creo un array vacio, para guardar los usuarios
-		$todosPHP = [];
-
-		// Recorremos el array y generamos por cada usuario un array del usuario
-		foreach ($usuariosArray as $usuario) {
-			$todosPHP[] = json_decode($usuario, true);
-		}
-
-		return $todosPHP;
+	function estaLogueado() {
+		return isset($_SESSION['id']);
 	}
 
+	function validarLogin($data) {
+		$arrayADevolver = [];
+		$email = trim($data['email']);
+		$pass = trim($data['pass']);
 
-	function nuevoID(){
-		$usuarios = traerTodos();
+		if ($email == '') {
+			$arrayADevolver['email'] = 'Completá tu email';
+		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$arrayADevolver['email'] = 'Poné un formato de email válido';
+		} elseif (!$usuario = buscarPorEmail($email)) {
+			$arrayADevolver['email'] = 'Este email no está registrado';
+		} else {
+			// Si el mail existe, me guardo al usuario dueño del mismo
+				$usuario = buscarPorEmail($email);
 
-		if (count($usuarios) == 0) {
-			return 1;
+			// Pregunto si coindice la password escrita con la guardada en el JSON
+				if (!password_verify($pass, $usuario->getPass())) {
+					$arrayADevolver['pass'] = "Credenciales incorrectas";
+				}
 		}
 
-		$Ultimo = array_pop($usuarios);
-
-		return $Ultimo['id'] + 1;
+		return $arrayADevolver;
 	}
-
-
-	function buscarPorEmail($email){
-		$todos = traerTodos();
-
-		foreach ($todos as $unUsuario) {
-			if ($unUsuario['email'] == $email) {
-				return $unUsuario;
-			}
-		}
-
-		return false;
-	}
-
-
 
 	// == FUNCTION - guardarImagen ==
 	/*
@@ -165,94 +138,179 @@
 		return $errores;
 	}
 
-	// == FUNCTION - guardarUsuario ==
-	/*
-		- Recibe dos parámetros -> $_POST y el nombre del campo de la imagen
-		- Usa la función crearUsuario()
-		- Su función principal es guardar al usuario
-		- Retorna el usuario para poder auto-loguear después del registro
-	*/
+
 	function guardarUsuario($data, $imagen){
 
-		$usuario = crearUsuario($data, $imagen);
+		$nombre = trim($data['name']);
+		$email = trim($data['email']);
+		$pass = trim($data['pass']);
+		$passh = password_hash($pass, PASSWORD_DEFAULT);
+		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
 
-		$usuarioJSON = json_encode($usuario);
-
-		// Inserta el objeto JSON en nuestro archivo de usuarios
-		file_put_contents('usuarios.json', $usuarioJSON.PHP_EOL, FILE_APPEND);
-
-		// Devuelvo al usuario para poder auto loguearlo después del registro
-		return $usuario;
-	}
-
-	function borrarUsuario($email) {
-
+		$unUsuario = new usuario(null, $nombre, $email, $passh, $foto);
+		$unUsuario->Registrar();
+		return $unUsuario;
 	}
 
 
-	function crearUsuario($data, $imagen) {
-		$usuario = [
-			'id' => estaLogueado() ? $_SESSION['id'] : nuevoID(),
-			'nombre' => $data['nombre'],
-			'apellido' => $data['apellido'],
-			'email' => $data['email'],
-			'edad' => $data['edad'],
-			'sexo' => $data['sexo'],
-			'tel' => $data['tel'],
-			'pais' => $data['pais'],
-			'website' => $data['website'],
-			'mensaje' => $data['mensaje'],
-			'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
-			'foto' => 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION)
-		];
+	function LoginDeUsuario($data){
+		$email = trim($data['email']);
+		$pass = trim($data['pass']);
 
-	  return $usuario;
-	}
+		$usuario = buscarPorEmail($email);
 
-
-	function Loguear($mail, $pass) {
-		$usuario = buscarPorEmail($mail);
-
-		if($usuario) {
-   		if(password_verify($pass, $usuario["pass"])) {
-				setcookie('id', $usuario['id'], time()+3600);
-				header('location: perfil.php');
-				exit;
-    	}
-		}
-
-		return false;
-	}
-
-
-	// FUNCTION - estaLogueado
-	/*
-		- No recibe parámetros
-		- Pregunta si está guardado en SESIÓN el ID del $usuarios
-	*/
-	function estaLogueado() {
-		return isset($_SESSION['id']);
-	}
-
-
-
-
-	// == FUNCTION - traerId ==
-	/*
-		- Recibe un parámetro -> $id:
-		- Devuelve el usuario si encuentra a alguno con ese ID
-		- Devuelve false si no hay usuarios con ese ID
-	*/
-	function traerPorId($id){
-		// me traigo todos los usuarios
-		$todos = traerTodos();
-
-		// Recorro el array de todos los usuarios
-		foreach ($todos as $usuario) {
-			if ($id == $usuario['id']) {
-				return $usuario;
+		if($usuario){
+			if (password_verify($pass, $usuario->getPass())) {
+					$_SESSION['id'] = $usuario->getID();
+					if ($data['recordar']) {
+							setcookie('id', $usuario->getID(), time() + 3000);
+					}
 			}
+			return $usuario;
+		}
+		return false;
+	}
+
+
+	function buscarPorEmail($email){
+
+			if($db = dbConnect()) {
+				//Ejecuto la lectura
+				$CadenaDeBusqueda = "SELECT id, name, password FROM users WHERE email like '{$email}'";
+				$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+				$ConsultaALaBase->execute();
+				//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+			} else {
+					echo "Conexion fallida";
+				}
+
+				$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+
+				if($unRegistro){
+					$unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password']);
+					return $unUsuario;
+				}
+
+				return false;
+	}
+
+
+	function traerPorId($id){
+
+		if($db = dbConnect()) {
+			//Ejecuto la lectura
+			$CadenaDeBusqueda = "SELECT name, email, password FROM users WHERE id = '{$id}'";
+			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+			$ConsultaALaBase->execute();
+			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+		} else {
+				echo "Conexion fallida";
+			}
+
+			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+
+			if($unRegistro){
+				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password']);
+				return $unUsuario;
+			}
+
+			return false;
+	}
+
+
+	function validarDatosEvento($data){
+		$errores = [];
+
+		$name = isset($data['name']) ? trim($data['name']) : "";
+		$site = isset($data['site']) ? trim($data['site']) : "0";
+		$language = isset($data['language']) ? trim($data['language']) : "0";
+
+		if ($name == ''){
+			$errores['name'] = "Completa el nombre del Evento";
+		}elseif (buscarEvento($name)) {
+			$errores['name'] = "Este Evento ya existe";
 		}
 
-		return false;
+		if($site == ''){
+			$errores['site'] = "Debe ingresar la dirección del lugar";
+		}
+
+		if($language == ''){
+			$errores['language'] = "Debe ingresar el idioma preferido del evento";
+		}
+
+		return $errores;
+	}
+
+
+	function buscarEvento($name){
+
+		if($db = dbConnect()) {
+			//Ejecuto la lectura
+			$CadenaDeBusqueda = "SELECT site, language FROM events WHERE name like '{$name}'";
+			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+			$ConsultaALaBase->execute();
+			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+		} else {
+				echo "Conexion fallida";
+			}
+
+			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+
+			if($unRegistro){
+				$unEvento = new evento($name, $unRegistro['site'], $unRegistro['language']);
+				return $unEvento;
+			}
+
+			return false;
+	}
+
+
+	function validarDatosEventoParaEditar($data){
+		$errores = [];
+
+		$title = isset($_POST['title']) ? trim($_POST['title']) : "";
+		$rating = isset($_POST['rating']) ? trim($_POST['rating']) : "0";
+		$awards = isset($_POST['awards']) ? trim($_POST['awards']) : "0";
+		$release_date = isset($_POST['release_date']) ? trim($_POST['release_date']) : "";
+		$genero = isset($_POST['genre_id']) ? trim($_POST['genre_id']) : "";
+
+		if ($title == ''){
+			$errores['title'] = "Completa el nombre de la Pelicula";
+		}
+
+		if($rating == ''){
+			$errores['rating'] = "Debe ingresar el rating";
+		}
+
+		if($awards == ''){
+			$errores['awards'] = "Debe ingresar la cantidad de premios";
+		}
+
+		if($release_date == ''){
+			$errores['release_date'] = "Debe ingresar la fecha de release";
+		}
+
+		if($genero == ''){
+			$errores['genero'] = "Debe ingresar el genero de la pelicula";
+		}
+
+		return $errores;
+	}
+
+
+
+	function guardarPelicula($data){
+
+		$title = trim($data['title']);
+		$rating = trim($data['rating']);
+		$awards = trim($data['awards']);
+		$release_date = trim($data['release_date']);
+		$genre_id = trim($data['genre_id']);
+
+		//Crear el objeto
+		$unaPelicula = new pelicula($title, $rating, $awards, $release_date, $genre_id);
+		//Guardar en la Base
+		$unaPelicula->Guardar();
+		return $unaPelicula;
 	}

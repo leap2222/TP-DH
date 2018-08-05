@@ -176,19 +176,31 @@ LOCK TABLES `events` WRITE;
 
 UNLOCK TABLES;
 
--- --
--- -- Table structure for table `password_resets`
--- --
+
 --
--- DROP TABLE IF EXISTS `password_resets`;
+-- Table structure for table `countries`
+--
+
+-- DROP TABLE IF EXISTS `countries`;
 -- /*!40101 SET @saved_cs_client     = @@character_set_client */;
 -- /*!40101 SET character_set_client = utf8 */;
--- CREATE TABLE `password_resets` (
---   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
---   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+-- CREATE TABLE `countries` (
+--   `country_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `name` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
 --   `created_at` timestamp NULL DEFAULT NULL,
---   KEY `password_resets_email_index` (`email`),
---   KEY `password_resets_token_index` (`token`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--   `updated_at` timestamp NULL DEFAULT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `countries_country_id_foreign` (`country_id`),
+--   CONSTRAINT `countries_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `genres` (`id`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- /*!40101 SET character_set_client = @saved_cs_client */;
 --
+-- --
+-- -- Dumping data for table `movies`
+-- --
+--
+-- LOCK TABLES `movies` WRITE;
+-- /*!40000 ALTER TABLE `movies` DISABLE KEYS */;
+-- INSERT INTO `movies` VALUES (1,NULL,NULL,'Avatar',7.9,3,'2010-10-04 00:00:00',120,5),(2,NULL,NULL,'Titanic',7.7,11,'1997-09-04 00:00:00',320,3),(3,NULL,NULL,'La Guerra de las galaxias: Episodio VI',9.1,7,'2004-07-04 00:00:00',NULL,5),(4,NULL,NULL,'La Guerra de las galaxias: Episodio VII',9.0,6,'2003-11-04 00:00:00',180,5),(5,NULL,NULL,'Parque Jurasico',8.3,5,'1999-01-04 00:00:00',270,5),(6,NULL,NULL,'Harry Potter y las Reliquias de la Muerte - Parte 2',9.0,2,'2008-07-04 00:00:00',190,6),(7,NULL,NULL,'Transformers: el lado oscuro de la luna',0.9,1,'2005-07-04 00:00:00',NULL,5),(8,NULL,NULL,'Harry Potter y la piedra filosofal',10.0,1,'2008-04-04 00:00:00',120,8),(9,NULL,NULL,'Harry Potter y la cámara de los secretos',3.5,2,'2009-08-04 00:00:00',200,8),(10,NULL,NULL,'El rey león',9.1,3,'2000-02-04 00:00:00',NULL,10),(11,NULL,NULL,'Alicia en el país de las maravillas',5.7,2,'2008-07-04 00:00:00',120,NULL),(12,NULL,NULL,'Buscando a Nemo',8.3,2,'2000-07-04 00:00:00',110,7),(13,NULL,NULL,'Toy Story',6.1,0,'2008-03-04 00:00:00',150,7),(14,NULL,NULL,'Toy Story 2',3.2,2,'2003-04-04 00:00:00',120,7),(15,NULL,NULL,'La vida es bella',8.3,5,'1994-10-04 00:00:00',NULL,3),(16,NULL,NULL,'Mi pobre angelito',3.2,1,'1989-01-04 00:00:00',120,1),(17,NULL,NULL,'Intensamente',9.0,2,'2008-07-04 00:00:00',120,7),(18,NULL,NULL,'Carrozas de fuego',9.9,7,'1980-07-04 00:00:00',180,NULL),(19,NULL,NULL,'Big',7.3,2,'1988-02-04 00:00:00',130,8),(20,NULL,NULL,'I am Sam',9.0,4,'1999-03-04 00:00:00',130,3),(21,NULL,NULL,'Hotel Transylvania',7.1,1,'2012-05-04 00:00:00',90,10);
+-- /*!40000 ALTER TABLE `movies` ENABLE KEYS */;
+-- UNLOCK TABLES;

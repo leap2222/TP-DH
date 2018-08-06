@@ -141,13 +141,20 @@
 
 	function guardarUsuario($data, $imagen){
 
-		$nombre = trim($data['name']);
+		$nombre = trim($data['nombre']);
 		$email = trim($data['email']);
 		$pass = trim($data['pass']);
 		$passh = password_hash($pass, PASSWORD_DEFAULT);
+		$edad = trim($_POST['edad']);
+		$tel = trim($_POST['tel']);
+		$pais = trim($_POST['pais']);
+		$idioma = trim($_POST['idioma']);
+		$website = trim($_POST['website']);
+		$mensaje = trim($_POST['mensaje']);
+		$sexo = trim($_POST['sexo']);
 		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
 
-		$unUsuario = new usuario(null, $nombre, $email, $passh, $foto);
+		$unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma, $foto);
 		$unUsuario->Registrar();
 		return $unUsuario;
 	}
@@ -161,9 +168,9 @@
 
 		if($usuario){
 			if (password_verify($pass, $usuario->getPass())) {
-					$_SESSION['id'] = $usuario->getID();
+					$_SESSION['id'] = $usuario->getId();
 					if ($data['recordar']) {
-							setcookie('id', $usuario->getID(), time() + 3000);
+							setcookie('id', $usuario->getId(), time() + 3000);
 					}
 			}
 			return $usuario;
@@ -269,48 +276,35 @@
 	function validarDatosEventoParaEditar($data){
 		$errores = [];
 
-		$title = isset($_POST['title']) ? trim($_POST['title']) : "";
-		$rating = isset($_POST['rating']) ? trim($_POST['rating']) : "0";
-		$awards = isset($_POST['awards']) ? trim($_POST['awards']) : "0";
-		$release_date = isset($_POST['release_date']) ? trim($_POST['release_date']) : "";
-		$genero = isset($_POST['genre_id']) ? trim($_POST['genre_id']) : "";
+		$name = isset($_POST['name']) ? trim($_POST['name']) : "";
+		$site = isset($_POST['site']) ? trim($_POST['site']) : "0";
+		$language = isset($_POST['language']) ? trim($_POST['language']) : "0";
 
-		if ($title == ''){
-			$errores['title'] = "Completa el nombre de la Pelicula";
+		if ($name == ''){
+			$errores['name'] = "Completa el nombre del Evento";
 		}
 
-		if($rating == ''){
-			$errores['rating'] = "Debe ingresar el rating";
+		if($site == ''){
+			$errores['site'] = "Debe ingresar la dirección del Evento";
 		}
 
-		if($awards == ''){
-			$errores['awards'] = "Debe ingresar la cantidad de premios";
-		}
-
-		if($release_date == ''){
-			$errores['release_date'] = "Debe ingresar la fecha de release";
-		}
-
-		if($genero == ''){
-			$errores['genero'] = "Debe ingresar el genero de la pelicula";
+		if($language == ''){
+			$errores['language'] = "Debe ingresar el idioma del Evento";
 		}
 
 		return $errores;
 	}
 
 
+	function guardarEvento($data){
 
-	function guardarPelicula($data){
-
-		$title = trim($data['title']);
-		$rating = trim($data['rating']);
-		$awards = trim($data['awards']);
-		$release_date = trim($data['release_date']);
-		$genre_id = trim($data['genre_id']);
+		$name = trim($data['name']);
+		$site = trim($data['site']);
+		$language = trim($data['language']);
 
 		//Crear el objeto
-		$unaPelicula = new pelicula($title, $rating, $awards, $release_date, $genre_id);
+		$unEvento = new evento($data['name'], $data['site'], $data['language']);
 		//Guardar en la Base
-		$unaPelicula->Guardar();
-		return $unaPelicula;
+		$unEvento->Guardar();
+		return $unEvento;
 	}

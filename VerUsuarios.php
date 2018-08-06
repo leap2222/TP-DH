@@ -22,7 +22,7 @@
     <label>Usuarios:</label>
     <ol name="users">
       <?php foreach($TodosLosUsuarios as $unUsuario):?>
-        <li value="<?=$unUsuario->getID()?>">Nombre: <?=$unUsuario->getName()?>; email: <?=$unUsuario->getEmail()?> </li>
+        <li value="<?=$unUsuario->getId()?>">Nombre: <?=$unUsuario->getName()?>; email: <?=$unUsuario->getEmail()?> </li>
       <?php endforeach;?>
     </ul>
   </body>

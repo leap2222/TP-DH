@@ -12,14 +12,18 @@
 	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
 	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
 	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
+	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"]
+
 	$nombre = '';
 	$email = '';
 	$edad = '';
 	$tel = '';
 	$pais = '';
+	$idioma = '';
 	$sexo = '';
 	$website = '';
 	$mensaje = '';
+
 	$errores = [];
 
 	// Si envían algo por $_POST
@@ -30,6 +34,7 @@
 		$edad = trim($_POST['edad']);
 		$tel = trim($_POST['tel']);
 		$pais = trim($_POST['pais']);
+		$idioma = trim($_POST['idioma']);
 		$website = trim($_POST['website']);
 		$mensaje = trim($_POST['mensaje']);
 		$sexo = trim($_POST['sexo']);
@@ -42,10 +47,9 @@
 			// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
 			//de $_POST y el avatar
 			$usuario = guardarUsuario($_POST, 'avatar');
-			// Logueo al usuario y por lo tanto no es necesario el re-direct
-			$usuario = LoginDeUsuario($_POST);
-			header('location: perfil.php');
-			exit;
+			// Logueo al usuario
+			$usuario->Loguear($_POST['email'], $_POST['pass']);
+
 		}
 	}
 ?>
@@ -158,6 +162,28 @@
 							</div>
 						</div>
 						<br>
+
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group <?= isset($errores['idioma']) ? 'has-error' : null ?>">
+									<label class="control-label">Idioma de Interés:*</label>
+									<select class="form-control" name="idioma">
+											<option value="0">Elegí</option>
+											<?php foreach ($idiomas as $value): ?>
+												<?php if ($value == $idioma): ?>
+												<option selected value="<?=$value?>"><?=$value?></option>
+												<?php else: ?>
+												<option value="<?=$value?>"><?=$value?></option>
+												<?php endif; ?>
+											<?php endforeach; ?>
+									</select>
+									<span class="help-block" style="<?= !isset($errores['idioma']) ? 'display: none;' : ''; ?>">
+										<b class="glyphicon glyphicon-exclamation-sign"></b>
+										<?= isset($errores['idioma']) ? $errores['idioma'] : ''; ?>
+									</span>
+								</div>
+							</div>
+							<br>
 
 						<div class="row">
 							<div class="col-sm-12">

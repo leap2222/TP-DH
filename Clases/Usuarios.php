@@ -8,21 +8,33 @@
 
     public static function Guardar($nuevoUsuario){
       self::$TodosLosUsuarios[] = $nuevoUsuario;
-      header('location: home.php');
+      header('location: index.php');
       exit;
     }
 
     public static function ObtenerTodos() {
 
       //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
-      if (!isset(self::$TodasLosUsuarios)) {
+      if (!isset(self::$TodosLosUsuarios)) {
 
         //Me conecto a la base de datos
         require_once("connect.php");
 
         if($db = dbConnect()) {
           //Ejecuto la lectura
-          $CadenaDeBusqueda = "SELECT id, name, email, password FROM users";
+          // `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+          // -- `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+          // `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          // `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          // `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          // `age` int(10) unsigned NOT NULL,
+          // `telephone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          // `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+          // `website` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+          // `message` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+          // `sex` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+          // `language` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+          $CadenaDeBusqueda = "SELECT user_id, name, email, password, age, telephone, country, website, message, sex, language FROM users";
           $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
           $ConsultaALaBase->execute();
           //$UsuariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC);
@@ -39,7 +51,7 @@
 
             //Instancio un objeto de tipo Usuario
             require_once("Clases/usuario.php");
-            $UnUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password']);
+            $UnUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language']);
 
             //Agrego el objeto Usuario al array
             $UsuariosADevolver[] = $UnUsuario;

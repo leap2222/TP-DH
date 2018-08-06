@@ -1,19 +1,47 @@
 <?php
+// `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+// -- `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+// `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+// `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+// `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+// `age` int(10) unsigned NOT NULL,
+// `telephone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+// `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+// `website` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+// `message` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+// `sex` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+// `language` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   class usuario{
-    private $id;
+    private $user_id;
     private $name;
     private $email;
     private $pass;
+    private $age;
+    private $telephone;
+    private $country;
+    private $website;
+    private $message;
+    private $sex;
+    private $language;
+    private $photo;
 
-    public function __construct($id, $name, $email, $pass){
-      $this->id = $id;
+    public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language, $foto){
+      $this->user_id = $user_id;
       $this->name = $name;
       $this->email = $email;
       $this->pass = $pass;
+      $this->age = $age;
+      $this->telephone = $telephone;
+      $this->country = $country;
+      $this->website = $website;
+      $this->message = $message;
+      $this->sex = $sex;
+      $this->language = $language;
+      $this->photo = $foto;
     }
 
-    public function getID(){
-      return $this->id;
+    public function getId(){
+      return $this->user_id;
     }
 
     public function getName(){
@@ -28,13 +56,45 @@
       return $this->pass;
     }
 
+    public function getAge(){
+      return $this->age;
+    }
+
+    public function getTelephone(){
+      return $this->telephone;
+    }
+
+    public function getCountry(){
+      return $this->country;
+    }
+
+    public function getWebsite(){
+      return $this->website;
+    }
+
+    public function getMessage(){
+      $this->message = $message;
+    }
+
+    public function getSex(){
+      $this->sex = $sex;
+    }
+
+    public function getLanguage(){
+      $this->language = $language;
+    }
+
+    public function getPhoto(){
+      $this->photo = $foto;
+    }
+
     public function Registrar(){
 
       require_once("connect.php");
       try{
         $db = dbConnect();
-    		$query = "insert into movies_db.users (name, email, password)
-                  values ('{$this->name}', '{$this->email}', '{$this->pass}')";
+    		$query = "insert into tpi_db.users (name, email, password, age, telephone, country, website, message, sex, language)
+                  values ('{$this->name}', '{$this->email}', '{$this->pass}', '{$this->age}', '{$this->telephone}', '{$this->country}', '{$this->website}', '{$this->message}', '{$this->sex}', '{$this->language}', '{$this->photo}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
@@ -43,17 +103,17 @@
     }
 
     public function Loguear($mail, $pass) {
-      require_once("funciones.php");
-      $usuario = buscarPorEmail($mail);
+  		require_once("funciones.php");
+  		$usuario = buscarPorEmail($mail);
 
-      if($usuario) {
-        if(password_verify($pass, $usuario["pass"])) {
-          setcookie('id', $usuario->getID(), time() + 3600);
-          header('location: home.php');
-    			exit;
-        }
-      }
-
+  		if($usuario) {
+  			if(password_verify($pass, $usuario["pass"])) {
+  				$_SESSION['id'] = $usuario->getID();
+  				setcookie('id', $usuario->getID(), time() + 3600);
+  				header('location: perfil.php');
+  				exit;
+  			}
+  		}
       return false;
     }
   }

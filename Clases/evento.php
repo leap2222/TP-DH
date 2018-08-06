@@ -1,49 +1,43 @@
 <?php
   require_once("connect.php");
   // Método guardar(), registrará una película en la base de datos a través de un form.
-  class pelicula {
+  class evento {
 
-    private $title;
-    private $rating;
-    private $awards;
-    private $release_date;
-    private $genre_id;
+    private $event_id;
+    private $name;
+    private $site;
+    private $language;
 
-    public function getTitle(){
-      return $this->title;
+
+    public function __construct($event_id, $name, $site, $language){
+      $this->event_id = $event_id;
+      $this->name = $name;
+      $this->site = $site;
+      $this->language = $language;
     }
 
-    public function getRating(){
-      return $this->rating;
+    public function getId(){
+      $this->event_id = $event_id;
     }
 
-    public function getAwards(){
-      return $this->awards;
+    public function getName(){
+      $this->name = $name;
     }
 
-    public function getReleaseDate(){
-      return $this->release_date;
+    public function getSite(){
+      $this->site = $site;
     }
 
-    public function getGenreID(){
-      return $this->genre_id;
-    }
-
-
-    public function __construct($title, $rating, $awards, $release_date, $genre_id){
-      $this->title = $title;
-      $this->rating = $rating;
-      $this->awards = $awards;
-      $this->release_date = $release_date;
-      $this->genre_id = $genre_id;
+    public function getLanguage(){
+      $this->language = $language;
     }
 
     public function Guardar(){
 
       try{
         $db = dbConnect();
-    		$query = "insert into movies_db.movies (title, rating, awards, release_date, genre_id)
-                  values ('{$this->title}', '{$this->rating}', '{$this->awards}', '{$this->release_date}', '{$this->genre_id}')";
+    		$query = "insert into tpi_db.events (name, site, language)
+                  values ('{$this->name}', '{$this->site}', '{$this->language}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
@@ -51,24 +45,36 @@
       }
     }
 
-    public function Actualizar($title, $rating, $awards, $release_date, $genero){
+    public function Actualizar($name, $site, $language){
       try{
         $db = dbConnect();
-    		$query = "update movies set title = '{$title}', rating = '{$rating}', awards = '{$awards}',
-                  release_date = '{$release_date}', genre_id = '{$genero}' where title like '{$this->title}'";
+    		$query = "update events set name = '{$name}', site = '{$site}', language = '{$language}'
+                  where name like '{$this->name}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
       }
-      $this->title = $title;
-      $this->rating = $rating;
-      $this->awards = $awards;
-      $this->release_date = $release_date;
-      $this->genre_id = $genre_id;
+      $this->name = $name;
+      $this->site = $site;
+      $this->language = $language;
 
-      header('location: VerPeliculas.php');
+      header('location: VerEventos.php');
       echo "Los datos se guardaron exitosamente !";
+      exit;
+    }
+
+    public function Eliminar($name){
+      try{
+        $db = dbConnect();
+    		$query = "delete from events where name like '{$this->name}'";
+    		$ConsultaALaBase = $db->prepare($query);
+    		$ConsultaALaBase->execute();
+      }catch(PDOException $Exception){
+        echo $Exception->getMessage();
+      }
+
+      header('location: VerEventos.php');
       exit;
     }
   }

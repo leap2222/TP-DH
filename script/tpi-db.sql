@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `users`;
 */
 CREATE TABLE `users` (
   `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  -- `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  --`event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -157,7 +157,7 @@ DROP TABLE IF EXISTS `events`;
 */
 CREATE TABLE `events` (
   `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  -- `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  --`user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `site` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `language` varchar(100) COLLATE utf8_unicode_ci NOT NULL,

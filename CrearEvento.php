@@ -9,32 +9,28 @@
 	}
 
   require_once("Clases/Eventos.php");
-  $datosGeneros = Generos::ObtenerTodos();
+  $datosEventos = Eventos::ObtenerTodos();
 
   // Variables para persistencia
-  $title = '';
-  $rating = '';
-  $awards = '';
-  $release_date = '';
-  $genero = '';
+  $name = '';
+  $site = '';
+  $language = '';
 
   $errores = [];
 
   if ($_POST) {
-    $title = isset($_POST['title']) ? trim($_POST['title']) : "";
-    $rating = isset($_POST['rating']) ? trim($_POST['rating']) : "0";
-    $awards = isset($_POST['awards']) ? trim($_POST['awards']) : "0";
-    $release_date = isset($_POST['release_date']) ? trim($_POST['release_date']) : "";
-    $genero = isset($_POST['genre_id']) ? trim($_POST['genre_id']) : "";
+    $name = isset($_POST['name']) ? trim($_POST['name']) : "";
+    $site = isset($_POST['site']) ? trim($_POST['site']) : "";
+    $language = isset($_POST['language']) ? trim($_POST['language']) : "";
 
     // valido todo
-    $errores = validarDatosPelicula($_POST);
+    $errores = validarDatosEvento($_POST);
 
     if (empty($errores)){
 
-      $unaPelicula = guardarPelicula($_POST);
-      require_once("Clases/Peliculas.php");
-      Peliculas::Guardar($unaPelicula);
+      $unEvento = guardarEvento($_POST);
+      require_once("Clases/Eventos.php");
+      Eventos::Guardar($unEvento);
     }
   }
 ?>
@@ -44,7 +40,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <title>Crear Pelicula</title>
+    <name>Crear Evento</name>
   </head>
   <body>
     <?php if (!empty($errores)): ?>
@@ -60,70 +56,38 @@
     	<form  method="post" enctype="multipart/form-data">
     		<div class="row">
     			<div class="col-sm-6">
-    				<div class="form-group <?= isset($errores['title']) ? 'has-error' : null ?>">
-    					<label class="control-label">Titulo*:</label>
-    					<input type="text" class="form-control" name="title" value="<?=$title?>">
-    					<span class="help-block" style="<?= !isset($errores['title']) ? 'display: none;' : ''; ?>">
+    				<div class="form-group <?= isset($errores['name']) ? 'has-error' : null ?>">
+    					<label class="control-label">Nombre*:</label>
+    					<input type="text" class="form-control" name="name" value="<?=$name?>">
+    					<span class="help-block" style="<?= !isset($errores['name']) ? 'display: none;' : ''; ?>">
     						<b class="glyphicon glyphicon-exclamation-sign"></b>
-    							<?= isset($errores['title']) ? $errores['title'] : ''; ?>
+    							<?= isset($errores['name']) ? $errores['name'] : ''; ?>
     					</span>
     				</div>
     			</div>
     			<div class="col-sm-6">
-    				<div class="form-group <?= isset($errores['rating']) ? 'has-error' : null ?>">
-    					<label class="control-label">Rating*:</label>
-    						<input class="form-control" type="text" name="rating" value="<?=$rating?>">
-    						<span class="help-block" style="<?= !isset($errores['rating']) ? 'display: none;' : ''; ?>">
+    				<div class="form-group <?= isset($errores['site']) ? 'has-error' : null ?>">
+    					<label class="control-label">Lugar de Encuentro*:</label>
+    						<input class="form-control" type="text" name="site" value="<?=$site?>">
+    						<span class="help-block" style="<?= !isset($errores['site']) ? 'display: none;' : ''; ?>">
     							<b class="glyphicon glyphicon-exclamation-sign"></b>
-    							<?= isset($errores['rating']) ? $errores['rating'] : ''; ?>
+    							<?= isset($errores['site']) ? $errores['site'] : ''; ?>
     						</span>
              </div>
     				</div>
     			</div>
   				<div class="row">
   					<div class="col-sm-6">
-  						<div class="form-group <?= isset($errores['awards']) ? 'has-error' : null ?>">
-  							<label class="control-label">Cantidad de Premios:</label>
-  							<input class="form-control" type="text" name="awards" value="<?=$awards?>">
-    							<span class="help-block" style="<?= !isset($errores['awards']) ? 'display: none;' : ''; ?>">
+  						<div class="form-group <?= isset($errores['language']) ? 'has-error' : null ?>">
+  							<label class="control-label">Idioma Preferido*:</label>
+  							<input class="form-control" type="text" name="language" value="<?=$language?>">
+    							<span class="help-block" style="<?= !isset($errores['language']) ? 'display: none;' : ''; ?>">
     								<b class="glyphicon glyphicon-exclamation-sign"></b>
-    								<?= isset($errores['awards']) ? $errores['awards'] : ''; ?>
+    								<?= isset($errores['language']) ? $errores['language'] : ''; ?>
     							</span>
     		        </div>
     					</div>
-    					<div class="col-sm-6">
-    						<div class="form-group <?= isset($errores['release_date']) ? 'has-error' : null ?>">
-    							<label class="control-label">Fecha de Release:</label>
-    							<input class="form-control" type="text" name="release_date" placeholder="AAAA-MM-DD" value="<?=$release_date?>">
-    							<span class="help-block" style="<?= !isset($errores['release_date']) ? 'display: none;' : ''; ?>">
-    								<b class="glyphicon glyphicon-exclamation-sign"></b>
-    								<?= isset($errores['release_date']) ? $errores['release_date'] : ''; ?>
-    							</span>
-    		        </div>
-    					</div>
-    				</div>
 
-    				<div class="row">
-    					<div class="col-sm-6">
-    						<div class="form-group <?= isset($errores['genre_id']) ? 'has-error' : null ?>">
-    							<label class="control-label">Genero*:</label>
-    		             <select class="form-control" class="" name="genre_id">
-  										 <option value="">Elegí el género</option>
-  												<?php foreach ($datosGeneros as $value): ?>
-  													<?php if ($value->getName() == $genero): ?>
-  														<option selected value="<?=$value->getId()?>"><?=$value->getName()?></option>
-  													<?php else: ?>
-  														<option value="<?=$value->getId()?>"><?=$value->getName()?></option>
-  													<?php endif; ?>
-  												<?php endforeach; ?>
-    									</select>
-      								<span class="help-block" style="<?= !isset($errores['genre_id']) ? 'display: none;' : ''; ?>">
-      								<b class="glyphicon glyphicon-exclamation-sign"></b>
-      								<?= isset($errores['genre_id']) ? $errores['genre_id'] : ''; ?>
-      							</span>
-    		        </div>
-    					 </div>
-              </div>
               <button class="btn btn-primary" type="submit">Crear</button>
               <!-- <input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO"> -->
             </form>

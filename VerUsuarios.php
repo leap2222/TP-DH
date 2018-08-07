@@ -1,12 +1,13 @@
 <?php
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
+
   require_once("funciones.php");
   require_once("Clases/Usuarios.php");
   $TodosLosUsuarios = Usuarios::ObtenerTodos();
 
   if (!estaLogueado()) {
-	 	header('location: inicio.php');
+	 	header('location: login.php');
 	 	exit;
 	}
 ?>
@@ -23,6 +24,7 @@
     <ol name="users">
       <?php foreach($TodosLosUsuarios as $unUsuario):?>
         <li value="<?=$unUsuario->getId()?>">Nombre: <?=$unUsuario->getName()?>; email: <?=$unUsuario->getEmail()?> </li>
+        <a class="btn btn-primary" href="PerfilUsuario.php?name=<?=$unUsuario->getName()?>">VER</a>
       <?php endforeach;?>
     </ul>
   </body>

@@ -21,10 +21,6 @@
             require_once("connect.php");
             if($db = dbConnect()) {
               // Ejecuto la lectura
-              // `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-              // `name` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
-              // `site` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
-              // `language` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
               $CadenaDeBusqueda = "SELECT event_id, name, site, language FROM events";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();

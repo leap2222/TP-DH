@@ -116,5 +116,33 @@
   		}
       return false;
     }
+
+    public function Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo){
+      try{
+        $db = dbConnect();
+        $query = "update users set name = '{$nombre}', email = '{$email}', age = '{$edad}', telephone = '{$tel}',
+                  country = '{$pais}', language = '{$idioma}', website = '{$website}', message = '{$mensaje}', sex = '{$sexo}'
+                  where email like '{$this->email}'";
+        $ConsultaALaBase = $db->prepare($query);
+        $ConsultaALaBase->execute();
+      }catch(PDOException $Exception){
+        echo $Exception->getMessage();
+      }
+      $this->name = $nombre;
+      $this->email = $email;
+      //$this->pass = $pass;
+      $this->age = $edad;
+      $this->telephone = $tel;
+      $this->country = $pais;
+      $this->language = $language;
+      $this->website = $website;
+      $this->message = $mensaje;
+      $this->sex = $sexo;
+      //$this->photo = $foto;
+
+      header('location: VerUsuarios.php');
+      echo "Los datos se guardaron exitosamente !";
+      exit;
+    }
   }
 ?>

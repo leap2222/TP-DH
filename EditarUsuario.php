@@ -1,70 +1,79 @@
 <?php
-	require_once('funciones.php');
+	error_reporting(E_ALL);
+  ini_set('display_errors', 1);
 
-	// Si vengo del el perfil para editar.
-	if(!estaLogueado()) {
-		header('location: login.php');
-		exit;
+  require_once("funciones.php");
+	// Si vengo del perfil para editar.
+  if (!estaLogueado()) {
+	 	header('location: login.php');
+	 	exit;
 	}
 
-	// Variables para persistencia
-	$paises = ['Argentina', 'Brasil', 'Colombia', 'Chile'];
-	$nombre = '';
-	$apellido = '';
-	$email = '';
-	$edad = '';
-	$tel = '';
-	$pais = '';
-	$sexo = '';
-	$website = '';
-	$mensaje = '';
-	$errores = [];
+  if($_GET['email']){
+    $elUsuario = buscarPorEmail($_GET['email']);
+  }
 
-	// Si envían algo por $_POST
-	if ($_POST) {
+  require_once("Clases/Usuarios.php");
+  $datosUsuarios = Usuarios::ObtenerTodos();
 
-		$nombre = trim($_POST['nombre']);
-		$apellido = trim($_POST['apellido']);
-		$email = trim($_POST['email']);
-		$edad = trim($_POST['edad']);
-		$tel = trim($_POST['tel']);
-		$pais = trim($_POST['pais']);
-		$website = trim($_POST['website']);
-		$mensaje = trim($_POST['mensaje']);
-		$sexo = trim($_POST['sexo']);
-		// valido todo
-		$errores = validar($_POST, 'avatar');
+	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
+	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
+	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
+	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"]
 
-		if (empty($errores)) {
-// Borrar usuario anterior y volver a grabar.
-//
-//			borrarUsuario($email);
-//
-//		Falta resolver como borrar el usuario anterior y grabar la foto anterior
-//		tambien si no la modifico.
-//
-			$errores = guardarImagen('avatar');
-			// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
-			//de $_POST y el avatar
-			$usuario = guardarUsuario($_POST, 'avatar');
-			// Logueo al usuario y por lo tanto no es necesario el re-direct
-			header('location: perfil.php');
-			exit;
+  // Variables para persistencia
+  $name = $elUsuario->getname();
+	$email = $elUsuario->getEmail();
+	$edad = $elUsuario->getAge();
+	$tel = $elUsuario->getTelephone();
+	$pais = $elUsuario->getCountry();
+	$website = $elUsuario->getWebsite();
+	$mensaje = $elUsuario->getMessage();
+	$sexo = $elUsuario->getSex();
+	$language = $elUsuario->getLanguage();
+	$photo = $elUsuario->getPhoto();
 
-		}
-	} else {
+  $errores = [];
+
+  if ($_POST) {
+
+		$nombre = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
+		$email = isset($_POST['email']) ? trim($_POST['email']) : "";
+		$edad = isset($_POST['edad']) ? trim($_POST['edad']) : "";
+		$tel = isset($_POST['tel']) ? trim($_POST['tel']) : "";
+		$pais = isset($_POST['pais']) ? trim($_POST['pais']) : "";
+		$idioma = isset($_POST['idioma']) ? trim($_POST['idioma']) : "";
+		$website = isset($_POST['website']) ? trim($_POST['website']) : "";
+		$mensaje = isset($_POST['mensaje']) ? trim($_POST['mensaje']) : "";
+		$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
+
+    // valido todo
+    $errores = validar($_POST, 'avatar');
+
+    if (empty($errores)){
+			// Borrar usuario anterior y volver a grabar.
+			//
+			//			borrarUsuario($email);
+			//
+			//		Falta resolver como borrar el usuario anterior y grabar la foto anterior
+			//		tambien si no la modifico.
+      require_once("Clases/evento.php");
+      $elUsuario->Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
+    }
+  } else {
 		// Cargar datos del usuario.
-		$usuario = traerPorId($_SESSION['id']);
+		$elUsuario = traerPorId($_SESSION['id']);
 
-		$nombre = $usuario['nombre'];
-		$email = $usuario['email'];
-		$edad = $usuario['edad'];
-		$tel = $usuario['tel'];
-		$pais = $usuario['pais'];
-		$website = $usuario['website'];
-		$mensaje = $usuario['mensaje'];
-		$sexo = $usuario['sexo'];
-		$foto = $usuario['foto'];
+		$nombre = $elUsuario->getname();
+		$email = $elUsuario->getEmail();
+		$edad = $elUsuario->getAge();
+		$tel = $elUsuario->getTelephone();
+		$pais = $elUsuario->getCountry();
+		$website = $elUsuario->getWebsite();
+		$mensaje = $elUsuario->getMessage();
+		$sexo = $elUsuario->getSex();
+		$idioma = $elUsuario->getLanguage();
+		$photo = $elUsuario->getPhoto();
 	}
 ?>
 
@@ -72,7 +81,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Registrarse</title>
+		<title>Editar</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/styles.css">
 	</head>

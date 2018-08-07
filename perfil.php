@@ -1,6 +1,8 @@
 <?php
-	require_once('funciones.php');
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
 
+	require_once('funciones.php');
 	if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
@@ -32,12 +34,29 @@
 
 			<div class="row">
 				<div class="col-sm-8">
-					<h1>Hola <?=$usuario['nombre']?>, Bienvenido!</h1>
-					<img class="img-rounded" src="<?=$usuario['foto']?>" width="200">
+					<h1>Hola <?=$usuario->getName()?>, Bienvenido!</h1>
+					<img class="img-rounded" src="<?=$usuario->getPhoto()?>" width="200">
+					<br><br>
+					<div class="row">
+						<div class="col-sm-8">
+			        <a href="VerEventos.php" class="eventos">Ver Eventos</a>
+						</div>
+					</div>
+					<br><br>
+					<div class="row">
+						<div class="col-sm-8">
+							<a href="VerUsuarios.php" class="usuarios">Ver Usuarios</a>
+						</div>
+					</div>
+					<br><br>
+					<div class="row">
+						<div class="col-sm-8">
+							<a class="btn btn-primary" href="CrearEvento.php">CARGAR EVENTO</a>
+						</div>
+					</div>
 					<br><br>
 					<a class="btn btn-warning" href="logout.php">CERRAR SESIÓN</a>
-
-					<a class="btn btn-primary" href="editar.php">Editar Datos</a>
+					<a class="btn btn-primary" href="EditarUsuario.php?email=<?=$usuario->getEmail()?>">Editar Datos</a> 
 					<br>
 					<br>
 				</div>

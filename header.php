@@ -9,13 +9,13 @@
         <h1><a href="index.php">Multilanguage Meetings</a></h1>
 
         <div>
-        <?php
-          if(isset($usuario['nombre'])) {
-            echo "<a href=perfil.php>{$usuario['email']} </a>(<a href=logout.php>Salir</a>)";
-          } else {
-            echo "<a href=login.php>Ingresar</a>";
-          }
-        ?>
+
+        <?php if(isset($usuario['nombre'])) : ?>
+          <a href=perfil.php>{$usuario['email']} </a>(<a href=logout.php>Salir</a>)
+        <?php else : ?>
+          <a href=login.php>Ingresar</a>
+        <?php endif ; ?>
+
         </div>
 
         <a href="#" class="toggle-nav">

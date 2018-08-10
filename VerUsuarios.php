@@ -24,7 +24,7 @@
     <ol name="users">
       <?php foreach($TodosLosUsuarios as $unUsuario):?>
         <li value="<?=$unUsuario->getId()?>">Nombre: <?=$unUsuario->getName()?>; email: <?=$unUsuario->getEmail()?> </li>
-        <a class="btn btn-primary" href="PerfilUsuario.php?name=<?=$unUsuario->getName()?>">VER</a>
+        <a class="btn btn-primary" href="perfil.php?name=<?=$unUsuario->getName()?>">VER</a>
       <?php endforeach;?>
     </ul>
   </body>

@@ -118,16 +118,6 @@
 							</div>
 							<br>
 
-							<div class="form-group <?= isset($errores['apellido']) ? 'has-error' : null ?>">
-			          <label class="control-label">Apellido:*</label>
-			          <input class="form-control" type="text" name="apellido" placeholder="Pérez" value="<?=$apellido?>">
-								<span class="help-block" style="<?= !isset($errores['apellido']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['apellido']) ? $errores['apellido'] : ''; ?>
-								</span>
-							</div>
-							<br>
-
 							<div class="form-group <?= isset($errores['email']) ? 'has-error' : null ?>">
 			          <label class="control-label">Correo:*</label>
 			          <input class="form-control" type="email" name="email" value="<?=$email?>">

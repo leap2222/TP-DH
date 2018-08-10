@@ -10,8 +10,8 @@
 
         <div>
         <?php
-          if(isset($usuario['nombre'])) {
-            echo "<a href=perfil.php>{$usuario['email']} </a>(<a href=logout.php>Salir</a>)";
+          if(null !== $usuario->getName()) {
+            echo "<a href=perfil.php>{$usuario->getEmail()} </a>(<a href=logout.php>Salir</a>)";
           } else {
             echo "<a href=login.php>Ingresar</a>";
           }

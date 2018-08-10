@@ -23,9 +23,9 @@
     private $message;
     private $sex;
     private $language;
-    private $photo;
+    //private $photo;
 
-    public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language, $foto){
+    public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language){
       $this->user_id = $user_id;
       $this->name = $name;
       $this->email = $email;
@@ -37,7 +37,7 @@
       $this->message = $message;
       $this->sex = $sex;
       $this->language = $language;
-      $this->photo = $foto;
+      //$this->photo = $foto;
     }
 
     public function getId(){
@@ -84,9 +84,9 @@
       $this->language = $language;
     }
 
-    public function getPhoto(){
-      $this->photo = $foto;
-    }
+    // public function getPhoto(){
+    //   $this->photo = $foto;
+    // }
 
     public function Registrar(){
 
@@ -94,7 +94,7 @@
       try{
         $db = dbConnect();
     		$query = "insert into tpi_db.users (name, email, password, age, telephone, country, website, message, sex, language)
-                  values ('{$this->name}', '{$this->email}', '{$this->pass}', '{$this->age}', '{$this->telephone}', '{$this->country}', '{$this->website}', '{$this->message}', '{$this->sex}', '{$this->language}', '{$this->photo}')";
+                  values ('{$this->name}', '{$this->email}', '{$this->pass}', '{$this->age}', '{$this->telephone}', '{$this->country}', '{$this->website}', '{$this->message}', '{$this->sex}', '{$this->language}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
@@ -107,11 +107,11 @@
   		$usuario = buscarPorEmail($mail);
 
   		if($usuario) {
-  			if(password_verify($pass, $usuario["pass"])) {
+  			if(password_verify($pass, $usuario->getPass())) {
   				$_SESSION['id'] = $usuario->getID();
   				setcookie('id', $usuario->getID(), time() + 3600);
   				header('location: perfil.php');
-  				exit;
+  				//exit;
   			}
   		}
       return false;

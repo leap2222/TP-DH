@@ -154,7 +154,7 @@
 		$sexo = trim($_POST['sexo']);
 		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
 
-		$unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma, $foto);
+		$unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma);
 		$unUsuario->Registrar();
 		return $unUsuario;
 	}
@@ -183,7 +183,7 @@
 
 			if($db = dbConnect()) {
 				//Ejecuto la lectura
-				$CadenaDeBusqueda = "SELECT id, name, password FROM users WHERE email like '{$email}'";
+				$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language FROM tpi_db.users WHERE email like '{$email}'";
 				$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 				$ConsultaALaBase->execute();
 				//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -194,7 +194,8 @@
 				$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 				if($unRegistro){
-					$unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password']);
+					$unUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language']);
+
 					return $unUsuario;
 				}
 
@@ -206,7 +207,7 @@
 
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT name, email, password FROM users WHERE id = '{$id}'";
+			$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language FROM tpi_db.users WHERE user_id = '{$id}'";
 			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 			$ConsultaALaBase->execute();
 			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -217,7 +218,7 @@
 			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 			if($unRegistro){
-				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password']);
+				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language']);
 				return $unUsuario;
 			}
 
@@ -303,7 +304,7 @@
 		$language = trim($data['language']);
 
 		//Crear el objeto
-		$unEvento = new evento($data['name'], $data['site'], $data['language']);
+		$unEvento = new evento(null, $data['name'], $data['site'], $data['language']);
 		//Guardar en la Base
 		$unEvento->Guardar();
 		return $unEvento;

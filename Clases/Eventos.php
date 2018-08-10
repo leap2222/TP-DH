@@ -7,12 +7,12 @@
 
     public static function Guardar($nuevoEvento){
       self::$TodosLosEventos[] = $nuevoEvento;
-      header('location: home.php');
-      echo "Pelicula Creada exitosamente !";
-      exit;
+      header('location: perfil.php');
+      // echo "Pelicula Creada exitosamente !";
+      // exit;
     }
 
-    public static function ObtenerTodas() {
+    public static function ObtenerTodos() {
 
         //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
         if (!isset(self::$TodosLosEventos)) {
@@ -21,7 +21,7 @@
             require_once("connect.php");
             if($db = dbConnect()) {
               // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT event_id, name, site, language FROM events";
+              $CadenaDeBusqueda = "SELECT event_id, name, site, language FROM tpi_db.events";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
               //$EventosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array

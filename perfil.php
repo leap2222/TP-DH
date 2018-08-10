@@ -35,7 +35,9 @@
 			<div class="row">
 				<div class="col-sm-8">
 					<h1>Hola <?=$usuario->getName()?>, Bienvenido!</h1>
-					<img class="img-rounded" src="<?=$usuario->getPhoto()?>" width="200">
+					<!-- <img class="img-rounded" src="<?php
+									// echo $usuario->getPhoto()?>
+					 " width="200"> -->
 					<br><br>
 					<div class="row">
 						<div class="col-sm-8">
@@ -56,9 +58,8 @@
 					</div>
 					<br><br>
 					<a class="btn btn-warning" href="logout.php">CERRAR SESIÓN</a>
-					<a class="btn btn-primary" href="EditarUsuario.php?email=<?=$usuario->getEmail()?>">Editar Datos</a> 
-					<br>
-					<br>
+					<a class="btn btn-primary" href="EditarUsuario.php?email=<?=$usuario->getEmail()?>">Editar Datos</a>
+					<br><br>
 				</div>
 			</div>
 

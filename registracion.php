@@ -1,4 +1,7 @@
 <?php
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+
 	require_once('funciones.php');
 
 	// Si vengo del el perfil para editar.
@@ -12,7 +15,7 @@
 	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
 	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
 	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
-	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"]
+	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
 	$nombre = '';
 	$email = '';
@@ -48,7 +51,7 @@
 			//de $_POST y el avatar
 			$usuario = guardarUsuario($_POST, 'avatar');
 			// Logueo al usuario
-			$usuario->Loguear($_POST['email'], $_POST['pass']);
+			$usuario->Loguear($email, $_POST['pass']);
 
 		}
 	}
@@ -161,6 +164,7 @@
 								</span>
 							</div>
 						</div>
+					</div>
 						<br>
 
 						<div class="row">
@@ -183,7 +187,8 @@
 									</span>
 								</div>
 							</div>
-							<br>
+						</div>
+						<br>
 
 						<div class="row">
 							<div class="col-sm-12">

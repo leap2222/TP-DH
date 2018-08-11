@@ -24,7 +24,7 @@
     <body>
       <label>Eventos: </label>
 
-      <ol name="movies">
+      <ol name="events">
         <?php foreach($TodosLosEventos as $unEvento):?>
           <li value="<?=$unEvento->getName()?>"> Nombre: <?=$unEvento->getName()?>; Lugar del Encuentro: <?=$unEvento->getSite()?>; Idioma Preferido: <?=$unEvento->getLanguage()?> </li>
           <a class="btn btn-primary" href="EditarEvento.php?name=<?=$unEvento->getName()?>">EDITAR</a>

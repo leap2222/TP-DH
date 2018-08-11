@@ -266,7 +266,7 @@
 			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 			if($unRegistro){
-				$unEvento = new evento($name, $unRegistro['site'], $unRegistro['language']);
+				$unEvento = new evento(null, $name, $unRegistro['site'], $unRegistro['language']);
 				return $unEvento;
 			}
 
@@ -304,7 +304,7 @@
 		$language = trim($data['language']);
 
 		//Crear el objeto
-		$unEvento = new evento(null, $data['name'], $data['site'], $data['language']);
+		$unEvento = new evento(null, $name, $site, $language);
 		//Guardar en la Base
 		$unEvento->Guardar();
 		return $unEvento;

@@ -17,19 +17,19 @@
     }
 
     public function getId(){
-      $this->event_id = $event_id;
+      return $this->event_id;
     }
 
     public function getName(){
-      $this->name = $name;
+      return $this->name;
     }
 
     public function getSite(){
-      $this->site = $site;
+      return $this->site;
     }
 
     public function getLanguage(){
-      $this->language = $language;
+      return $this->language;
     }
 
     public function Guardar(){

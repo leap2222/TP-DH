@@ -10,12 +10,13 @@
 
         <div>
         <?php
-          if(null !== $usuario->getName()) {
-            echo "<a href=perfil.php>{$usuario->getEmail()} </a>(<a href=logout.php>Salir</a>)";
-          } else {
-            echo "<a href=login.php>Ingresar</a>";
-          }
-        ?>
+          if($usuario !== null): ?>
+            <a href=perfil.php> Hola <?= $usuario->getEmail() ?> </a>
+            <a href=logout.php>Salir</a>
+        <?php else: ?>
+            <a href=login.php>Ingresar</a>
+        <?php endif;?>
+
         </div>
 
         <a href="#" class="toggle-nav">

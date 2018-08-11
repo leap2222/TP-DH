@@ -73,15 +73,15 @@
     }
 
     public function getMessage(){
-      $this->message = $message;
+      return $this->message;
     }
 
     public function getSex(){
-      $this->sex = $sex;
+      return $this->sex;
     }
 
     public function getLanguage(){
-      $this->language = $language;
+      return $this->language;
     }
 
     // public function getPhoto(){

@@ -81,7 +81,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Editar</title>
+		<title>Perfil del Usuario</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
@@ -97,7 +97,7 @@
 			</div>
 		<?php endif; ?>
 		<h1 align="center">
-      <strong>Modificar datos del usuario</strong>
+      <strong>Informacion del Usuario</strong>
     </h1>
     <section class="registracion">
 			<form method="post" enctype="multipart/form-data">
@@ -121,28 +121,6 @@
 								<span class="help-block" style="<?= !isset($errores['email']) ? 'display: none;' : ''; ?>">
 									<b class="glyphicon glyphicon-exclamation-sign"></b>
 									<?= isset($errores['email']) ? $errores['email'] : ''; ?>
-								</span>
-							</div>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
-								<label class="control-label">Contraseña:*</label>
-								<input class="form-control" type="password" name="pass" value="">
-								<span class="help-block" style="<?= !isset($errores['pass']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
-								</span>
-							</div>
-							<br>
-							<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
-								<label class="control-label">Repetir Contraseña:*</label>
-								<input class="form-control" type="password" name="rpass" value="">
-								<span class="help-block" style="<?= !isset($errores['pass']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
 								</span>
 							</div>
 						</div>
@@ -223,7 +201,6 @@
 								</span>
 							</div>
 						</div> -->
-						<button class="btn btn-primary" type="submit">Guardar Cambios</button>
         </fieldset>
       </form>
     </section>

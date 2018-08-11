@@ -21,6 +21,7 @@
 		//$apellido = trim($data['apellido']);
 		$email = trim($data['email']);
 		$pais = trim($data['pais']);
+		$sexo = trim($data['sexo']);
 		$pass = trim($data['pass']);
 		$rpass = trim($data['rpass']);
 
@@ -44,6 +45,10 @@
 			}
 		}
 
+		if($sexo == ''){
+			$errores['sexo'] = "Complete el sexo";
+		}
+
 		if(!estaLogueado()) {
 			if ($pass == '' || $rpass == '') {
 				$errores['pass'] = "Por favor completa tus passwords";
@@ -54,16 +59,16 @@
 			$errores['pass'] = "Tus contraseñas no coinciden";
 		}
 
-		if ($_FILES[$archivo]['error'] != UPLOAD_ERR_OK) { // Si no subieron ninguna imagen
-			if(!estaLogueado()) {
-				$errores['avatar'] = "No subiste ninguna foto!";
-			}
-		} else {
-			$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
-			if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
-				$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
-			}
-		}
+		// if ($_FILES[$archivo]['error'] != UPLOAD_ERR_OK) { // Si no subieron ninguna imagen
+		// 	if(!estaLogueado()) {
+		// 		$errores['avatar'] = "No subiste ninguna foto!";
+		// 	}
+		// } else {
+		// 		$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
+		// 		if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
+		// 			$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
+		// 		}
+		// 	}
 		return $errores;
 	}
 

@@ -1,3 +1,4 @@
+<?php require_once("funciones.php"); ?>
 <div class="row">
   <div class="col-sm-8">
     <div class="form-group">
@@ -9,8 +10,9 @@
         <h1><a href="index.php">Multilanguage Meetings</a></h1>
 
         <div>
-        <?php if($usuario !== null): ?>
-                <a href=perfil.php> Hola <?= $usuario->getEmail() ?> </a>
+        <?php if(estaLogueado()): ?>
+          <?php $usuario = traerPorId($_SESSION['id']); ?>
+                <a href=perfil.php> Hola <?= $usuario->getName() ?> </a>
                 <br>
                 <a href=logout.php>Salir</a>
         <?php else: ?>

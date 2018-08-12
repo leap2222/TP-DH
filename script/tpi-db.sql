@@ -16,33 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `event_users`
+-- Table structure for table `event_status`
 --
 
-DROP TABLE IF EXISTS `event_users`;
+DROP TABLE IF EXISTS `event_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_users` (
-  `reg_id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL,
-  `event_id` int(10) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`reg_id`),
-  KEY `user_event_user_id_foreign` (`user_id`),
-  KEY `user_event_event_id_foreign` (`event_id`),
-  CONSTRAINT `user_event_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`),
-  CONSTRAINT `user_event_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+CREATE TABLE `event_status` (
+  `status_id` int(11) NOT NULL,
+  `value` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `event_users`
+-- Dumping data for table `event_status`
 --
 
-LOCK TABLES `event_users` WRITE;
-/*!40000 ALTER TABLE `event_users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event_users` ENABLE KEYS */;
+LOCK TABLES `event_status` WRITE;
+/*!40000 ALTER TABLE `event_status` DISABLE KEYS */;
+INSERT INTO `event_status` VALUES (1,'Activo'),(2,'Inactivo');
+/*!40000 ALTER TABLE `event_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -57,11 +51,12 @@ CREATE TABLE `events` (
   `name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `site` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `language` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`event_id`),
   UNIQUE KEY `event_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,8 +65,38 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,'Juntada en Plaza Francia','Plaza Francia','Francés',NULL,NULL),(2,'BarBeer','Palermo','Ingles',NULL,NULL),(3,'Brukbar','Palermo','Ingles',NULL,NULL);
+INSERT INTO `events` VALUES (1,'Juntada en Plaza Francia','Plaza Francia','Francés',1,NULL,NULL),(2,'BarBeer','Palermo','Ingles',1,NULL,NULL),(4,'Antares','Palermo','Frances y Aleman',1,NULL,NULL),(5,'Parque Patricios','Parque Patricios','Chino',1,NULL,NULL),(6,'Parque Chacabuco','Parque Chacabuco','Inglés',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `inscriptions`
+--
+
+DROP TABLE IF EXISTS `inscriptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inscriptions` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `event_id` int(10) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_event_user_id_foreign` (`user_id`),
+  KEY `user_event_event_id_foreign` (`event_id`),
+  CONSTRAINT `user_event_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`),
+  CONSTRAINT `user_event_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inscriptions`
+--
+
+LOCK TABLES `inscriptions` WRITE;
+/*!40000 ALTER TABLE `inscriptions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inscriptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -152,7 +177,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +186,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Esteban Raffo','e.fraffo@gmail.com','$2y$10$ltOXZ.g1HYpdjLcT3TpJRO/aDeYpk.lIDRRqmUoNo.940xABOmxoC',31,'01166880926','Argentina','http://www.facebook.com/e.fraffo','Busco gente para practicar inglés.','M','Inglés',2,NULL,NULL),(2,'Raul Perez','raul@hotmail.com','$2y$10$gnxB8bXvNW65rQHkzEIJRuky9fa7t7zkWIeTBok.sXAyhVxD8ds2e',25,'1122-3344','Argentina','http://www.facebook.com/raul','busco gente para practicar Italiano y Frances','M','',2,NULL,NULL),(3,'Cacho Castaña','cacho@hotmail.com','$2y$10$MpZh1jaTUq8uiTiXoSzL8upEKjVLaWsntQfc014Ex.nOlez22tdny',20,'1122-0033','Brasil','http://www.facebook.com/cacho','Busco gente para hablar ingles','O','Inglés',2,NULL,NULL),(4,'Rodolfo Perez','rodolfo@hotmail.com','$2y$10$YvHmgESp/rwYAATSoGIWmOPlBJNCZ/m4iZp7rcvGmAkuegJdWe8YS',6,'2233-4466','Colombia','http://www.facebook.com/rodolfo','Busco gente para practicar frances.','M','Frances',2,NULL,NULL),(5,'Administrador','admin@admin.com','$2y$10$ltOXZ.g1HYpdjLcT3TpJRO/aDeYpk.lIDRRqmUoNo.940xABOmxoC',30,'null','Argentina','','null','M','',1,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Esteban Raffo','e.fraffo@gmail.com','$2y$10$UIYxg3mbSfehS8U9d1AME.Xuanqik35gjoZqU/RNcuXIkc70MROQS',31,'01166880926','Argentina','http://www.facebook.com/e.fraffo','Busco gente para practicar inglés.','M','',2,NULL,NULL),(2,'Raul Perez','raul@hotmail.com','$2y$10$crKQdoCND6tHU5v459z5XOEDHChq7BgoKDuQc2Xgyy1.rYLCON5yG',25,'1122-3344','Argentina','http://www.facebook.com/raul','busco gente para practicar Italiano y Frances','M','Ruso',2,NULL,NULL),(3,'Cacho Castaña','cacho@hotmail.com','$2y$10$MpZh1jaTUq8uiTiXoSzL8upEKjVLaWsntQfc014Ex.nOlez22tdny',20,'1122-0033','Brasil','http://www.facebook.com/cacho','Busco gente para hablar ingles','O','Inglés',2,NULL,NULL),(4,'Rodolfo Perez','rodolfo@hotmail.com','$2y$10$YvHmgESp/rwYAATSoGIWmOPlBJNCZ/m4iZp7rcvGmAkuegJdWe8YS',6,'2233-4466','Colombia','http://www.facebook.com/rodolfo','Busco gente para practicar frances.','M','Frances',2,NULL,NULL),(6,'Mamarracho Perez','mamaracho@hotmail.com','$2y$10$ARJrzia0FZ3jil5FKTx2Ie466XN0nALtXP5ttUOcdRelVWEnhvYkW',88,'3344-5566','0','http://www.facebook.com/mamaracho','Hola que tal','M','Aleman',2,NULL,NULL),(8,'Administrador','admin@admin.com','$2y$10$CeFFG400yssdp70agHEqqODjHlqFLNbg2fwdAuIO3QFMSMaL9e/ue',30,'','Argentina','','','O','0',1,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -174,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-12 11:02:42
+-- Dump completed on 2018-08-12 20:56:45

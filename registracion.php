@@ -170,7 +170,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group <?= isset($errores['idioma']) ? 'has-error' : null ?>">
-									<label class="control-label">Idioma de Interés:*</label>
+									<label class="control-label">Idioma de Interés:</label>
 									<select class="form-control" name="idioma">
 											<option value="0">Elegí</option>
 											<?php foreach ($idiomas as $value): ?>

@@ -22,7 +22,7 @@
 	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
   // Variables para persistencia
-  $name = $usuario->getname();
+  $nombre = $usuario->getname();
 	$email = $usuario->getEmail();
 	$edad = $usuario->getAge();
 	$tel = $usuario->getTelephone();
@@ -224,6 +224,7 @@
 							</div>
 						</div> -->
 						<button class="btn btn-primary" type="submit">Guardar Cambios</button>
+						<a class="btn btn-danger" href="perfil.php">Cancelar</a>
         </fieldset>
       </form>
     </section>

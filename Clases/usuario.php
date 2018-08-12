@@ -26,7 +26,7 @@
     private $role_id;
     //private $photo;
 
-    public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language){
+    public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language, $role_id){
       $this->user_id = $user_id;
       $this->name = $name;
       $this->email = $email;
@@ -38,6 +38,7 @@
       $this->message = $message;
       $this->sex = $sex;
       $this->language = $language;
+      $this->role_id = $role_id;
       //$this->photo = $foto;
     }
 
@@ -98,8 +99,8 @@
       require_once("connect.php");
       try{
         $db = dbConnect();
-    		$query = "insert into tpi_db.users (name, email, password, age, telephone, country, website, message, sex, language)
-                  values ('{$this->name}', '{$this->email}', '{$this->pass}', '{$this->age}', '{$this->telephone}', '{$this->country}', '{$this->website}', '{$this->message}', '{$this->sex}', '{$this->language}')";
+    		$query = "insert into tpi_db.users (name, email, password, age, telephone, country, website, message, sex, language, role_id)
+                  values ('{$this->name}', '{$this->email}', '{$this->pass}', '{$this->age}', '{$this->telephone}', '{$this->country}', '{$this->website}', '{$this->message}', '{$this->sex}', '{$this->language}', '{$this->role_id}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){

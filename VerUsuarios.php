@@ -26,6 +26,7 @@
         <li value="<?=$unUsuario->getId()?>">Nombre: <?=$unUsuario->getName()?>; email: <?=$unUsuario->getEmail()?> </li>
         <a class="btn btn-info" href="UsuarioDetalle.php?email=<?=$unUsuario->getEmail()?>">VER</a>
       <?php endforeach;?>
-    </ul>
+    </ol>
+    <a class="btn btn-success" href="perfil.php">Volver</a>
   </body>
 </html>

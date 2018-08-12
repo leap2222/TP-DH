@@ -30,8 +30,8 @@
 			$errores['nombre'] = "Completa tu nombre";
 		}
 
-		if ($pais == '') {
-			$errores['pais'] = "Decime de donde sos";
+		if ($pais == '0') {
+			$errores['pais'] = "Debes elegir tu pais de procedencia";
 		}
 
 		if ($email == '') {
@@ -158,8 +158,9 @@
 		$mensaje = trim($_POST['mensaje']);
 		$sexo = trim($_POST['sexo']);
 		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
+		$role_id = 2;
 
-		$unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma);
+		$unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma, $role_id);
 		$unUsuario->Registrar();
 		return $unUsuario;
 	}
@@ -188,7 +189,7 @@
 
 			if($db = dbConnect()) {
 				//Ejecuto la lectura
-				$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language FROM tpi_db.users WHERE email like '{$email}'";
+				$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
 				$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 				$ConsultaALaBase->execute();
 				//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -199,7 +200,8 @@
 				$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 				if($unRegistro){
-					$unUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language']);
+					$unUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
+																		$unRegistro['role_id']);
 
 					return $unUsuario;
 				}
@@ -212,7 +214,7 @@
 
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language FROM tpi_db.users WHERE user_id = '{$id}'";
+			$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE user_id = '{$id}'";
 			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 			$ConsultaALaBase->execute();
 			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -223,7 +225,8 @@
 			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 			if($unRegistro){
-				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language']);
+				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
+																	$unRegistro['role_id']);
 				return $unUsuario;
 			}
 

@@ -11,7 +11,8 @@
 	 	exit;
 	}
   $usuario = traerPorId($_SESSION['id']);
-  $userIsAdmin = Usuarios::isAdmin($_SESSION['email']);
+  $userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
+
  ?>
 
 
@@ -27,11 +28,14 @@
       <ol name="events">
         <?php foreach($TodosLosEventos as $unEvento):?>
           <li value="<?=$unEvento->getName()?>"> Nombre: <?=$unEvento->getName()?>; Lugar del Encuentro: <?=$unEvento->getSite()?>; Idioma Preferido: <?=$unEvento->getLanguage()?> </li>
-          <?php if($userIsAdmin): ?>
-          <a class="btn btn-primary" href="EditarEvento.php?name=<?=$unEvento->getName()?>">EDITAR</a>
-        <?php endif; ?>
           <a class="btn btn-info" href="EventoDetalle.php?name=<?=$unEvento->getName()?>">VER</a>
+          <?php if($userIsAdmin): ?>
+            <a class="btn btn-primary" href="EditarEvento.php?name=<?=$unEvento->getName()?>">EDITAR</a>
+            <!-- <button class="btn btn-danger" name="delete">Eliminar</a> -->
+            <input type="button" class="btn btn-danger" name="borrar" value="Eliminar">
+          <?php endif; ?>
         <?php endforeach;?>
       </ol>
+      <a class="btn btn-success" href="perfil.php">Volver</a>
     </body>
   </html>

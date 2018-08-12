@@ -11,10 +11,13 @@
   require_once("Clases/Eventos.php");
   $datosEventos = Eventos::ObtenerTodos();
 
+  $status = estadosDeEvento();
+  $languages = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
   // Variables para persistencia
   $name = '';
   $site = '';
   $language = '';
+  $estado = '';
 
   $errores = [];
 
@@ -22,13 +25,14 @@
     $name = isset($_POST['name']) ? trim($_POST['name']) : "";
     $site = isset($_POST['site']) ? trim($_POST['site']) : "";
     $language = isset($_POST['language']) ? trim($_POST['language']) : "";
-
+    $estado = isset($_POST['estado']) ? trim($_POST['estado']) : "";
     // valido todo
     $errores = validarDatosEvento($_POST);
 
     if (empty($errores)){
 
       $unEvento = guardarEvento($_POST);
+      $unEvento->setStatus($estado);
       require_once("Clases/Eventos.php");
       Eventos::Guardar($unEvento);
     }
@@ -65,6 +69,9 @@
     					</span>
     				</div>
     			</div>
+        </div>
+        <br>
+        <div class="row">
     			<div class="col-sm-6">
     				<div class="form-group <?= isset($errores['site']) ? 'has-error' : null ?>">
     					<label class="control-label">Lugar de Encuentro*:</label>
@@ -76,21 +83,54 @@
              </div>
     				</div>
     			</div>
-  				<div class="row">
-  					<div class="col-sm-6">
-  						<div class="form-group <?= isset($errores['language']) ? 'has-error' : null ?>">
-  							<label class="control-label">Idioma Preferido*:</label>
-  							<input class="form-control" type="text" name="language" value="<?=$language?>">
-    							<span class="help-block" style="<?= !isset($errores['language']) ? 'display: none;' : ''; ?>">
-    								<b class="glyphicon glyphicon-exclamation-sign"></b>
-    								<?= isset($errores['language']) ? $errores['language'] : ''; ?>
-    							</span>
-    		        </div>
-    					</div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group <?= isset($errores['language']) ? 'has-error' : null ?>">
+                <label class="control-label">Idioma de Interés:</label>
+                <select class="form-control" name="language">
+                    <option value="0">Elegí</option>
+                    <?php foreach ($languages as $value): ?>
+                      <?php if ($value == $language): ?>
+                      <option selected value="<?=$value?>"><?=$value?></option>
+                      <?php else: ?>
+                      <option value="<?=$value?>"><?=$value?></option>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+                <span class="help-block" style="<?= !isset($errores['language']) ? 'display: none;' : ''; ?>">
+                  <b class="glyphicon glyphicon-exclamation-sign"></b>
+                  <?= isset($errores['language']) ? $errores['language'] : ''; ?>
+                </span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group <?= isset($errores['estado']) ? 'has-error' : null ?>">
+                <label class="control-label">Estado:</label>
+                <select class="form-control" name="estado">
+                    <option value="0">Estado:</option>
+                    <?php foreach ($status as $value): ?>
+                      <?php if ($value['value'] == $estado): ?>
+                      <option selected value="<?=$value['status_id']?>"><?=$value['value']?></option>
+                      <?php else: ?>
+                      <option value="<?=$value['status_id']?>"><?=$value['value']?></option>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+                <span class="help-block" style="<?= !isset($errores['estado']) ? 'display: none;' : ''; ?>">
+                  <b class="glyphicon glyphicon-exclamation-sign"></b>
+                  <?= isset($errores['estado']) ? $errores['estado'] : ''; ?>
+                </span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <button class="btn btn-primary" type="submit">Crear</button>
 
-              <button class="btn btn-primary" type="submit">Crear</button>
-              <!-- <input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO"> -->
-            </form>
-        </div>
+        </form>
+      </div>
   </body>
 </html>

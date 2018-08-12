@@ -19,6 +19,7 @@
   $name = $elEvento->getname();
   $site = $elEvento->getsite();
   $language = $elEvento->getlanguage();
+  $estado = $elEvento->getStatus();
 
   $errores = [];
 
@@ -26,6 +27,7 @@
     $name = isset($_POST['name']) ? trim($_POST['name']) : "";
     $site = isset($_POST['site']) ? trim($_POST['site']) : "";
     $language = isset($_POST['language']) ? trim($_POST['language']) : "";
+    $estado = isset($_POST['estado']) ? trim($_POST['estado']) : "";
 
     // valido todo
     $errores = validarDatosEventoParaEditar($_POST);
@@ -90,6 +92,18 @@
     		        </div>
     					</div>
     				</div>
+            <div class="row">
+    					<div class="col-sm-6">
+    						<div class="form-group <?= isset($errores['estado']) ? 'has-error' : null ?>">
+    							<label class="control-label">Estado*:</label>
+    							<input class="form-control" type="text" name="estado" value="<?=$estado?>">
+      							<span class="help-block" style="<?= !isset($errores['estado']) ? 'display: none;' : ''; ?>">
+      								<b class="glyphicon glyphicon-exclamation-sign"></b>
+      								<?= isset($errores['estado']) ? $errores['estado'] : ''; ?>
+      							</span>
+      		        </div>
+      					</div>
+      				</div>
             </form>
         </div>
         <a class="btn btn-success" href="VerEventos.php">Volver</a>

@@ -7,6 +7,7 @@
     private $name;
     private $site;
     private $language;
+    private $status;
 
 
     public function __construct($event_id, $name, $site, $language){
@@ -30,6 +31,14 @@
 
     public function getLanguage(){
       return $this->language;
+    }
+
+    public function getStatus(){
+      return $this->status;
+    }
+
+    public function setStatus($newStatus){
+      $this->status = $newStatus;
     }
 
     public function Guardar(){

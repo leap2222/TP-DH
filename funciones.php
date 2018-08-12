@@ -317,3 +317,20 @@
 		$unEvento->Guardar();
 		return $unEvento;
 	}
+
+
+	function estadosDeEvento(){
+
+		if($db = dbConnect()) {
+			//Ejecuto la lectura
+			$CadenaDeBusqueda = "SELECT status_id, value FROM event_status";
+			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+			$ConsultaALaBase->execute();
+			$resultados = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+			return $resultados;
+		} else {
+				echo "Conexion fallida";
+			}
+
+			return false;
+	}

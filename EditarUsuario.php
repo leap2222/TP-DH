@@ -183,6 +183,28 @@
 						</div>
 					</div>
 					<br>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group <?= isset($errores['idioma']) ? 'has-error' : null ?>">
+								<label class="control-label">Idioma de Interés:</label>
+								<select class="form-control" name="idioma">
+										<option value="0">Elegí</option>
+										<?php foreach ($idiomas as $value): ?>
+											<?php if ($value == $idioma): ?>
+											<option selected value="<?=$value?>"><?=$value?></option>
+											<?php else: ?>
+											<option value="<?=$value?>"><?=$value?></option>
+											<?php endif; ?>
+										<?php endforeach; ?>
+								</select>
+								<span class="help-block" style="<?= !isset($errores['idioma']) ? 'display: none;' : ''; ?>">
+									<b class="glyphicon glyphicon-exclamation-sign"></b>
+									<?= isset($errores['idioma']) ? $errores['idioma'] : ''; ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<br>
 						<div class="row">
 							<div class="col-sm-12">
 									<label>Género:</label>

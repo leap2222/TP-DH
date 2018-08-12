@@ -17,12 +17,12 @@
   $datosUsuarios = Usuarios::ObtenerTodos();
 
 	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
-	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
+	"Alemania", "Grecia", "Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
 	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
 	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
   // Variables para persistencia
-  $name = $usuario->getname();
+  $nombre = $usuario->getname();
 	$email = $usuario->getEmail();
 	$edad = $usuario->getAge();
 	$tel = $usuario->getTelephone();
@@ -51,18 +51,13 @@
     $errores = validar($_POST, 'avatar');
 
     if (empty($errores)){
-			// Borrar usuario anterior y volver a grabar.
-			//
-			//			borrarUsuario($email);
-			//
-			//		Falta resolver como borrar el usuario anterior y grabar la foto anterior
-			//		tambien si no la modifico.
+
       require_once("Clases/evento.php");
       $usuario->Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
     }
   } else {
 		// Cargar datos del usuario.
-		$usuario = traerPorId($_SESSION['id']);
+		$usuario = traerPorId($usuario->getId());
 
 		$nombre = $usuario->getname();
 		$email = $usuario->getEmail();
@@ -75,6 +70,7 @@
 		$idioma = $usuario->getLanguage();
 		//$photo = $usuario->getPhoto();
 	}
+
 ?>
 
 <!DOCTYPE html>
@@ -159,6 +155,27 @@
 						</div>
 					</div>
 					<br>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group <?= isset($errores['idioma']) ? 'has-error' : null ?>">
+								<label class="control-label">Idioma de Interés:</label>
+								<select class="form-control" name="idioma">
+										<option value="0">Elegí</option>
+										<?php foreach ($idiomas as $value): ?>
+											<?php if ($value == $idioma): ?>
+											<option selected value="<?=$value?>"><?=$value?></option>
+											<?php else: ?>
+											<option value="<?=$value?>"><?=$value?></option>
+											<?php endif; ?>
+										<?php endforeach; ?>
+								</select>
+								<span class="help-block" style="<?= !isset($errores['idioma']) ? 'display: none;' : ''; ?>">
+									<b class="glyphicon glyphicon-exclamation-sign"></b>
+									<?= isset($errores['idioma']) ? $errores['idioma'] : ''; ?>
+								</span>
+							</div>
+						</div>
+					</div>
 						<div class="row">
 							<div class="col-sm-12">
 									<label>Género:</label>
@@ -203,6 +220,7 @@
 						</div> -->
         </fieldset>
       </form>
+			<a class="btn btn-success" href="VerUsuarios.php">Volver</a>
     </section>
   </body>
 </html>

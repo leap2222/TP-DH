@@ -1,16 +1,5 @@
 <?php
-// `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-// -- `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-// `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-// `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-// `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-// `age` int(10) unsigned NOT NULL,
-// `telephone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-// `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-// `website` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-// `message` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-// `sex` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-// `language` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+
   class usuario{
     private $user_id;
     private $name;
@@ -148,6 +137,20 @@
 
       header('location: VerUsuarios.php');
       echo "Los datos se guardaron exitosamente !";
+      exit;
+    }
+
+    public function Eliminar(){
+      try{
+        $db = dbConnect();
+    		$query = "delete from users where user_id like '{$this->user_id}'";
+    		$ConsultaALaBase = $db->prepare($query);
+    		$ConsultaALaBase->execute();
+      }catch(PDOException $Exception){
+        echo $Exception->getMessage();
+      }
+
+      header('location: VerUsuarios.php');
       exit;
     }
   }

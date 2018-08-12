@@ -6,6 +6,15 @@
     public static $Cantidad;
     public static $TodosLosUsuarios;
 
+    public static function isAdmin($email){
+      foreach (Usuarios::ObtenerTodos() as $user) {
+        if($user->getEmail()==$email){
+          return ($user->getRole()==1);
+        }
+      }
+      return false;
+    }
+
     public static function Guardar($nuevoUsuario){
       self::$TodosLosUsuarios[] = $nuevoUsuario;
       header('location: index.php');

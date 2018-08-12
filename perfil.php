@@ -9,6 +9,7 @@
 	}
 
 	$usuario = traerPorId($_SESSION['id']);
+	$userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
 ?>
 
 <!DOCTYPE html>
@@ -51,12 +52,14 @@
 						</div>
 					</div>
 					<br><br>
+					<?php if($userIsAdmin): ?>
 					<div class="row">
 						<div class="col-sm-8">
 							<a class="btn btn-primary" href="CrearEvento.php">CARGAR EVENTO</a>
 						</div>
 					</div>
 					<br><br>
+					<?php endif; ?>
 					<a class="btn btn-warning" href="logout.php">CERRAR SESIÓN</a>
 					<a class="btn btn-primary" href="EditarUsuario.php?email=<?=$usuario->getEmail()?>">Editar Datos</a>
 					<br><br>

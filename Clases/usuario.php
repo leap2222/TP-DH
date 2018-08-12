@@ -23,6 +23,7 @@
     private $message;
     private $sex;
     private $language;
+    private $role_id;
     //private $photo;
 
     public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language){
@@ -82,6 +83,10 @@
 
     public function getLanguage(){
       return $this->language;
+    }
+
+    public function getRole(){
+      return $this->role_id;
     }
 
     // public function getPhoto(){

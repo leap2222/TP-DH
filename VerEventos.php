@@ -10,7 +10,8 @@
 	 	header('location: login.php');
 	 	exit;
 	}
-
+  $usuario = traerPorId($_SESSION['id']);
+  $userIsAdmin = Usuarios::isAdmin($_SESSION['email']);
  ?>
 
 
@@ -26,7 +27,9 @@
       <ol name="events">
         <?php foreach($TodosLosEventos as $unEvento):?>
           <li value="<?=$unEvento->getName()?>"> Nombre: <?=$unEvento->getName()?>; Lugar del Encuentro: <?=$unEvento->getSite()?>; Idioma Preferido: <?=$unEvento->getLanguage()?> </li>
+          <?php if($userIsAdmin): ?>
           <a class="btn btn-primary" href="EditarEvento.php?name=<?=$unEvento->getName()?>">EDITAR</a>
+        <?php endif; ?>
           <a class="btn btn-info" href="EventoDetalle.php?name=<?=$unEvento->getName()?>">VER</a>
         <?php endforeach;?>
       </ol>

@@ -25,17 +25,56 @@
     </head>
     <body>
       <label>Eventos: </label>
-      <ol name="events">
-        <?php foreach($TodosLosEventos as $unEvento):?>
-          <li value="<?=$unEvento->getName()?>"> Nombre: <?=$unEvento->getName()?>; Lugar del Encuentro: <?=$unEvento->getSite()?>; Idioma Preferido: <?=$unEvento->getLanguage()?> </li>
-          <a class="btn btn-info" href="EventoDetalle.php?name=<?=$unEvento->getName()?>">VER</a>
-          <?php if($userIsAdmin): ?>
-            <a class="btn btn-primary" href="EditarEvento.php?name=<?=$unEvento->getName()?>">EDITAR</a>
-            <!-- <button class="btn btn-danger" name="delete">Eliminar</a> -->
-            <input type="button" class="btn btn-danger" name="borrar" value="Eliminar">
-          <?php endif; ?>
-        <?php endforeach;?>
-      </ol>
+      <table class="table table-striped table-hover">
+          <thead>
+              <tr>
+                  <th>Nombre</th>
+                  <th>Lugar de Encuentro</th>
+                  <th>Idioma Preferido</th>
+                  <th>Acciones</th>
+              </tr>
+          </thead>
+          <tbody>
+          <?php foreach($TodosLosEventos as $unEvento): ?>
+          <tr>
+                  <td><?=$unEvento->getName();?></td>
+                  <td><?=$unEvento->getSite();?></td>
+                  <td><?=$unEvento->getLanguage();?></td>
+                  <td>
+                    <div class="d-flex justify-content-around">
+                      <form class="" action="EventoDetalle.php" method="get">
+                        <input hidden type="text" name="name" value="<?=$unEvento->getName();?>">
+                        <button type="submit" class="btn btn-info" name="">
+                          <span class="ion-edit" aria-hidden="true"></span>
+                          <span><strong>Ver</strong></span>
+                        </button>
+                      </form>
+
+                      <?php if ($userIsAdmin): ?>
+                        <form class="" action="EditarEvento.php" method="get">
+                          <input hidden type="text" name="name" value="<?=$unEvento->getName();?>">
+                          <button type="submit" class="btn btn-primary" name="">
+                            <span class="ion-edit" aria-hidden="true"></span>
+                            <span><strong>Modificar</strong></span>
+                          </button>
+                        </form>
+
+                        <form class="" action="deleteEvent.php" method="post">
+                          <input hidden type="text" name="id" value="<?=$unEvento->getId();?>">
+                            <button type="submit" class="btn btn-danger" name="">
+                              <span class="ion-android-delete" aria-hidden="true"></span>
+                              <span><strong>Eliminar</strong></span>
+                            </button>
+                        </form>
+                      <?php endif; ?>
+                    </td>
+              </tr>
+              <?php endforeach; ?>
+          </tbody>
+      </table>
+      <?php if($userIsAdmin):?>
+        <a class="btn btn-primary" href="CrearEvento.php">Nuevo Evento</a>
+      <?php endif; ?>
       <a class="btn btn-success" href="perfil.php">Volver</a>
     </body>
   </html>

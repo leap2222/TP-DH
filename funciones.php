@@ -263,7 +263,7 @@
 
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT site, language FROM events WHERE name like '{$name}'";
+			$CadenaDeBusqueda = "SELECT event_id, site, language FROM events WHERE name like '{$name}'";
 			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 			$ConsultaALaBase->execute();
 			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -274,7 +274,7 @@
 			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 			if($unRegistro){
-				$unEvento = new evento(null, $name, $unRegistro['site'], $unRegistro['language']);
+				$unEvento = new evento($unRegistro['event_id'], $name, $unRegistro['site'], $unRegistro['language']);
 				return $unEvento;
 			}
 

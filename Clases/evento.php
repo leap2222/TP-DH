@@ -64,10 +64,10 @@
       exit;
     }
 
-    public function Eliminar($name){
+    public function Eliminar(){
       try{
         $db = dbConnect();
-    		$query = "delete from events where name like '{$this->name}'";
+    		$query = "delete from events where event_id like '{$this->event_id}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){

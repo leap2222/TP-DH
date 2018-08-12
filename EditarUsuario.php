@@ -39,6 +39,8 @@
 
 		$nombre = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
 		$email = isset($_POST['email']) ? trim($_POST['email']) : "";
+		$pass = isset($_POST['pass']) ? trim($_POST['pass']) : "";
+		$passh = password_hash($pass, PASSWORD_DEFAULT);
 		$edad = isset($_POST['edad']) ? trim($_POST['edad']) : "";
 		$tel = isset($_POST['tel']) ? trim($_POST['tel']) : "";
 		$pais = isset($_POST['pais']) ? trim($_POST['pais']) : "";
@@ -58,7 +60,7 @@
 			//		Falta resolver como borrar el usuario anterior y grabar la foto anterior
 			//		tambien si no la modifico.
       require_once("Clases/evento.php");
-      $usuario->Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
+      $usuario->Actualizar($nombre, $email, $passh, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
     }
   } else {
 		// Cargar datos del usuario.

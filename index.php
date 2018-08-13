@@ -17,20 +17,23 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
   </head>
+
   <body>
 
-    <div class="container">
+		<div class="container">
+
+			<?php include 'header.php'; ?>
+
 			<?php if (!empty($errores)): ?>
 				<div class="div-errores alert alert-danger">
 					<ul>
 						<?php foreach ($errores as $value): ?>
-							<li><?=$value?></li>
+						<li><?=$value?></li>
 						<?php endforeach; ?>
 					</ul>
 				</div>
 			<?php endif; ?>
 
-			<?php include 'header.php'; ?>
 
       <!-- Fin de Cabecera con Barra de navegacion -->
 

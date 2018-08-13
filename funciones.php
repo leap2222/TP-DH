@@ -195,6 +195,7 @@
 				//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 			} else {
 					echo "Conexion fallida";
+					exit;
 				}
 
 				$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);

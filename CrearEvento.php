@@ -12,6 +12,7 @@
   $datosEventos = Eventos::ObtenerTodos();
 
   $status = estadosDeEvento();
+
   $languages = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
   // Variables para persistencia
   $name = '';
@@ -128,8 +129,8 @@
             </div>
           </div>
           <br>
+          <?php var_dump($value['status_id']); var_dump($value['value']); ?>
           <button class="btn btn-primary" type="submit">Crear</button>
-
         </form>
       </div>
   </body>

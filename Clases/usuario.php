@@ -14,6 +14,7 @@
     private $language;
     private $role_id;
     //private $photo;
+    private $inscripciones;
 
     public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language, $role_id){
       $this->user_id = $user_id;
@@ -29,6 +30,14 @@
       $this->language = $language;
       $this->role_id = $role_id;
       //$this->photo = $foto;
+    }
+
+    public setInscripcion($nuevaInscripcion){
+      $this->inscripciones[] = $nuevaInscripcion;
+    }
+
+    public getInscripciones(){
+      return $this->inscripciones;
     }
 
     public function getId(){

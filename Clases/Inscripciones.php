@@ -1,63 +1,61 @@
 <?php
-  
-  class Eventos {
-    public static $Cantidad;
-    public static $TodosLosEventos;
 
-    public static function Guardar($nuevoEvento){
-      self::$TodosLosEventos[] = $nuevoEvento;
+  class Inscripciones {
+    public static $Cantidad;
+    public static $TodasLasInscripciones;
+
+    public static function Guardar($nuevaInscripcion){
+      self::$TodasLasInscripciones[] = $nuevaInscripcion;
       header('location: perfil.php');
-      // echo "Pelicula Creada exitosamente !";
-      // exit;
     }
 
-    public static function ObtenerTodos() {
+    public static function ObtenerTodas() {
 
         //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
-        if (!isset(self::$TodosLosEventos)) {
+        if (!isset(self::$TodasLasInscripciones)) {
 
             //Me conecto a la base de datos
             require_once("connect.php");
             if($db = dbConnect()) {
               // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT event_id, name, site, language FROM tpi_db.events";
+              $CadenaDeBusqueda = "SELECT id, user_id, event_id FROM tpi_db.inscriptions";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
-              //$EventosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+              //$InscripcionesADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 
             } else {
                 echo "Conexion fallida";
               }
 
             //Declaro el array de objetos Pelicula
-            $EventosADevolver = array();
+            $InscripcionesADevolver = array();
 
             //Recorro cada registro que obtuve
             while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
 
                 //Instancio un objeto de tipo Pelicula
                 require_once("Clases/evento.php");
-                $UnEvento = new evento($UnRegistro['event_id'], $UnRegistro['name'], $UnRegistro['site'], $UnRegistro['language']);
+                $unaInscripcion = new inscripcion($UnRegistro['id'], $UnRegistro['user_id'], $UnRegistro['event_id']);
 
                 //Agrego el objeto Pelicula al array
-                $EventosADevolver[] = $UnEvento;
+                $InscripcionesADevolver[] = $unaInscripcion;
             }
 
             //Guardo las variables globales de la clase de entidad, para no tener que volverlas a llenar
-            self::$Cantidad = count($EventosADevolver);
-            self::$TodosLosEventos = $EventosADevolver;
+            self::$Cantidad = count($InscripcionesADevolver);
+            self::$TodasLasInscripciones = $InscripcionesADevolver;
 
         } else {
             //La lista ya había sido llenada con anterioridad, no la vuelvo a llenar
-            $EventosADevolver = self::$TodosLosEventos;
+            $InscripcionesADevolver = self::$TodasLasInscripciones;
         }
 
         //Devuelvo el array ya rellenado
-        return $EventosADevolver;
+        return $InscripcionesADevolver;
       }
 
       public static function getTodas(){
-        return self::$TodosLosEventos;
+        return self::$TodasLasInscripciones;
       }
   }
 

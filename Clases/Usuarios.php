@@ -1,6 +1,5 @@
 <?php
-// Tendrá un método que devuelve un array todos los nombres y mail de los usuarios
-// registrados (NO MOSTRAR DATOS SENSIBLES)
+
   class Usuarios {
 
     public static $Cantidad;

@@ -20,6 +20,7 @@
   $site = $elEvento->getsite();
   $language = $elEvento->getlanguage();
   $estado = $elEvento->getStatus();
+  var_dump($estado);
 
   $errores = [];
 

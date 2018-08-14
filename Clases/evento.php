@@ -8,6 +8,8 @@
     private $site;
     private $language;
     private $status;
+    private $inscripciones;
+    private $comentarios;
 
 
     public function __construct($event_id, $name, $site, $language){
@@ -39,6 +41,22 @@
 
     public function setStatus($newStatus){
       $this->status = $newStatus;
+    }
+
+    public setInscripcion($nuevaInscripcion){
+      $this->inscripciones[] = $nuevaInscripcion;
+    }
+
+    public getInscripciones(){
+      return $this->inscripciones;
+    }
+
+    public setComentario($unComentario){
+      $this->comentarios[] = $unComentario;
+    }
+
+    public getComentarios(){
+      return $this->$comentarios;
     }
 
     public function Guardar(){

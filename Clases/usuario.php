@@ -32,11 +32,11 @@
       //$this->photo = $foto;
     }
 
-    public setInscripcion($nuevaInscripcion){
+    public function setInscripcion($nuevaInscripcion){
       $this->inscripciones[] = $nuevaInscripcion;
     }
 
-    public getInscripciones(){
+    public function getInscripciones(){
       return $this->inscripciones;
     }
 

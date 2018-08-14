@@ -10,7 +10,7 @@
 	} else {
 		require_once("Clases/Usuarios.php");
 		$usuario = traerPorId($_SESSION['id']);
-		$datosUsuarios = Usuarios::ObtenerTodos();
+		//$datosUsuarios = Usuarios::ObtenerTodos();
 	}
 
 

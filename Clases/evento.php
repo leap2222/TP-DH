@@ -43,19 +43,19 @@
       $this->status = $newStatus;
     }
 
-    public setInscripcion($nuevaInscripcion){
+    public function setInscripcion($nuevaInscripcion){
       $this->inscripciones[] = $nuevaInscripcion;
     }
 
-    public getInscripciones(){
+    public function getInscripciones(){
       return $this->inscripciones;
     }
 
-    public setComentario($unComentario){
+    public function setComentario($unComentario){
       $this->comentarios[] = $unComentario;
     }
 
-    public getComentarios(){
+    public function getComentarios(){
       return $this->$comentarios;
     }
 

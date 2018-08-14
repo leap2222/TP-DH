@@ -7,14 +7,13 @@
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
+	} else {
+		require_once("Clases/Usuarios.php");
+		$usuario = traerPorId($_SESSION['id']);
+		$datosUsuarios = Usuarios::ObtenerTodos();
 	}
 
-  if($_GET['email']){
-    $usuario = buscarPorEmail($_GET['email']);
-  }
 
-  require_once("Clases/Usuarios.php");
-  $datosUsuarios = Usuarios::ObtenerTodos();
 
 	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
 	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",

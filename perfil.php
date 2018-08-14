@@ -61,7 +61,7 @@
 					<br><br>
 					<?php endif; ?>
 					<a class="btn btn-warning" href="logout.php">CERRAR SESIÓN</a>
-					<a class="btn btn-primary" href="EditarUsuario.php?email=<?=$usuario->getEmail()?>">Editar Datos</a>
+					<a class="btn btn-primary" href="EditarUsuario.php">Editar Datos</a>
 					<br><br>
 				</div>
 			</div>

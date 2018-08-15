@@ -108,5 +108,6 @@
             </form>
         </div>
         <a class="btn btn-success" href="VerEventos.php">Volver</a>
+        <a class="btn btn-success" href="inscribir.php?event_id = <?= $elEvento->getId() ?>">Asistiré</a> 
   </body>
 </html>

@@ -12,7 +12,7 @@
     $elEvento = buscarEvento($_GET['name']);
   }
 
-  require_once("Clases/Generos.php");
+  require_once("Clases/Eventos.php");
   $datosEventos = Eventos::ObtenerTodos();
 
   // Variables para persistencia

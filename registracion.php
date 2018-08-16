@@ -1,4 +1,7 @@
 <?php
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+
 	require_once('funciones.php');
 
 	// Si vengo del el perfil para editar.
@@ -12,7 +15,7 @@
 	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
 	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
 	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
-	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"]
+	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
 	$nombre = '';
 	$email = '';
@@ -48,7 +51,7 @@
 			//de $_POST y el avatar
 			$usuario = guardarUsuario($_POST, 'avatar');
 			// Logueo al usuario
-			$usuario->Loguear($_POST['email'], $_POST['pass']);
+			$usuario->Loguear($email, $_POST['pass']);
 
 		}
 	}
@@ -84,7 +87,7 @@
 						<div class="col-sm-12">
 							<div class="form-group <?= isset($errores['nombre']) ? 'has-error' : null ?>">
 								<label class="control-label">Nombre y Apellido:*</label>
-			          <input class="form-control" type="text" name="nombre" placeholder="Paco" value="<?=$nombre?>">
+			          <input class="form-control" type="text" name="nombre" placeholder="Pedro Pérez" value="<?=$nombre?>">
 								<span class="help-block" style="<?= !isset($errores['nombre']) ? 'display: none;' : ''; ?>">
 									<b class="glyphicon glyphicon-exclamation-sign"></b>
 									<?= isset($errores['nombre']) ? $errores['nombre'] : ''; ?>
@@ -161,12 +164,13 @@
 								</span>
 							</div>
 						</div>
+					</div>
 						<br>
 
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group <?= isset($errores['idioma']) ? 'has-error' : null ?>">
-									<label class="control-label">Idioma de Interés:*</label>
+									<label class="control-label">Idioma de Interés:</label>
 									<select class="form-control" name="idioma">
 											<option value="0">Elegí</option>
 											<?php foreach ($idiomas as $value): ?>
@@ -183,7 +187,8 @@
 									</span>
 								</div>
 							</div>
-							<br>
+						</div>
+						<br>
 
 						<div class="row">
 							<div class="col-sm-12">

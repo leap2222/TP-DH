@@ -1,4 +1,6 @@
 <?php
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
 	require_once('funciones.php');
 
 	if (estaLogueado()) {
@@ -13,24 +15,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/styles.css">
     <title>Multilanguage Meetings</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
   </head>
+
   <body>
 
-    <div class="container">
+		<div class="container">
+
+			<?php include 'header.php'; ?>
+
 			<?php if (!empty($errores)): ?>
 				<div class="div-errores alert alert-danger">
 					<ul>
 						<?php foreach ($errores as $value): ?>
-							<li><?=$value?></li>
+						<li><?=$value?></li>
 						<?php endforeach; ?>
 					</ul>
 				</div>
 			<?php endif; ?>
 
-			<?php include 'header.php'; ?>
 
       <!-- Fin de Cabecera con Barra de navegacion -->
 
@@ -52,7 +56,6 @@
 			<?php include 'footer.php' ?>
 
 
-		</header>
     </div>
   </body>
 </html>

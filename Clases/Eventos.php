@@ -1,65 +1,122 @@
 <?php
-  // Tendrá una función que devuelve un array con un objeto película para todas las
-  // películas que existen en la base.
+  require_once("connect.php");
+  require_once("Clases/evento.php");
+
   class Eventos {
     public static $Cantidad;
     public static $TodosLosEventos;
 
-    public static function Guardar($nuevoEvento){
-      self::$TodosLosEventos[] = $nuevoEvento;
-      header('location: home.php');
-      echo "Pelicula Creada exitosamente !";
+    public static function ObtenerTodos() {
+      //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
+      if (!isset(self::$TodosLosEventos)) {
+        //Me conecto a la base de datos
+        if($db = dbConnect()) {
+          $ConsultaALaBase = $db->prepare("SELECT id, name, site, language FROM tpi_db.events");
+          $ConsultaALaBase->execute();
+        } else {
+          echo "Conexion fallida";
+          exit;
+        }
+
+        $EventosADevolver = array();
+
+        //Recorro cada registro que obtuve
+        while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
+          $EventosADevolver[] = new evento($UnRegistro['id'], $UnRegistro['name'], $UnRegistro['site'], $UnRegistro['language']);
+        }
+
+        //Guardo los eventos para despues.
+        self::$Cantidad = count($EventosADevolver);
+        self::$TodosLosEventos = $EventosADevolver;
+        return self::$TodosLosEventos;
+      } else {
+        //La lista ya estaba cargada.
+        return self::$TodosLosEventos;
+      }
+    }
+  }
+
+
+/// funciones que no estan en la clase pero que habria que integrarlas.
+
+  function validarDatosEvento($data){
+    $errores = [];
+
+    $name = isset($data['name']) ? trim($data['name']) : "";
+    $site = isset($data['site']) ? trim($data['site']) : "0";
+    $language = isset($data['language']) ? trim($data['language']) : "0";
+
+    if ($name == ''){
+      $errores['name'] = "Completa el nombre del Evento";
+    }elseif (buscarEvento($name)) {
+      $errores['name'] = "Este Evento ya existe";
+    }
+
+    if($site == ''){
+      $errores['site'] = "Debe ingresar la dirección del lugar";
+    }
+
+    if($language == ''){
+      $errores['language'] = "Debe ingresar el idioma preferido del evento";
+    }
+
+    return $errores;
+  }
+
+
+  function buscarEvento($id){
+    if($db = dbConnect()) {
+      $ConsultaALaBase = $db->prepare("SELECT id, name, site, language FROM events WHERE id like :id");
+      $ConsultaALaBase->bindParam(':id', $id);
+      $ConsultaALaBase->execute();
+    } else {
+      echo "Conexion fallida";
       exit;
     }
 
-    public static function ObtenerTodas() {
+    $Registro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
-        //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
-        if (!isset(self::$TodosLosEventos)) {
+    if($Registro){
+      return new evento($Registro['id'], $Registro['name'], $Registro['site'], $Registro['language']);
+    }
 
-            //Me conecto a la base de datos
-            require_once("connect.php");
-            if($db = dbConnect()) {
-              // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT event_id, name, site, language FROM events";
-              $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-              $ConsultaALaBase->execute();
-              //$EventosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+    return false;
+  }
 
-            } else {
-                echo "Conexion fallida";
-              }
 
-            //Declaro el array de objetos Pelicula
-            $EventosADevolver = array();
+  function validarDatosEventoParaEditar($data){
+    $errores = [];
 
-            //Recorro cada registro que obtuve
-            while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
+    $name = isset($_POST['name']) ? trim($_POST['name']) : "";
+    $site = isset($_POST['site']) ? trim($_POST['site']) : "0";
+    $language = isset($_POST['language']) ? trim($_POST['language']) : "0";
 
-                //Instancio un objeto de tipo Pelicula
-                require_once("Clases/evento.php");
-                $UnEvento = new evento($UnRegistro['event_id'], $UnRegistro['name'], $UnRegistro['site'], $UnRegistro['language']);
+    if ($name == ''){
+      $errores['name'] = "Completa el nombre del Evento";
+    }
 
-                //Agrego el objeto Pelicula al array
-                $EventosADevolver[] = $UnEvento;
-            }
+    if($site == ''){
+      $errores['site'] = "Debe ingresar la dirección del Evento";
+    }
 
-            //Guardo las variables globales de la clase de entidad, para no tener que volverlas a llenar
-            self::$Cantidad = count($EventosADevolver);
-            self::$TodosLosEventos = $EventosADevolver;
+    if($language == ''){
+      $errores['language'] = "Debe ingresar el idioma del Evento";
+    }
 
-        } else {
-            //La lista ya había sido llenada con anterioridad, no la vuelvo a llenar
-            $EventosADevolver = self::$TodosLosEventos;
-        }
+    return $errores;
+  }
 
-        //Devuelvo el array ya rellenado
-        return $EventosADevolver;
-      }
+  function guardarEvento($data) {
+    $name = trim($data['name']);
+    $site = trim($data['site']);
+    $language = trim($data['language']);
 
-      public static function getTodas(){
-        return self::$TodosLosEventos;
-      }
+    //Crear el objeto
+    $unEvento = new evento(null, $name, $site, $language);
+
+    //Guardar en la Base
+    $unEvento->Guardar();
+    return $unEvento;
   }
 
 ?>

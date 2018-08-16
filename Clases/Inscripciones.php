@@ -1,0 +1,65 @@
+<?php
+
+  require_once("connect.php");
+  require_once("Clases/evento.php");
+
+  class Inscripciones {
+    public static $Cantidad;
+    public static $TodasLasInscripciones;
+
+    public static function Guardar($nuevaInscripcion){
+      self::$TodasLasInscripciones[] = $nuevaInscripcion;
+      header('location: perfil.php');
+      exit;
+    }
+
+    public static function ObtenerTodas() {
+
+        //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
+        if (!isset(self::$TodasLasInscripciones)) {
+
+            //Me conecto a la base de datos
+            if($db = dbConnect()) {
+              // Ejecuto la lectura
+              $CadenaDeBusqueda = "SELECT id, user_id, event_id FROM tpi_db.inscriptions";
+              $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+              $ConsultaALaBase->execute();
+
+            } else {
+              echo "Conexion fallida";
+              exit;
+            }
+
+            //Declaro el array de objetos Pelicula
+            $InscripcionesADevolver = array();
+
+
+            //Recorro cada registro que obtuve
+            while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
+
+                //Instancio un objeto de tipo Pelicula
+                $unaInscripcion = new inscripcion($UnRegistro['id'], $UnRegistro['user_id'], $UnRegistro['event_id']);
+
+                //Agrego el objeto Pelicula al array
+                $InscripcionesADevolver[] = $unaInscripcion;
+            }
+
+            //Guardo las variables globales de la clase de entidad, para no tener que volverlas a llenar
+            self::$Cantidad = count($InscripcionesADevolver);
+            self::$TodasLasInscripciones = $InscripcionesADevolver;
+
+        } else {
+            //La lista ya había sido llenada con anterioridad, no la vuelvo a llenar
+            $InscripcionesADevolver = self::$TodasLasInscripciones;
+        }
+
+        //Devuelvo el array ya rellenado
+        return $InscripcionesADevolver;
+      }
+
+      public static function getTodas(){
+        return self::$TodasLasInscripciones;
+      }
+  }
+
+?>

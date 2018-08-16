@@ -3,18 +3,19 @@
   ini_set('display_errors', 1);
 
   require_once("funciones.php");
+  require_once("Clases/Eventos.php");
+
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
 	}
 
-  require_once("Clases/Eventos.php");
-  $datosEventos = Eventos::ObtenerTodos();
-
+  $languages = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
   // Variables para persistencia
   $name = '';
   $site = '';
   $language = '';
+  $status = '';
 
   $errores = [];
 
@@ -22,14 +23,14 @@
     $name = isset($_POST['name']) ? trim($_POST['name']) : "";
     $site = isset($_POST['site']) ? trim($_POST['site']) : "";
     $language = isset($_POST['language']) ? trim($_POST['language']) : "";
-
+    $status = isset($_POST['status']) ? trim($_POST['status']) : "";
     // valido todo
     $errores = validarDatosEvento($_POST);
 
     if (empty($errores)){
 
       $unEvento = guardarEvento($_POST);
-      require_once("Clases/Eventos.php");
+      $unEvento->setStatus($status);
       Eventos::Guardar($unEvento);
     }
   }
@@ -65,6 +66,9 @@
     					</span>
     				</div>
     			</div>
+        </div>
+        <br>
+        <div class="row">
     			<div class="col-sm-6">
     				<div class="form-group <?= isset($errores['site']) ? 'has-error' : null ?>">
     					<label class="control-label">Lugar de Encuentro*:</label>
@@ -76,21 +80,44 @@
              </div>
     				</div>
     			</div>
-  				<div class="row">
-  					<div class="col-sm-6">
-  						<div class="form-group <?= isset($errores['language']) ? 'has-error' : null ?>">
-  							<label class="control-label">Idioma Preferido*:</label>
-  							<input class="form-control" type="text" name="language" value="<?=$language?>">
-    							<span class="help-block" style="<?= !isset($errores['language']) ? 'display: none;' : ''; ?>">
-    								<b class="glyphicon glyphicon-exclamation-sign"></b>
-    								<?= isset($errores['language']) ? $errores['language'] : ''; ?>
-    							</span>
-    		        </div>
-    					</div>
-
-              <button class="btn btn-primary" type="submit">Crear</button>
-              <!-- <input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO"> -->
-            </form>
-        </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group <?= isset($errores['language']) ? 'has-error' : null ?>">
+                <label class="control-label">Idioma de Interés:</label>
+                <select class="form-control" name="language">
+                    <option value="0">Elegí</option>
+                    <?php foreach ($languages as $value): ?>
+                      <?php if ($value == $language): ?>
+                      <option selected value="<?=$value?>"><?=$value?></option>
+                      <?php else: ?>
+                      <option value="<?=$value?>"><?=$value?></option>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+                <span class="help-block" style="<?= !isset($errores['language']) ? 'display: none;' : ''; ?>">
+                  <b class="glyphicon glyphicon-exclamation-sign"></b>
+                  <?= isset($errores['language']) ? $errores['language'] : ''; ?>
+                </span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group <?= isset($errores['status']) ? 'has-error' : null ?>">
+                <label class="control-label">Estado:</label>
+                <input class="form-control" type="text" name="site" value="<?=$site?>">
+    						<span class="help-block" style="<?= !isset($errores['status']) ? 'display: none;' : ''; ?>">
+    							<b class="glyphicon glyphicon-exclamation-sign"></b>
+    							<?= isset($errores['status']) ? $errores['status'] : ''; ?>
+    						</span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <button class="btn btn-primary" type="submit">Crear</button>
+        </form>
+      </div>
   </body>
 </html>

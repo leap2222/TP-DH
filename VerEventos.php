@@ -4,32 +4,73 @@
 
   require_once("funciones.php");
   require_once("Clases/Eventos.php");
-  $TodosLosEventos = Eventos::ObtenerTodos();
 
-  if (!estaLogueado()) {
+  if(!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
 	}
 
- ?>
+  $usuario = traerPorId($_SESSION['id']);
+?>
 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Ver Eventos</title>
+  </head>
 
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <title></title>
-    </head>
-    <body>
-      <label>Eventos: </label>
+  <body>
+    <?php require_once("header.php"); ?>
 
-      <ol name="movies">
-        <?php foreach($TodosLosEventos as $unEvento):?>
-          <li value="<?=$unEvento->getName()?>"> Nombre: <?=$unEvento->getName()?>; Lugar del Encuentro: <?=$unEvento->getSite()?>; Idioma Preferido: <?=$unEvento->getLanguage()?> </li>
-          <a class="btn btn-primary" href="EditarEvento.php?name=<?=$unEvento->getName()?>">EDITAR</a>
-        <?php endforeach;?>
-      </ol>
+    <h1>Eventos</h1>
 
-    </body>
-  </html>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Lugar de Encuentro</th>
+          <th>Idioma Preferido</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <?php foreach(Eventos::ObtenerTodos() as $unEvento): ?>
+          <tr>
+            <td><?=$unEvento->getName();?></td>
+            <td><?=$unEvento->getSite();?></td>
+            <td><?=$unEvento->getLanguage();?></td>
+            <td>
+              <div class="d-flex justify-content-around">
+                <a class="btn btn-primary" href="EventoDetalle.php?id=<?=$unEvento->getId();?>">Ver</a>
+
+                <!-- Editar y Borrar si sos administrador -->
+                <?php if ($usuario->isAdmin()): ?>
+                  <a class="btn btn-success" href="EditarDetalle.php?id=<?=$unEvento->getId();?>">Modificar</a>
+
+                  <a class="btn btn-danger" href="deleteEvent.php?id=<?=$unEvento->getId();?>">Eliminar</a>
+                <?php endif; ?>
+                <!-- -->
+
+              </div>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+
+    <div>
+      <?php if($usuario->isAdmin()):?>
+        <a class="btn btn-primary" href="CrearEvento.php">Nuevo Evento</a>
+      <?php endif; ?>
+
+      <a class="btn btn-success" href="perfil.php">Volver</a>
+    </div>
+
+    <?php require_once("footer.php"); ?>
+
+  </body>
+</html>

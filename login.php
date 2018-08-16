@@ -11,6 +11,7 @@
 
 	$email = '';
 	$errores = [];
+	$usuario = null;
 
 	if ($_POST) {
 		$email = trim($_POST['email']);
@@ -54,7 +55,6 @@
 			<?php include 'header.php'; ?>
 
       <!-- Fin de Cabecera con Barra de navegacion -->
-
 
       <div class="data-form">
         <form method="post" enctype="multipart/form-data">

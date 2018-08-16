@@ -3,7 +3,7 @@
 	function dbConnect(){
 		$ruta = 'mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306';
 		$usuario = 'root';
-		$password = 'root';
+		$password = '';
 		$opciones = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
 
 		try {

@@ -21,7 +21,7 @@
 		//$apellido = trim($data['apellido']);
 		$email = trim($data['email']);
 		$pais = trim($data['pais']);
-		$sexo = trim($data['sexo']);
+		$sexo = isset($_POST['sexo']) ? trim($data['sexo']) : "";
 		$pass = trim($data['pass']);
 		$rpass = trim($data['rpass']);
 

@@ -40,7 +40,8 @@
 		$idioma = trim($_POST['idioma']);
 		$website = trim($_POST['website']);
 		$mensaje = trim($_POST['mensaje']);
-		$sexo = trim($_POST['sexo']);
+		$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
+		//$sexo = $_POST['sexo'] ?? "";
 
 		// valido todo
 		$errores = validar($_POST, 'avatar');

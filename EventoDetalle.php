@@ -20,7 +20,6 @@
   $site = $elEvento->getsite();
   $language = $elEvento->getlanguage();
   $estado = $elEvento->getStatus();
-  var_dump($estado);
 
   $errores = [];
 
@@ -108,6 +107,8 @@
             </form>
         </div>
         <a class="btn btn-success" href="VerEventos.php">Volver</a>
-        <a class="btn btn-success" href="inscribir.php?event_id = <?= $elEvento->getId() ?>">Asistiré</a> 
+
+        <a class="btn btn-success" href="inscribir.php?event_id = <?= $elEvento->getId() ?>">Asistiré</a>
+
   </body>
 </html>

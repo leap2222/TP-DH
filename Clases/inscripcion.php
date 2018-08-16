@@ -13,7 +13,7 @@
       $this->user_id = $user_id;
     }
 
-    public function InscriptionId(){
+    public function getInscriptionId(){
       return $this->id;
     }
 

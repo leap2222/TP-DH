@@ -16,7 +16,7 @@
 	if ($_POST) {
 		$email = trim($_POST['email']);
 		$clave = $_POST['pass'];
-		$recordar = $_POST['recordar'];
+		$recordar = isset($_POST['recordar']) ? trim($_POST['recordar']) : "";
 
 		$errores = validarLogin($_POST);
 
@@ -50,7 +50,7 @@
 						<?php endforeach; ?>
 					</ul>
 				</div>
-			<?php endif; ?>
+			<?php endif;?>
 
 			<?php include 'header.php'; ?>
 

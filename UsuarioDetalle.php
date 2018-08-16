@@ -3,7 +3,9 @@
   ini_set('display_errors', 1);
 
   require_once("funciones.php");
-	// Si vengo del perfil para editar.
+	require_once("Clases/Usuarios.php");
+	require_once("Clases/evento.php");
+
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
@@ -12,9 +14,6 @@
   if($_GET['email']){
     $usuario = buscarPorEmail($_GET['email']);
   }
-
-  require_once("Clases/Usuarios.php");
-  $datosUsuarios = Usuarios::ObtenerTodos();
 
 	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
 	"Alemania", "Grecia", "Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
@@ -52,7 +51,6 @@
 
     if (empty($errores)){
 
-      require_once("Clases/evento.php");
       $usuario->Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
     }
   } else {
@@ -92,10 +90,12 @@
 				</ul>
 			</div>
 		<?php endif; ?>
+
 		<h1 align="center">
       <strong>Informacion del Usuario</strong>
     </h1>
-    <section class="registracion">
+
+	  <section class="registracion">
 			<form method="post" enctype="multipart/form-data">
         <fieldset>
           <legend>Datos personales</legend>

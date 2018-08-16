@@ -3,22 +3,19 @@
   ini_set('display_errors', 1);
 
   require_once("funciones.php");
+  require_once("Clases/Eventos.php");
+
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
 	}
-
-  require_once("Clases/Eventos.php");
-  $datosEventos = Eventos::ObtenerTodos();
-
-  $status = estadosDeEvento();
 
   $languages = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
   // Variables para persistencia
   $name = '';
   $site = '';
   $language = '';
-  $estado = '';
+  $status = '';
 
   $errores = [];
 
@@ -26,15 +23,14 @@
     $name = isset($_POST['name']) ? trim($_POST['name']) : "";
     $site = isset($_POST['site']) ? trim($_POST['site']) : "";
     $language = isset($_POST['language']) ? trim($_POST['language']) : "";
-    $estado = isset($_POST['estado']) ? trim($_POST['estado']) : "";
+    $status = isset($_POST['status']) ? trim($_POST['status']) : "";
     // valido todo
     $errores = validarDatosEvento($_POST);
 
     if (empty($errores)){
 
       $unEvento = guardarEvento($_POST);
-      $unEvento->setStatus($estado);
-      require_once("Clases/Eventos.php");
+      $unEvento->setStatus($status);
       Eventos::Guardar($unEvento);
     }
   }
@@ -109,27 +105,17 @@
           <br>
           <div class="row">
             <div class="col-sm-6">
-              <div class="form-group <?= isset($errores['estado']) ? 'has-error' : null ?>">
+              <div class="form-group <?= isset($errores['status']) ? 'has-error' : null ?>">
                 <label class="control-label">Estado:</label>
-                <select class="form-control" name="estado">
-                    <option value="0">Estado:</option>
-                    <?php foreach ($status as $value): ?>
-                      <?php if ($value['value'] == $estado): ?>
-                      <option selected value="<?=$value['status_id']?>"><?=$value['value']?></option>
-                      <?php else: ?>
-                      <option value="<?=$value['status_id']?>"><?=$value['value']?></option>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
-                </select>
-                <span class="help-block" style="<?= !isset($errores['estado']) ? 'display: none;' : ''; ?>">
-                  <b class="glyphicon glyphicon-exclamation-sign"></b>
-                  <?= isset($errores['estado']) ? $errores['estado'] : ''; ?>
-                </span>
+                <input class="form-control" type="text" name="site" value="<?=$site?>">
+    						<span class="help-block" style="<?= !isset($errores['status']) ? 'display: none;' : ''; ?>">
+    							<b class="glyphicon glyphicon-exclamation-sign"></b>
+    							<?= isset($errores['status']) ? $errores['status'] : ''; ?>
+    						</span>
               </div>
             </div>
           </div>
           <br>
-          <?php var_dump($value['status_id']); var_dump($value['value']); ?>
           <button class="btn btn-primary" type="submit">Crear</button>
         </form>
       </div>

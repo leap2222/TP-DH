@@ -189,8 +189,9 @@
 
 			if($db = dbConnect()) {
 				//Ejecuto la lectura
-				$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
+				$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like :email";
 				$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+				$ConsultaALaBase->bindParam(':email', $email);
 				$ConsultaALaBase->execute();
 				//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 			} else {
@@ -260,26 +261,24 @@
 	}
 
 
-	function buscarEvento($name){
-
+	function buscarEvento($id){
 		if($db = dbConnect()) {
-			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT event_id, site, language FROM events WHERE name like '{$name}'";
-			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+			$ConsultaALaBase = $db->prepare("SELECT id, site, language FROM events WHERE id like :id");
+			$ConsultaALaBase->bindParam(':id', $id);
 			$ConsultaALaBase->execute();
-			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 		} else {
-				echo "Conexion fallida";
-			}
+			echo "Conexion fallida";
+			exit;
+		}
 
-			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+		$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
-			if($unRegistro){
-				$unEvento = new evento($unRegistro['event_id'], $name, $unRegistro['site'], $unRegistro['language']);
-				return $unEvento;
-			}
+		if($unRegistro){
+			$unEvento = new evento($unRegistro['id'], $name, $unRegistro['site'], $unRegistro['language']);
+			return $unEvento;
+		}
 
-			return false;
+		return false;
 	}
 
 
@@ -314,24 +313,8 @@
 
 		//Crear el objeto
 		$unEvento = new evento(null, $name, $site, $language);
+
 		//Guardar en la Base
 		$unEvento->Guardar();
 		return $unEvento;
-	}
-
-
-	function estadosDeEvento(){
-
-		if($db = dbConnect()) {
-			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT status_id, value FROM event_status";
-			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-			$ConsultaALaBase->execute();
-			$resultados = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-			return $resultados;
-		} else {
-				echo "Conexion fallida";
-			}
-
-			return false;
 	}

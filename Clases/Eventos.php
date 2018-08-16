@@ -1,64 +1,38 @@
 <?php
-  
+  require_once("connect.php");
+  require_once("Clases/evento.php");
+
   class Eventos {
     public static $Cantidad;
     public static $TodosLosEventos;
 
-    public static function Guardar($nuevoEvento){
-      self::$TodosLosEventos[] = $nuevoEvento;
-      header('location: perfil.php');
-      // echo "Pelicula Creada exitosamente !";
-      // exit;
-    }
-
     public static function ObtenerTodos() {
-
-        //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
-        if (!isset(self::$TodosLosEventos)) {
-
-            //Me conecto a la base de datos
-            require_once("connect.php");
-            if($db = dbConnect()) {
-              // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT event_id, name, site, language FROM tpi_db.events";
-              $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-              $ConsultaALaBase->execute();
-              //$EventosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-
-            } else {
-                echo "Conexion fallida";
-              }
-
-            //Declaro el array de objetos Pelicula
-            $EventosADevolver = array();
-
-            //Recorro cada registro que obtuve
-            while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
-
-                //Instancio un objeto de tipo Pelicula
-                require_once("Clases/evento.php");
-                $UnEvento = new evento($UnRegistro['event_id'], $UnRegistro['name'], $UnRegistro['site'], $UnRegistro['language']);
-
-                //Agrego el objeto Pelicula al array
-                $EventosADevolver[] = $UnEvento;
-            }
-
-            //Guardo las variables globales de la clase de entidad, para no tener que volverlas a llenar
-            self::$Cantidad = count($EventosADevolver);
-            self::$TodosLosEventos = $EventosADevolver;
-
+      //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
+      if (!isset(self::$TodosLosEventos)) {
+        //Me conecto a la base de datos
+        if($db = dbConnect()) {
+          $ConsultaALaBase = $db->prepare("SELECT id, name, site, language FROM tpi_db.events");
+          $ConsultaALaBase->execute();
         } else {
-            //La lista ya había sido llenada con anterioridad, no la vuelvo a llenar
-            $EventosADevolver = self::$TodosLosEventos;
+          echo "Conexion fallida";
+          exit;
         }
 
-        //Devuelvo el array ya rellenado
-        return $EventosADevolver;
-      }
+        $EventosADevolver = array();
 
-      public static function getTodas(){
+        //Recorro cada registro que obtuve
+        while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
+          $EventosADevolver[] = new evento($UnRegistro['id'], $UnRegistro['name'], $UnRegistro['site'], $UnRegistro['language']);
+        }
+
+        //Guardo los eventos para despues.
+        self::$Cantidad = count($EventosADevolver);
+        self::$TodosLosEventos = $EventosADevolver;
+        return self::$TodosLosEventos;
+      } else {
+        //La lista ya estaba cargada.
         return self::$TodosLosEventos;
       }
+    }
   }
-
 ?>

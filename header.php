@@ -1,4 +1,5 @@
 <?php require_once("funciones.php"); ?>
+
 <div class="row">
   <div class="col-sm-8">
     <div class="form-group">
@@ -10,14 +11,15 @@
         <h1><a href="index.php">Multilanguage Meetings</a></h1>
 
         <div>
+
         <?php if(estaLogueado()): ?>
           <?php $usuario = traerPorId($_SESSION['id']); ?>
-                <a href=perfil.php> Hola <?= $usuario->getName() ?> </a>
+                <a href=perfil.php><?= $usuario->getName() ?> </a>
                 <br>
-                <a href=logout.php>Salir</a>
+                (<a href=logout.php>Salir</a>)
         <?php else: ?>
                 <a href=login.php>Ingresar</a>
-        <?php endif;?>
+        <?php endif; ?>
         </div>
 
         <a href="#" class="toggle-nav">

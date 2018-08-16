@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css?family=Pattaya');
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 @import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow');
+@import "bootstrap.min.css";
 
 * {
   box-sizing: border-box;

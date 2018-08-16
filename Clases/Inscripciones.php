@@ -1,5 +1,8 @@
 <?php
 
+  require_once("connect.php");
+  require_once("Clases/evento.php");
+
   class Inscripciones {
     public static $Cantidad;
     public static $TodasLasInscripciones;
@@ -7,6 +10,7 @@
     public static function Guardar($nuevaInscripcion){
       self::$TodasLasInscripciones[] = $nuevaInscripcion;
       header('location: perfil.php');
+      exit;
     }
 
     public static function ObtenerTodas() {
@@ -15,26 +19,25 @@
         if (!isset(self::$TodasLasInscripciones)) {
 
             //Me conecto a la base de datos
-            require_once("connect.php");
             if($db = dbConnect()) {
               // Ejecuto la lectura
               $CadenaDeBusqueda = "SELECT id, user_id, event_id FROM tpi_db.inscriptions";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
-              //$InscripcionesADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 
             } else {
-                echo "Conexion fallida";
-              }
+              echo "Conexion fallida";
+              exit;
+            }
 
             //Declaro el array de objetos Pelicula
             $InscripcionesADevolver = array();
+
 
             //Recorro cada registro que obtuve
             while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
 
                 //Instancio un objeto de tipo Pelicula
-                require_once("Clases/evento.php");
                 $unaInscripcion = new inscripcion($UnRegistro['id'], $UnRegistro['user_id'], $UnRegistro['event_id']);
 
                 //Agrego el objeto Pelicula al array

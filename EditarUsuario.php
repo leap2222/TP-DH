@@ -3,14 +3,15 @@
   ini_set('display_errors', 1);
 
   require_once("funciones.php");
+	require_once("Clases/evento.php");
+	require_once("Clases/Usuarios.php");
+
 	// Si vengo del perfil para editar.
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
 	} else {
-		require_once("Clases/Usuarios.php");
 		$usuario = traerPorId($_SESSION['id']);
-		//$datosUsuarios = Usuarios::ObtenerTodos();
 	}
 
 
@@ -51,14 +52,7 @@
     // valido todo
     $errores = validar($_POST, 'avatar');
 
-    if (empty($errores)){
-			// Borrar usuario anterior y volver a grabar.
-			//
-			//			borrarUsuario($email);
-			//
-			//		Falta resolver como borrar el usuario anterior y grabar la foto anterior
-			//		tambien si no la modifico.
-      require_once("Clases/evento.php");
+    if(empty($errores)){
       $usuario->Actualizar($nombre, $email, $passh, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
     }
   } else {

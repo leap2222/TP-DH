@@ -29,8 +29,8 @@
     public function Guardar(){
       try{
         $db = dbConnect();
-    		$query = "insert into tpi_db.inscriptions (user_id, event_id)
-                  values ('{$this->event_id}', '{$this->user_id}')";
+    		$query = "INSERT into tpi_db.inscriptions (user_id, event_id)
+                  values ('{$this->user_id}', '{$this->event_id}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
@@ -38,11 +38,12 @@
       }
     }
 
+
     public function Actualizar($event_id, $user_id){
       try{
         $db = dbConnect();
-    		$query = "update inscriptions set event_id = '{$event_id}', user_id = '{$user_id}'
-                  where event_id like '{$this->event_id}'";
+    		$query = "UPDATE inscriptions set event_id = '{$event_id}', user_id = '{$user_id}'
+                  where event_id = '{$this->event_id}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
@@ -58,14 +59,14 @@
     public function Eliminar(){
       try{
         $db = dbConnect();
-    		$query = "delete from inscriptions where event_id like '{$this->event_id}'";
+    		$query = "DELETE from inscriptions where event_id = '{$this->event_id}' and user_id = '{$this->user_id}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
       }
 
-      header('location: VerInscripciones.php');
+      header('location: EventoDetalle.php');
       exit;
     }
   }

@@ -32,14 +32,6 @@
       //$this->photo = $foto;
     }
 
-    public function setInscripcion($nuevaInscripcion){
-      $this->inscripciones[] = $nuevaInscripcion;
-    }
-
-    public function getInscripciones(){
-      return $this->inscripciones;
-    }
-
     public function getId(){
       return $this->user_id;
     }
@@ -91,6 +83,14 @@
     // public function getPhoto(){
     //   $this->photo = $foto;
     // }
+
+    public function setInscripcion($nuevaInscripcion){
+      $this->inscripciones[] = $nuevaInscripcion;
+    }
+
+    public function getInscripciones(){
+      return $this->inscripciones; //si esta seteado, si no levantar de la base
+    }
 
     public function Registrar(){
 

@@ -10,7 +10,7 @@
 	 	header('location: login.php');
 	 	exit;
 	}
-  $usuario = traerPorId($_SESSION['id']);
+  $usuario = traerUsuarioPorId($_SESSION['id']);
   $userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
 ?>
 

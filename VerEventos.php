@@ -10,7 +10,7 @@
 	 	header('location: login.php');
 	 	exit;
 	}
-  $usuario = traerPorId($_SESSION['id']);
+  $usuario = traerUsuarioPorId($_SESSION['id']);
   $userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
 
  ?>
@@ -43,7 +43,7 @@
                   <td>
                     <div class="d-flex justify-content-around">
                       <form class="" action="EventoDetalle.php" method="get">
-                        <input hidden type="text" name="name" value="<?=$unEvento->getName();?>">
+                        <input hidden type="text" name="id" value="<?=$unEvento->getId();?>">
                         <button type="submit" class="btn btn-info" name="">
                           <span class="ion-edit" aria-hidden="true"></span>
                           <span><strong>Ver</strong></span>
@@ -52,7 +52,7 @@
 
                       <?php if ($userIsAdmin): ?>
                         <form class="" action="EditarEvento.php" method="get">
-                          <input hidden type="text" name="name" value="<?=$unEvento->getName();?>">
+                          <input hidden type="text" name="id" value="<?=$unEvento->getId();?>">
                           <button type="submit" class="btn btn-primary" name="">
                             <span class="ion-edit" aria-hidden="true"></span>
                             <span><strong>Modificar</strong></span>

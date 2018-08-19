@@ -11,7 +11,7 @@
 
         <div>
         <?php if(estaLogueado()): ?>
-          <?php $usuario = traerPorId($_SESSION['id']); ?>
+          <?php $usuario = traerUsuarioPorId($_SESSION['id']); ?>
                 <a href=perfil.php> Hola <?= $usuario->getName() ?> </a>
                 <br>
                 <a href=logout.php>Salir</a>

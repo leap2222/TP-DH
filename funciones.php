@@ -211,7 +211,7 @@
 	}
 
 
-	function traerPorId($id){
+	function traerUsuarioPorId($id){
 
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
@@ -229,6 +229,29 @@
 				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
 																	$unRegistro['role_id']);
 				return $unUsuario;
+			}
+
+			return false;
+	}
+
+
+	function traerEventoPorId($id){
+
+		if($db = dbConnect()) {
+			//Ejecuto la lectura
+			$CadenaDeBusqueda = "SELECT name, site, language FROM tpi_db.events WHERE event_id = '{$id}'";
+			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+			$ConsultaALaBase->execute();
+			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+		} else {
+				echo "Conexion fallida";
+			}
+
+			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+
+			if(isset($unRegistro)){
+				$unEvento = new evento($id, $unRegistro['name'], $unRegistro['site'], $unRegistro['language']);
+				return $unEvento;
 			}
 
 			return false;

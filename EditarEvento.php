@@ -8,8 +8,8 @@
 	 	exit;
 	}
 
-  if($_GET['name']){
-    $elEvento = buscarEvento($_GET['name']);
+  if($_GET['id']){
+    $elEvento = traerEventoPorId($_GET['id']);
   }
 
   require_once("Clases/Eventos.php");

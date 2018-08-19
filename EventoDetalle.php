@@ -3,40 +3,42 @@
   ini_set('display_errors', 1);
 
   require_once("funciones.php");
+  require_once("Clases/evento.php");
+
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
 	}
 
-  if($_GET['name']){
-    $elEvento = buscarEvento($_GET['name']);
+  if(isset($_GET['id'])){
+
+    require_once("Clases/Inscripciones.php");
+    $usuariosInscriptos = Inscripciones::ObtenerTodas($_GET['id']);
+
+    $elEvento = traerEventoPorId($_GET['id']);
+    // Variables para persistencia
+    $name = $elEvento->getName();
+    $site = $elEvento->getSite();
+    $language = $elEvento->getLanguage();
+    $estado = $elEvento->getStatus();
   }
 
-  require_once("Clases/Eventos.php");
-  $datosEventos = Eventos::ObtenerTodos();
-
-  // Variables para persistencia
-  $name = $elEvento->getname();
-  $site = $elEvento->getsite();
-  $language = $elEvento->getlanguage();
-  $estado = $elEvento->getStatus();
-
-  $errores = [];
-
-  if ($_POST) {
-    $name = isset($_POST['name']) ? trim($_POST['name']) : "";
-    $site = isset($_POST['site']) ? trim($_POST['site']) : "";
-    $language = isset($_POST['language']) ? trim($_POST['language']) : "";
-    $estado = isset($_POST['estado']) ? trim($_POST['estado']) : "";
-
-    // valido todo
-    $errores = validarDatosEventoParaEditar($_POST);
-
-    if (empty($errores)){
-      require_once("Clases/evento.php");
-      $elEvento->Actualizar($name, $site, $language);
-    }
-  }
+  // $errores = [];
+  //
+  // if ($_POST) {
+  //   $name = isset($_POST['name']) ? trim($_POST['name']) : "";
+  //   $site = isset($_POST['site']) ? trim($_POST['site']) : "";
+  //   $language = isset($_POST['language']) ? trim($_POST['language']) : "";
+  //   $estado = isset($_POST['estado']) ? trim($_POST['estado']) : "";
+  //
+  //   // valido todo
+  //   $errores = validarDatosEventoParaEditar($_POST);
+  //
+  //   if (empty($errores)){
+  //     require_once("Clases/evento.php");
+  //     $elEvento->Actualizar($name, $site, $language);
+  //   }
+  // }
 ?>
 
 <!DOCTYPE html>
@@ -106,9 +108,59 @@
       				</div>
             </form>
         </div>
+        <label>Usuarios Inscriptos:</label>
+        <?php if($usuariosInscriptos): ?>
+          <table class="table table-striped table-hover">
+              <thead>
+                  <tr>
+                      <th>Nombre</th>
+                      <th>email</th>
+                      <th>Idioma Interesado</th>
+                      <!-- <th>Acciones</th> -->
+                  </tr>
+              </thead>
+              <tbody>
+
+              <?php foreach($usuariosInscriptos as $unaInscripcion): ?>
+                <?php $unUsuario = traerUsuarioPorId($unaInscripcion->getUserId())?>
+                <tr>
+                    <td><?=$unUsuario->getName();?></td>
+                    <td><?=$unUsuario->getEmail();?></td>
+                    <td><?=$unUsuario->getLanguage();?></td>
+                    <td>
+                      <div class="d-flex justify-content-around">
+                        <form class="" action="UsuarioDetalle.php" method="get">
+                          <input hidden type="text" name="email" value="<?=$unUsuario->getEmail();?>">
+                          <button type="submit" class="btn btn-info" name="">
+                            <span class="ion-edit" aria-hidden="true"></span>
+                            <span><strong>Ver</strong></span>
+                          </button>
+                        </form>
+                        <!-- <?php //if ($userIsAdmin): ?>
+                          <form class="" action="deleteInscription.php" method="get">
+                            <input hidden type="text" name="id" value="<?//=$unaInscripcion->getId();?>">
+                              <button type="submit" class="btn btn-danger" name="">
+                                <span class="ion-android-delete" aria-hidden="true"></span>
+                                <span><strong>Eliminar</strong></span>
+                              </button>
+                          </form>
+                        <?php //endif; ?> -->
+                      </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+        </table>
+        <br>
+        <?php else: ?>
+          <label> No hay usuarios inscriptos en este evento</label>
+          <br>
+        <?php endif; ?>
         <a class="btn btn-success" href="VerEventos.php">Volver</a>
 
-        <a class="btn btn-success" href="inscribir.php?event_id = <?= $elEvento->getId() ?>">Asistiré</a>
-
+        <?php if(!$elEvento->EstaInscripto($_SESSION['id'])): ?>
+          <a class="btn btn-success" href="inscribir.php?event_id=<?=$elEvento->getId()?>">Asistiré</a>
+        <?php else: ?>
+          <a class="btn btn-danger" href="deleteInscription.php?event_id=<?=$elEvento->getId()?>">No Asistiré</a>
+        <?php endif; ?>
   </body>
 </html>

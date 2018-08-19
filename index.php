@@ -4,7 +4,7 @@
 	require_once('funciones.php');
 
 	if (estaLogueado()) {
-		$usuario = traerPorId($_SESSION['id']);
+		$usuario = traerUsuarioPorId($_SESSION['id']);
 	} else {
 		$usuario = '';
 	}

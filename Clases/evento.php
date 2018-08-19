@@ -48,7 +48,7 @@
     }
 
     public function getInscripciones(){
-      return $this->inscripciones;
+      return $this->inscripciones; // Si esta seteado, si no levantar de la base
     }
 
     public function setComentario($unComentario){
@@ -63,7 +63,7 @@
 
       try{
         $db = dbConnect();
-    		$query = "insert into tpi_db.events (name, site, language)
+    		$query = "INSERT into tpi_db.events (name, site, language)
                   values ('{$this->name}', '{$this->site}', '{$this->language}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
@@ -75,7 +75,7 @@
     public function Actualizar($name, $site, $language){
       try{
         $db = dbConnect();
-    		$query = "update events set name = '{$name}', site = '{$site}', language = '{$language}'
+    		$query = "UPDATE events set name = '{$name}', site = '{$site}', language = '{$language}'
                   where name like '{$this->name}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
@@ -94,7 +94,7 @@
     public function Eliminar(){
       try{
         $db = dbConnect();
-    		$query = "delete from events where event_id like '{$this->event_id}'";
+    		$query = "DELETE from events where event_id like '{$this->event_id}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
@@ -103,6 +103,26 @@
 
       header('location: VerEventos.php');
       exit;
+    }
+
+
+    public function EstaInscripto($user_id){
+        try{
+          $db = dbConnect();
+          $query = "SELECT user_id, event_id from tpi_db.inscriptions where user_id = '{$user_id}' and event_id = '{$this->event_id}'";
+          $ConsultaALaBase = $db->prepare($query);
+          $ConsultaALaBase->execute();
+        }catch(PDOException $Exception){
+          echo $Exception->getMessage();
+        }
+        $unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+
+        if($unRegistro){
+          return true;
+        }
+        else{
+          return false;
+        }
     }
   }
 ?>

@@ -9,7 +9,7 @@
 	 	exit;
 	} else {
 		require_once("Clases/Usuarios.php");
-		$usuario = traerPorId($_SESSION['id']);
+		$usuario = traerUsuarioPorId($_SESSION['id']);
 		//$datosUsuarios = Usuarios::ObtenerTodos();
 	}
 
@@ -63,7 +63,7 @@
     }
   } else {
 		// Cargar datos del usuario.
-		$usuario = traerPorId($_SESSION['id']);
+		$usuario = traerUsuarioPorId($_SESSION['id']);
 
 		$nombre = $usuario->getname();
 		$email = $usuario->getEmail();

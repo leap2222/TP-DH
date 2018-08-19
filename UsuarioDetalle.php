@@ -11,55 +11,17 @@
 
   if($_GET['email']){
     $usuario = buscarPorEmail($_GET['email']);
-  }
 
-  require_once("Clases/Usuarios.php");
-  $datosUsuarios = Usuarios::ObtenerTodos();
+	  require_once("Clases/Inscripciones.php");
+	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($usuario->getId());
 
-	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
-	"Alemania", "Grecia", "Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
-	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
-	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
+		// $paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
+		// "Alemania", "Grecia", "Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
+		// "Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
+		// $idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
-  // Variables para persistencia
-  $nombre = $usuario->getname();
-	$email = $usuario->getEmail();
-	$edad = $usuario->getAge();
-	$tel = $usuario->getTelephone();
-	$pais = $usuario->getCountry();
-	$website = $usuario->getWebsite();
-	$mensaje = $usuario->getMessage();
-	$sexo = $usuario->getSex();
-	$language = $usuario->getLanguage();
-	//$photo = $usuario->getPhoto();
-
-  $errores = [];
-
-  if ($_POST) {
-
-		$nombre = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
-		$email = isset($_POST['email']) ? trim($_POST['email']) : "";
-		$edad = isset($_POST['edad']) ? trim($_POST['edad']) : "";
-		$tel = isset($_POST['tel']) ? trim($_POST['tel']) : "";
-		$pais = isset($_POST['pais']) ? trim($_POST['pais']) : "";
-		$idioma = isset($_POST['idioma']) ? trim($_POST['idioma']) : "";
-		$website = isset($_POST['website']) ? trim($_POST['website']) : "";
-		$mensaje = isset($_POST['mensaje']) ? trim($_POST['mensaje']) : "";
-		$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
-
-    // valido todo
-    $errores = validar($_POST, 'avatar');
-
-    if (empty($errores)){
-
-      require_once("Clases/evento.php");
-      $usuario->Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
-    }
-  } else {
-		// Cargar datos del usuario.
-		$usuario = traerPorId($usuario->getId());
-
-		$nombre = $usuario->getname();
+	  // Variables para persistencia
+	  $nombre = $usuario->getname();
 		$email = $usuario->getEmail();
 		$edad = $usuario->getAge();
 		$tel = $usuario->getTelephone();
@@ -67,9 +29,46 @@
 		$website = $usuario->getWebsite();
 		$mensaje = $usuario->getMessage();
 		$sexo = $usuario->getSex();
-		$idioma = $usuario->getLanguage();
+		$language = $usuario->getLanguage();
 		//$photo = $usuario->getPhoto();
 	}
+  // $errores = [];
+	//
+  // if ($_POST) {
+	//
+	// 	$nombre = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
+	// 	$email = isset($_POST['email']) ? trim($_POST['email']) : "";
+	// 	$edad = isset($_POST['edad']) ? trim($_POST['edad']) : "";
+	// 	$tel = isset($_POST['tel']) ? trim($_POST['tel']) : "";
+	// 	$pais = isset($_POST['pais']) ? trim($_POST['pais']) : "";
+	// 	$idioma = isset($_POST['idioma']) ? trim($_POST['idioma']) : "";
+	// 	$website = isset($_POST['website']) ? trim($_POST['website']) : "";
+	// 	$mensaje = isset($_POST['mensaje']) ? trim($_POST['mensaje']) : "";
+	// 	$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
+	//
+  //   // valido todo
+  //   $errores = validar($_POST, 'avatar');
+	//
+  //   if (empty($errores)){
+	//
+  //     require_once("Clases/evento.php");
+  //     $usuario->Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
+  //   }
+  // } else {
+	// 	// Cargar datos del usuario.
+	// 	$usuario = traerUsuarioPorId($usuario->getId());
+	//
+	// 	$nombre = $usuario->getname();
+	// 	$email = $usuario->getEmail();
+	// 	$edad = $usuario->getAge();
+	// 	$tel = $usuario->getTelephone();
+	// 	$pais = $usuario->getCountry();
+	// 	$website = $usuario->getWebsite();
+	// 	$mensaje = $usuario->getMessage();
+	// 	$sexo = $usuario->getSex();
+	// 	$idioma = $usuario->getLanguage();
+	// 	//$photo = $usuario->getPhoto();
+	// }
 
 ?>
 
@@ -218,6 +217,56 @@
 								</span>
 							</div>
 						</div> -->
+						<?php if($eventosInscriptos): ?>
+							<br><br>
+							<label>Eventos a los que asistirá:</label>
+								<?=$nombre?>
+								<table class="table table-striped table-hover">
+										<thead>
+												<tr>
+														<th>Evento</th>
+														<th>Lugar</th>
+														<th>Idioma Preferido</th>
+														<!-- <th>Acciones</th> -->
+												</tr>
+										</thead>
+										<tbody>
+
+										<?php foreach($eventosInscriptos as $unaInscripcion): ?>
+										<?php $unEvento = traerEventoPorId($unaInscripcion->getEventId())?>
+											<tr>
+												<td><?=$unEvento->getName();?></td>
+												<td><?=$unEvento->getSite();?></td>
+												<td><?=$unEvento->getLanguage();?></td>
+												<td>
+													<div class="d-flex justify-content-around">
+														<form class="" action="UsuarioDetalle.php" method="get">
+															<input hidden type="text" name="id" value="<?=$unEvento->getId();?>">
+															<button type="submit" class="btn btn-info" name="">
+																<span class="ion-edit" aria-hidden="true"></span>
+																<span><strong>Ver</strong></span>
+															</button>
+														</form>
+														<!-- <?php //if ($userIsAdmin): ?>
+															<form class="" action="deleteInscription.php" method="get">
+																<input hidden type="text" name="id" value="<?//=$unaInscripcion->getId();?>">
+																	<button type="submit" class="btn btn-danger" name="">
+																		<span class="ion-android-delete" aria-hidden="true"></span>
+																		<span><strong>Eliminar</strong></span>
+																	</button>
+															</form>
+														<?php //endif; ?> -->
+													</td>
+												</tr>
+											<?php endforeach; ?>
+								</tbody>
+						</table>
+						<br>
+						<?php else: ?>
+							<label> No está inscripto en ningún evento </label>
+							<br>
+						<?php endif; ?>
+
         </fieldset>
       </form>
 			<a class="btn btn-success" href="VerUsuarios.php">Volver</a>

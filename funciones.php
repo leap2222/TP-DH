@@ -6,6 +6,8 @@
 	require_once("Clases/evento.php");
 	require_once("Clases/Comentarios.php");
 	require_once("Clases/comentario.php");
+	require_once("Clases/Respuestas.php");
+	require_once("Clases/respuesta.php");
 
 	session_start();
 
@@ -260,6 +262,29 @@
 	}
 
 
+	function traerComentarioPorId($id){
+
+		if($db = dbConnect()) {
+			//Ejecuto la lectura
+			$CadenaDeBusqueda = "SELECT event_id, user_id, comment FROM tpi_db.events WHERE idcomment = '{$id}'";
+			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+			$ConsultaALaBase->execute();
+			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+		} else {
+				echo "Conexion fallida";
+			}
+
+			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+
+			if(isset($unRegistro)){
+				$unComentario = new comentario($id, $unRegistro['event_id'], $unRegistro['user_id'], $unRegistro['comment']);
+				return $unComentario;
+			}
+
+			return false;
+	}
+
+
 	function validarDatosEvento($data){
 		$errores = [];
 
@@ -370,4 +395,15 @@
 		$elEvento = traerEventoPorId($event_id);
 		$elEvento->setComentario($unComentario);
 		return $unComentario;
+	}
+
+
+	function guardarRespuesta($idcomment, $user_id, $reply){
+
+		$unaRespuesta = new respuesta(null, $idcomment, $user_id, $reply);
+		$unaRespuesta->Guardar();
+		Respuestas::Guardar($unaRespuesta);
+		$elComentario = traerComentarioPorId($idcomment);
+		$elComentario->setReply($unaRespuesta);
+		return $unaRespuesta;
 	}

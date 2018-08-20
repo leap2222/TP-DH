@@ -14,6 +14,7 @@
 
     require_once("Clases/Inscripciones.php");
     require_once("Clases/Comentarios.php");
+    require_once("Clases/Respuestas.php");
     $usuariosInscriptos = Inscripciones::ObtenerTodas($_GET['id']);
     $comentariosDelEvento = Comentarios::ObtenerTodos($_GET['id']);
 
@@ -36,12 +37,17 @@
   // }
   // $idEvento = $elEvento->getId();
   $comentario='';
+  $respuesta='';
 
   if($_POST){
 
 		$comentario = isset($_POST['comentario']) ? trim($_POST['comentario']) : "";
     $unComentario = guardarComentario($elEvento->getId(), $_SESSION['id'], $comentario);
     $comentario='';
+
+    $respuesta = isset($_POST['respuesta']) ? trim($_POST['respuesta']) : "";
+    $unaRespuesta = guardarRespuesta($unComentario->getId(), $_SESSION['id'], $respuesta);
+    $respuesta='';
 	}
 
 ?>
@@ -191,8 +197,8 @@
                           <span><strong>Ver</strong></span>
                         </button>
                       </form>
-                    </td>
-                    <td>
+                  </td>
+                  <td>
                       <?php if($unComentario->getUserId() == $_SESSION['id'] && $elEvento->EstaInscripto($_SESSION['id'])): ?>
                           <?php $nuevoComentario = $unComentario->getComment(); ?>
                           <form class="" action="editComment.php" method="get">
@@ -203,7 +209,6 @@
                               <span><strong>Editar</strong></span>
                             </button>
                           </form>
-
                           <form class="" action="deleteComment.php" method="get">
                             <input hidden type="text" name="id" value="<?=$unComentario->getId();?>">
                               <button type="submit" class="btn btn-danger" name="">
@@ -211,11 +216,79 @@
                                 <span><strong>Eliminar</strong></span>
                               </button>
                           </form>
+                          <?php if($elEvento->EstaInscripto($_SESSION['id'])): ?>
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <form  method="post" enctype="multipart/form-data">
+                                    <label>Responder:</label>
+                                    <textarea class="form-control" name="respuesta"><?=$respuesta?></textarea>
+                                    <br>
+                                    <input class="btn btn-primary" type="submit" name="accion" value="Responder">
+                                </form>
+                              </div>
+                            </div>
+                            <br>
+                          <?php endif; ?>
+                          <?php $respuestasDelComentario = Respuestas::ObtenerTodas($unComentario->getId()); ?>
+                          <?php if($respuestasDelComentario): ?>
+                            <label>Respuestas: </label>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <th></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <?php foreach($respuestasDelComentario as $unaRespuesta): ?>
+                                <?php $unUsuario = traerUsuarioPorId($unaRespuesta->getUserId()); ?>
+                                  <tr>
+                                    <td><?=$unUsuario->getName();?></td>
+                                    <td>
+                                      <form class="" action="UsuarioDetalle.php" method="get">
+                                        <input hidden type="text" name="email" value="<?=$unUsuario->getEmail();?>">
+                                        <button type="submit" class="btn btn-info" name="">
+                                          <span class="ion-edit" aria-hidden="true"></span>
+                                          <span><strong>Ver</strong></span>
+                                        </button>
+                                      </form>
+                                    </td>
+                                    <td>
+                                        <?php if($unaRespuesta->getUserId() == $_SESSION['id'] && $elEvento->EstaInscripto($_SESSION['id'])): ?>
+                                          <?php $nuevaRespuesta = $unaRespuesta->getReply(); ?>
+                                          <form class="" action="editReply.php" method="get">
+                                            <input hidden type="text" name="idreply" value="<?=$unaRespuesta->getId();?>">
+                                            <textarea class="form-control" name="nuevaRespuesta" value="<?=$nuevaRespuesta?>"><?=$nuevaRespuesta?></textarea>
+                                            <button type="submit" class="btn btn-primary" name="">
+                                              <span class="ion-edit" aria-hidden="true"></span>
+                                              <span><strong>Editar</strong></span>
+                                            </button>
+                                          </form>
+                                          <form class="" action="deleteReply.php" method="get">
+                                            <input hidden type="text" name="id" value="<?=$unaRespuesta->getId();?>">
+                                            <button type="submit" class="btn btn-danger" name="">
+                                              <span class="ion-android-delete" aria-hidden="true"></span>
+                                              <span><strong>Eliminar</strong></span>
+                                            </button>
+                                          </form>
+                                        <?php else: ?>
+                                          <textarea class="form-control" name="respuesta"><?=$unaRespuesta->getReply();?></textarea>
+                                        <?php endif; ?>
+                                    </td>
+                                  </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                          <?php else: ?>
+                            <label> Sin respuestas </label>
+                            <br><br>
+                          <?php endif; ?>
 
-                        <?php else: ?>
-                          <textarea class="form-control" name="comentario"><?=$unComentario->getComment()?></textarea>
-                        <?php endif; ?>
-                    </td>
+                    <?php else: ?>
+                      <textarea class="form-control" name="comentario"><?=$unComentario->getComment();?></textarea>
+                    <?php endif; ?>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

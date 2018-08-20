@@ -39,35 +39,32 @@
     }
 
 
-    public function Actualizar($event_id, $user_id){
-      try{
-        $db = dbConnect();
-    		$query = "UPDATE inscriptions set event_id = '{$event_id}', user_id = '{$user_id}'
-                  where event_id = '{$this->event_id}'";
-    		$ConsultaALaBase = $db->prepare($query);
-    		$ConsultaALaBase->execute();
-      }catch(PDOException $Exception){
-        echo $Exception->getMessage();
-      }
-      $this->event_id = $event_id;
-      $this->user_id = $user_id;
-
-      header('location: VerInscripciones.php'); //crear
-      exit;
-    }
+    // public function Actualizar($event_id, $user_id){
+    //   try{
+    //     $db = dbConnect();
+    // 		$query = "UPDATE inscriptions set event_id = '{$event_id}', user_id = '{$user_id}'
+    //               where event_id = '{$this->event_id}'";
+    // 		$ConsultaALaBase = $db->prepare($query);
+    // 		$ConsultaALaBase->execute();
+    //   }catch(PDOException $Exception){
+    //     echo $Exception->getMessage();
+    //   }
+    //   $this->event_id = $event_id;
+    //   $this->user_id = $user_id;
+    //
+    //   header('location: VerInscripciones.php'); //crear
+    //   exit;
+    // }
 
     public function Eliminar(){
       try{
         $db = dbConnect();
-    		$query = "DELETE from inscriptions where event_id = '{$this->event_id}' and user_id = '{$this->user_id}'";
+    		$query = "DELETE from tpi_db.inscriptions where event_id = '{$this->event_id}' and user_id = '{$this->user_id}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
       }
-
-      header('location: EventoDetalle.php');
-      exit;
     }
   }
 ?>

@@ -1,14 +1,11 @@
 <?php
-  
+
   class Eventos {
     public static $Cantidad;
     public static $TodosLosEventos;
 
     public static function Guardar($nuevoEvento){
       self::$TodosLosEventos[] = $nuevoEvento;
-      header('location: perfil.php');
-      // echo "Pelicula Creada exitosamente !";
-      // exit;
     }
 
     public static function ObtenerTodos() {

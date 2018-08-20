@@ -16,8 +16,6 @@
 
     public static function Guardar($nuevoUsuario){
       self::$TodosLosUsuarios[] = $nuevoUsuario;
-      header('location: index.php');
-      exit;
     }
 
     public static function ObtenerTodos() {

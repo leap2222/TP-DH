@@ -4,6 +4,8 @@
 	require_once("Clases/usuario.php");
 	require_once("Clases/Eventos.php");
 	require_once("Clases/evento.php");
+	require_once("Clases/Comentarios.php");
+	require_once("Clases/comentario.php");
 
 	session_start();
 
@@ -357,4 +359,15 @@
 			}
 
 			return false;
+	}
+
+
+	function guardarComentario($event_id, $user_id, $comment){
+
+		$unComentario = new comentario(null, $event_id, $user_id, $comment);
+		$unComentario->Guardar();
+		Comentarios::Guardar($unComentario);
+		$elEvento = traerEventoPorId($event_id);
+		$elEvento->setComentario($unComentario);
+		return $unComentario;
 	}

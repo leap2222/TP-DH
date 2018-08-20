@@ -7,7 +7,6 @@
 
     public static function Guardar($nuevaInscripcion){
       self::$TodasLasInscripciones[] = $nuevaInscripcion;
-      header('location: perfil.php');
     }
 
     public static function ObtenerTodas($event_id) {

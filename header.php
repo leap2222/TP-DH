@@ -39,3 +39,16 @@
           </div>
         </div>
       </nav>
+
+      <div class="row">
+        <div class="col-sm cuerpo color-cuerpo">
+
+          <?php if (!empty($errores)): ?>
+    				<div class="div-errores alert alert-danger">
+    					<ul>
+    						<?php foreach ($errores as $value): ?>
+    							<li><?=$value?></li>
+    						<?php endforeach; ?>
+    					</ul>
+    				</div>
+    			<?php endif;?>

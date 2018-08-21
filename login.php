@@ -33,20 +33,9 @@
 
 			<?php $TituloPagina = "Login"; include 'header.php'; ?>
 
-			<?php if (!empty($errores)): ?>
-				<div class="div-errores alert alert-danger">
-					<ul>
-						<?php foreach ($errores as $value): ?>
-							<li><?=$value?></li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
-			<?php endif;?>
-
       <!-- Fin de Cabecera con Barra de navegacion -->
 
-			<div class="row">
-				<div class="col-sm cuerpo color-cuerpo">
+
 					<form method="post" enctype="multipart/form-data">
 						<input class="form-control" type="text" name="email" placeholder="usuario" value="<?=$email?>">
 						<br>
@@ -57,8 +46,6 @@
 	          <button class="btn btn-primary" type="submit">ENTRAR</button>
 						<a href="recuperar.php" class="registrar">¿Olvidaste la contraseña?</a>
 						<a href="registracion.php" class="registrar">¿Sos nuevo? REGISTRATE!</a>
-					</div>
-				</div>
-      </form>
+					</form>
 
 			<?php include 'footer.php' ?>

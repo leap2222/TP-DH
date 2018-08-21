@@ -15,12 +15,8 @@
 
       <?php $TituloPagina = "Perfil de usuario"; include 'header.php'; ?>
 
-			<div class="row">
-				<div class="col-sm cuerpo color-cuerpo">
-					<h1>Bienvenido, <?=$usuario->getName()?>!</h1>
-					<br><br>
-        </div>
-      </div>
+			<h1>Bienvenido, <?=$usuario->getName()?>!</h1>
+			<br><br>
       <div class="row">
 			<div class="col-sm cuerpo color-cuerpo">
 			  <a href="VerEventos.php" class="btn btn-primary">Ver Eventos</a>

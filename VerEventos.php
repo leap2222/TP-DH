@@ -18,8 +18,6 @@
   <?php $TituloPagina = "Proximos Eventos"; include 'header.php'; ?>
 
 
-  <div class="row">
-  <div class="col-sm cuerpo color-cuerpo">
     <h1>Eventos:</h1>
       <table class="table table-striped table-hover">
         <thead>
@@ -68,7 +66,7 @@
           </div>
         </td>
       </tr>
-              <?php endforeach; ?>
+      <?php endforeach; ?>
       </tbody>
       </table>
       <?php if($userIsAdmin):?>

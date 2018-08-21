@@ -43,19 +43,18 @@
 				</div>
 			<?php endif;?>
 
-
       <!-- Fin de Cabecera con Barra de navegacion -->
 
-			<form method="post" enctype="multipart/form-data">
-      	<div class="row">
-					<div class="col-sm cuerpo color-cuerpo">
+			<div class="row">
+				<div class="col-sm cuerpo color-cuerpo">
+					<form method="post" enctype="multipart/form-data">
 						<input class="form-control" type="text" name="email" placeholder="usuario" value="<?=$email?>">
 						<br>
 		       	<input class="form-control" type="password" name="pass" placeholder="contraseña">
-	           <label class="centrar">
-							 <input type="checkbox" name="recordar" checked> Recordar
-	           </label>
-	           <button class="btn btn-primary" type="submit">ENTRAR</button>
+	          <label class="centrar">
+							<input type="checkbox" name="recordar" checked> Recordar
+	          </label>
+	          <button class="btn btn-primary" type="submit">ENTRAR</button>
 						<a href="recuperar.php" class="registrar">¿Olvidaste la contraseña?</a>
 						<a href="registracion.php" class="registrar">¿Sos nuevo? REGISTRATE!</a>
 					</div>

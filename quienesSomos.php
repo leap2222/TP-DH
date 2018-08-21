@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Quienes Somos</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/styles.css">
-	</head>
-	<body>
-  	<div class="container">
-  		<!-- cabecera -->
-  		<?php include 'header.php'; ?>
+
+  		<?php $TituloPagina = "Quienes Somos"; include 'header.php'; ?>
 
   		<!-- Descripcion -->
   		<section class="red-social">
   			<article class="descripcion">
-  				<img src="images/img-pdto-1.jpg" alt="pdto 01">
-  				<h2>Spanglish Meetings</h2>
+  				<img src="images/img-pdto-1.jpg">
+  				<h2>Multilanguage Meetings</h2>
   				<p>La red consiste en encuentros entre residentes en el pais de distintos idiomas en lugares especificos como bares con el objetivo de practicar el habla de los
             distintos idiomas. Inicialmente un usuario se hace miembro de la red al registrarse indicando datos de interes como idiomas que desea practicar, esto crea un
             perfil del miembro en la red (similar a facebook) que puede ser visitado por otros miembros de la red. La Red ofrece lugares típicos de encuentro que son
@@ -37,7 +26,3 @@
   		<br>
 
 			<?php include 'footer.php'; ?>
-
-  	</div>
-	</body>
-</html>

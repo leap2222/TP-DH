@@ -3,47 +3,25 @@
 @import url('https://fonts.googleapis.com/css?family=Pattaya');
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 @import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow');
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css');
 
 * {
   box-sizing: border-box;
   /* border: solid red 1px; */
 }
 
+.border1 {
+  border: solid red 1px;
+}
+
 body {
-  background-color: white;
+  background-color: black;
   font-family: 'PT Sans Narrow', sans-serif;
-  color: black;
-  max-width: 350px;
-  margin: none;
+  color: white;
 }
 
 p {
-    font-family: 'Playfair Display', serif;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.main-nav {
-  width: 100%;
-  text-align: center;
-}
-
-
-.main-footer a {
-	display: block;
-	text-align: center;
-}
-
-.main-header {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  /* justify-content: center; */
-  align-items: center;
+  font-family: 'Playfair Display', serif;
 }
 
 .footer {
@@ -55,32 +33,25 @@ p {
   font-size: 2em;
 }
 
+.cuerpo {
+  padding: 50px 15px;
+  margin: 0px 15px 0px 15px;
+}
+
+.color-cuerpo {
+  background-color: grey;
+  color: white;
+}
+
 .footer a {
   color: white;
 }
 
-
-.main-nav a {
-  color: black;
-}
-
-.main-nav li {
-  padding: 8px 0px 8px 0px;
-  border: solid grey 1px;
-  background-color: white;
-}
-
-.main-nav li:hover{
-  transition: 500ms;
-  color: white;
-  background-color: black;
-}
-
 .logo {
-  max-width: 300px;
+  max-width: 100px;
 }
 
-h1{
+h1 {
   font-family: 'Pattaya', sans-serif;
   font-weight: bolder;
   font-size: 2em;
@@ -91,21 +62,15 @@ ul {
   padding: 0px;
 }
 
-li{
+li {
   margin: 10px;
   padding: 0px;
   list-style: none;
   border-radius: 10px;
-
 }
 
 a {
   text-decoration: none;
-}
-
-.toggle-nav {
-  display: block;
-  text-align: center;
 }
 
 .formulario {
@@ -145,13 +110,6 @@ a {
   /* padding: 10px;
 } */
 
-.login button {
-  margin-top: 15px;
-  color: black;
-  width: 100%;
-  padding: 10px;
-}
-
 .login input:not([type='checkbox']) {
   width: 100%;
   text-align: center;
@@ -178,37 +136,3 @@ a {
 ::placeholder{
   color: white;
 }
-
-
-.main-nav {
-/*  display: flex; */
-  flex-wrap: nowrap;
-  display:none;
-  justify-content: space-around;
-  border-style:none;
-}
-
-
-/* @media (min-width: 479px) {
-  ul {
-    display: none;
-  }
-
-  input {
-    display: none;
-  }
-
-  p {
-    display: block;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0px;
-    line-height: 6px;
-    padding: 0px 5px 5px 5px;
-    border-radius: 10%;
-  }
-
-  .texto {
-    margin-top: 5px;
-  }
-} */

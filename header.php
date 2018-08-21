@@ -1,36 +1,41 @@
 <?php require_once("funciones.php"); ?>
-<div class="row">
-  <div class="col-sm-8">
-    <div class="form-group">
-      <!-- Cabecera con Barra de navegacion -->
-      <header class="main-header">
 
-        <img class="logo" src="images/Logo.png">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+		<title><?= $TituloPagina ?></title>
+  </head>
+  <body>
 
-        <h1><a href="index.php">Multilanguage Meetings</a></h1>
+    <div class="container">
 
-        <div>
-        <?php if(estaLogueado()): ?>
-          <?php $usuario = traerUsuarioPorId($_SESSION['id']); ?>
-                <a href=perfil.php> Hola <?= $usuario->getName() ?> </a>
-                <br>
-                <a href=logout.php>Salir</a>
-        <?php else: ?>
-                <a href=login.php>Ingresar</a>
-        <?php endif;?>
-        </div>
-
-        <a href="#" class="toggle-nav">
-          <div class="ion-navicon-round"></div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a href="index.php" class="navbar-brand">
+          <img class="logo" src="images/Logo.png">
         </a>
-        <nav class="main-nav">
-          <ul>
-            <a href="quienesSomos.php"><li>QUIENES SOMOS</li></a>
-            <a href="preguntasFrecuentes.php"><li>PREGUNTAS FRECUENTES</li></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <a href="VerEventos.php"><li>PROXIMOS EVENTOS</li></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active"><a href="quienesSomos.php" class="nav-link">QUIENES SOMOS</a></li>
+            <li class="nav-item active"><a href="preguntasFrecuentes.php" class="nav-link">PREGUNTAS FRECUENTES</a></li>
+            <li class="nav-item active"><a href="VerEventos.php" class="nav-link">PROXIMOS EVENTOS</a></li>
           </ul>
-        </nav>
-    </div>
-  </div>
-</div>
+
+          <div>
+            <?php if(estaLogueado()): ?>
+              <?php $usuario = traerUsuarioPorId($_SESSION['id']); ?>
+              <a href=perfil.php><?= $usuario->getName() ?> </a>
+              (<a href=logout.php>Salir</a>)
+            <?php else: ?>
+              <a href=registracion.php><ion-icon name="person"></ion-icon>Registrar</a>
+              <a href=login.php><ion-icon name="log-in"></ion-icon> Ingresar</a>
+            <?php endif;?>
+          </div>
+        </div>
+      </nav>

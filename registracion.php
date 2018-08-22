@@ -58,38 +58,16 @@
 	}
 ?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Registrarse</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/styles.css">
-	</head>
-	<body>
-		<?php if (!empty($errores)): ?>
-			<div class="div-errores alert alert-danger">
-				<ul>
-					<?php foreach ($errores as $value): ?>
-					<li><?=$value?></li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-		<?php endif; ?>
-		<h1 align="center">
-      <strong>Registrarse</strong>
-    </h1>
-    <section class="registracion">
-			<form method="post" enctype="multipart/form-data">
-        <fieldset>
-          <legend>Datos personales</legend>
+<?php $TituloPagina = "Registracion"; include 'header.php'; ?>
 
-					<div class="row justify-content-md-center">
-						<div class="col-sm-12">
-							<div class="form-group <?= isset($errores['nombre']) ? 'has-error' : null ?>">
-								<label class="control-label">Nombre y Apellido:*</label>
-			          <input class="form-control" type="text" name="nombre" placeholder="Pedro Pérez" value="<?=$nombre?>">
-								<span class="help-block" style="<?= !isset($errores['nombre']) ? 'display: none;' : ''; ?>">
+		<h1 align="center">Registrarse</h1>
+		<form method="post" class="form-horizontal" enctype="multipart/form-data">
+				<fieldset>
+
+							<div class="form-group has-error has-feedback">
+								<label class="control-label <?= isset($errores['nombre']) ? 'has-error' : null ?>">Nombre y Apellido:*</label>
+			          <input class="form-control <?= isset($errores['nombre']) ? 'has-error' : null ?>" type="text" name="nombre" placeholder="Pedro Pérez" value="<?=$nombre?>">
+								<span class="help-block <?= !isset($errores['nombre']) ? 'display: none;' : ''; ?>">
 									<b class="glyphicon glyphicon-exclamation-sign"></b>
 									<?= isset($errores['nombre']) ? $errores['nombre'] : ''; ?>
 								</span>
@@ -104,12 +82,8 @@
 									<?= isset($errores['email']) ? $errores['email'] : ''; ?>
 								</span>
 							</div>
-						</div>
-					</div>
-					<br>
+							<br>
 
-					<div class="row">
-						<div class="col-sm-12">
 							<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
 								<label class="control-label">Contraseña:*</label>
 								<input class="form-control" type="password" name="pass" value="">
@@ -128,12 +102,7 @@
 									<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
 								</span>
 							</div>
-						</div>
-					</div>
-					<br>
 
-					<div class="row">
-						<div class="col-sm-12">
 						  <label class="control-label">Edad:</label>
 						  <input class="form-control" type="number" name="edad" value="<?=$edad?>">
 							<br>
@@ -141,12 +110,7 @@
 							<label class="control-label">Teléfono de contacto:</label>
 							<i>+54 15</i>
 							<input class="form-control" type="tel" name="tel" value="<?=$tel?>">
-						</div>
-					</div>
-					<br>
 
-					<div class="row">
-						<div class="col-sm-12">
 							<div class="form-group <?= isset($errores['pais']) ? 'has-error' : null ?>">
 								<label class="control-label">País de nacimiento:*</label>
 								<select class="form-control" name="pais">
@@ -164,12 +128,8 @@
 									<?= isset($errores['pais']) ? $errores['pais'] : ''; ?>
 								</span>
 							</div>
-						</div>
-					</div>
 						<br>
 
-						<div class="row">
-							<div class="col-sm-12">
 								<div class="form-group <?= isset($errores['idioma']) ? 'has-error' : null ?>">
 									<label class="control-label">Idioma de Interés:</label>
 									<select class="form-control" name="idioma">
@@ -187,12 +147,8 @@
 										<?= isset($errores['idioma']) ? $errores['idioma'] : ''; ?>
 									</span>
 								</div>
-							</div>
-						</div>
-						<br>
+								<br>
 
-						<div class="row">
-							<div class="col-sm-12">
 								<label>Género:</label>
 								<br>
 								<label>
@@ -211,22 +167,15 @@
 			          </label>
 			          <br><br>
 
-							</div>
-						</div>
 
-						<div class="col-sm-12">
 			        <label class="control-label">Sitio web:</label>
 			        <input class="form-control" type="url" name="website" value="<?=$website?>">
-						</div>
-						<br>
+							<br>
 
-						<div class="col-sm-12">
 			        <label class="control-label">Tu mensaje:</label>
 							<textarea class="form-control" name="mensaje"><?=$mensaje?></textarea>
-						</div>
-						<br>
+							<br>
 
-						<div class="col-xs-12">
 							<div class="form-group <?= isset($errores['avatar']) ? 'has-error' : null ?>">
 								<label for="name" class="control-label">Subir Foto*:</label>
 								<input class="form-control" type="file" name="avatar" value="<?= isset($_FILES['avatar']) ? $_FILES['avatar']['name'] : null ?>">
@@ -236,10 +185,11 @@
 								</span>
 							</div>
 						</div>
+
 					</div>
-			  	<input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO">
+					<input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO">
         </fieldset>
       </form>
     </section>
-  </body>
-</html>
+
+		<?php include 'footer.php'; ?>

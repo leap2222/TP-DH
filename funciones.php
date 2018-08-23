@@ -266,7 +266,7 @@
 
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT event_id, user_id, comment FROM tpi_db.events WHERE idcomment = '{$id}'";
+			$CadenaDeBusqueda = "SELECT event_id, user_id, comment FROM tpi_db.comments WHERE idcomment = '{$id}'";
 			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 			$ConsultaALaBase->execute();
 			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array

@@ -119,6 +119,8 @@
       				</div>
       			</div>
         </div>
+        <a class="btn btn-success" href="VerEventos.php">Volver</a>
+        <br><br>
         <div class="row">
           <div class="col-sm-6">
             <label>Usuarios Inscriptos:</label>

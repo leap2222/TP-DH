@@ -7,12 +7,17 @@
     private $event_id;
     private $user_id;
     private $comment;
+    private $respuestas;
 
     public function __construct($id, $event_id, $user_id, $comment){
       $this->id = $id;
       $this->event_id = $event_id;
       $this->user_id = $user_id;
       $this->comment = $comment;
+    }
+
+    public function setReply($unaRespuesta){
+      $this->respuestas[] = $unaRespuesta;
     }
 
     public function getId(){

@@ -14,22 +14,10 @@
   $userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
 ?>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <title></title>
-  </head>
-  <body>
-    <label>Usuarios:</label>
-    <!-- <ol name="users">
-      <?php// foreach($TodosLosUsuarios as $unUsuario):?>
-        <li value="<?//=$unUsuario->getId()?>">Nombre: <?//=$unUsuario->getName()?>; email: <?//=$unUsuario->getEmail()?> </li>
-        <a class="btn btn-info" href="UsuarioDetalle.php?email=<?//=$unUsuario->getEmail()?>">VER</a>
-      <?php// endforeach;?>
-    </ol> -->
 
+  <?php $TituloPagina = "Usuarios Multilanguage"; include 'header.php'; ?>
+
+    <h1>Usuarios:</h1>
     <table class="table table-striped table-hover">
         <thead>
             <tr>

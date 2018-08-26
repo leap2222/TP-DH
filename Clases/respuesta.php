@@ -40,7 +40,7 @@
       try{
         $db = dbConnect();
     		$query = "INSERT into tpi_db.replies (idcomment, user_id, reply)
-                  values ('{$this->idcomment}', '{$this->user_id}', '{$this->reply}')";
+                  VALUES ('{$this->idcomment}', '{$this->user_id}', '{$this->reply}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){

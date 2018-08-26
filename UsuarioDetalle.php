@@ -32,43 +32,7 @@
 		$language = $usuario->getLanguage();
 		//$photo = $usuario->getPhoto();
 	}
-  // $errores = [];
-	//
-  // if ($_POST) {
-	//
-	// 	$nombre = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
-	// 	$email = isset($_POST['email']) ? trim($_POST['email']) : "";
-	// 	$edad = isset($_POST['edad']) ? trim($_POST['edad']) : "";
-	// 	$tel = isset($_POST['tel']) ? trim($_POST['tel']) : "";
-	// 	$pais = isset($_POST['pais']) ? trim($_POST['pais']) : "";
-	// 	$idioma = isset($_POST['idioma']) ? trim($_POST['idioma']) : "";
-	// 	$website = isset($_POST['website']) ? trim($_POST['website']) : "";
-	// 	$mensaje = isset($_POST['mensaje']) ? trim($_POST['mensaje']) : "";
-	// 	$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
-	//
-  //   // valido todo
-  //   $errores = validar($_POST, 'avatar');
-	//
-  //   if (empty($errores)){
-	//
-  //     require_once("Clases/evento.php");
-  //     $usuario->Actualizar($nombre, $email, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
-  //   }
-  // } else {
-	// 	// Cargar datos del usuario.
-	// 	$usuario = traerUsuarioPorId($usuario->getId());
-	//
-	// 	$nombre = $usuario->getname();
-	// 	$email = $usuario->getEmail();
-	// 	$edad = $usuario->getAge();
-	// 	$tel = $usuario->getTelephone();
-	// 	$pais = $usuario->getCountry();
-	// 	$website = $usuario->getWebsite();
-	// 	$mensaje = $usuario->getMessage();
-	// 	$sexo = $usuario->getSex();
-	// 	$idioma = $usuario->getLanguage();
-	// 	//$photo = $usuario->getPhoto();
-	// }
+
 
 ?>
 
@@ -240,7 +204,7 @@
 												<td><?=$unEvento->getLanguage();?></td>
 												<td>
 													<div class="d-flex justify-content-around">
-														<form class="" action="UsuarioDetalle.php" method="get">
+														<form class="" action="EventoDetalle.php" method="get">
 															<input hidden type="text" name="id" value="<?=$unEvento->getId();?>">
 															<button type="submit" class="btn btn-info" name="">
 																<span class="ion-edit" aria-hidden="true"></span>

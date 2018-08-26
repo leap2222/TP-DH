@@ -12,6 +12,7 @@
 
   if(isset($_GET['id'])){
 
+    //$idEvento = $_GET['id'];
     require_once("Clases/Inscripciones.php");
     require_once("Clases/Comentarios.php");
     require_once("Clases/Respuestas.php");
@@ -43,21 +44,17 @@
 
   if($_POST){
 
-    if(isset($_POST['comentario'])){
-
       $comentario = isset($_POST['comentario']) ? trim($_POST['comentario']) : "";
-      $unComentario = guardarComentario($elEvento->getId(), $_SESSION['id'], $comentario);
-      $comentario='';
-
-    }
-
-    if(isset($_POST['respuesta'])){
+      if($comentario){
+        $unComentario = guardarComentario($elEvento->getId(), $_SESSION['id'], $comentario);
+        $comentario='';
+      }
 
       $respuesta = isset($_POST['respuesta']) ? trim($_POST['respuesta']) : "";
-      $unaRespuesta = guardarRespuesta($unComentario->getId(), $_SESSION['id'], $respuesta);
-      $respuesta='';
-
-    }
+      if($respuesta){
+        $unaRespuesta = guardarRespuesta($_POST['idcomment'], $_SESSION['id'], $respuesta);
+        $respuesta='';
+      }
 	}
 
 ?>
@@ -67,7 +64,9 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <name>Datos del Evento</name>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <link rel="stylesheet" href="css/styles.css"> -->
+    <title>Datos del Evento</title>
   </head>
   <body>
     <?php if (!empty($errores)): ?>
@@ -237,10 +236,11 @@
                   <td>
                           <div class="row">
                             <div class="col-sm-6">
-                              <form  method="post" enctype="multipart/form-data">
+                              <form method="post" enctype="multipart/form-data">
                                 <label>Responder:</label>
                                 <textarea class="form-control" name="respuesta" value="<?=$respuesta?>"><?=$respuesta?></textarea>
-                                <!-- <input hidden type="text" name="respuesta" value="<?//=$respuesta?>"> -->
+                                <input hidden type="text" name="idcomment" value="<?=$unComentario->getId();?>">
+                                <!-- <input hidden type="text" name="$idEvento" value="<?//=$idEvento?>"> -->
                                 <br>
                                 <input class="btn btn-primary" type="submit" name="accion" value="Responder">
                               </form>
@@ -256,6 +256,7 @@
                                   <tr>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -263,6 +264,7 @@
                                   <?php $unUsuario = traerUsuarioPorId($unaRespuesta->getUserId()); ?>
                                     <tr>
                                       <td><?=$unUsuario->getName();?>
+                                          <br>
                                           <form class="" action="UsuarioDetalle.php" method="get">
                                             <input hidden type="text" name="email" value="<?=$unUsuario->getEmail();?>">
                                             <button type="submit" class="btn btn-info" name="">
@@ -271,28 +273,34 @@
                                             </button>
                                           </form>
                                       </td>
-                                      <td>
-                                        <?php if($unaRespuesta->getUserId() == $_SESSION['id']): ?>
-                                            <?php $nuevaRespuesta = $unaRespuesta->getReply(); ?>
+                                      <?php if($unaRespuesta->getUserId() == $_SESSION['id']): ?>
+                                        <?php $nuevaRespuesta = $unaRespuesta->getReply(); ?>
+                                          <td>
                                             <form class="" action="editReply.php" method="get">
                                               <input hidden type="text" name="idreply" value="<?=$unaRespuesta->getId();?>">
                                               <textarea class="form-control" name="nuevaRespuesta" value="<?=$nuevaRespuesta?>"><?=$nuevaRespuesta?></textarea>
+                                          </td>
+                                          <td>
                                               <button type="submit" class="btn btn-primary" name="">
                                                 <span class="ion-edit" aria-hidden="true"></span>
                                                 <span><strong>Editar</strong></span>
                                               </button>
                                             </form>
+
                                             <form class="" action="deleteReply.php" method="get">
-                                              <input hidden type="text" name="id" value="<?=$unaRespuesta->getId();?>">
+                                              <input hidden type="text" name="idreply" value="<?=$unaRespuesta->getId();?>">
                                               <button type="submit" class="btn btn-danger" name="">
                                                 <span class="ion-android-delete" aria-hidden="true"></span>
                                                 <span><strong>Eliminar</strong></span>
                                               </button>
                                             </form>
+                                          </td>
                                           <?php else: ?>
-                                            <textarea class="form-control" name=""><?=$unaRespuesta->getReply();?></textarea>
+                                            <td>
+                                              <textarea class="form-control" name=""><?=$unaRespuesta->getReply();?></textarea>
+                                            </td>
+                                            <td></td>
                                           <?php endif; ?>
-                                      </td>
                                     </tr>
                                 <?php endforeach; ?>
                               </tbody>

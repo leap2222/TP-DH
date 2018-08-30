@@ -58,9 +58,8 @@
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
       }
-
-      header('location: VerEventos.php'); //crear
-      exit;
+      // header('location: VerEventos.php');
+      // exit;
     }
 
     public function Eliminar(){

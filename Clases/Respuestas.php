@@ -18,7 +18,7 @@
             require_once("connect.php");
             if($db = dbConnect()) {
               // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT idreply, idcomment, user_id, reply FROM tpi_db.replies where idcomment = '{$idComment}'";
+              $CadenaDeBusqueda = "SELECT id, idcomment, user_id, reply FROM tpi_db.replies where idcomment = '{$idComment}'";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
               //$RespuestasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -35,7 +35,7 @@
 
                 //Instancio un objeto de tipo Pelicula
                 require_once("Clases/respuesta.php");
-                $unaRespuesta = new respuesta($unRegistro['idreply'], $unRegistro['idcomment'], $unRegistro['user_id'], $unRegistro['reply']);
+                $unaRespuesta = new respuesta($unRegistro['id'], $unRegistro['idcomment'], $unRegistro['user_id'], $unRegistro['reply']);
 
                 //Agrego el objeto Pelicula al array
                 $RespuestasADevolver[] = $unaRespuesta;

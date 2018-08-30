@@ -50,10 +50,15 @@
         $comentario='';
       }
 
-      $respuesta = isset($_POST['respuesta']) ? trim($_POST['respuesta']) : "";
-      if($respuesta){
-        $unaRespuesta = guardarRespuesta($_POST['idcomment'], $_SESSION['id'], $respuesta);
-        $respuesta='';
+      if($_POST['respuestaAlComentario']){
+          //print_r($_POST['respuestaAlComentario']);exit;
+
+          $respuesta = isset($_POST['respuesta']) ? trim($_POST['respuesta']) : "";
+
+          if($respuesta){
+            $unaRespuesta = guardarRespuesta($_POST['respuestaAlComentario'], $_SESSION['id'], $respuesta);
+            $respuesta='';
+          }
       }
 	}
 
@@ -214,9 +219,11 @@
                     <?php if($elEvento->EstaInscripto($_SESSION['id'])): ?>
                         <?php if($unComentario->getUserId() == $_SESSION['id']): ?>
                             <form class="" action="editComment.php" method="get">
-                              <textarea class="form-control" name="nuevoComentario" value="<?=$nuevoComentario?>"><?=$nuevoComentario?></textarea>
+                              <textarea class="form-control" name="nuevoComentario" id="commentId<?=$unComentario->getId();?>" value="<?=$nuevoComentario?>"><?=$nuevoComentario?></textarea>
                               <!-- <input hidden type="text" name="nuevoComentario" value="<?//=$nuevoComentario?>"> -->
                               <input hidden type="text" name="idcomment" value="<?=$unComentario->getId();?>">
+                              <input hidden type="text" name="event_id" value="<?=$unComentario->getEventId(); ?>">
+
                               <button type="submit" class="btn btn-primary" name="">
                                 <span class="ion-edit" aria-hidden="true"></span>
                                 <span><strong>Editar</strong></span>
@@ -239,10 +246,9 @@
                               <form method="post" enctype="multipart/form-data">
                                 <label>Responder:</label>
                                 <textarea class="form-control" name="respuesta" value="<?=$respuesta?>"><?=$respuesta?></textarea>
-                                <input hidden type="text" name="idcomment" value="<?=$unComentario->getId();?>">
-                                <!-- <input hidden type="text" name="$idEvento" value="<?//=$idEvento?>"> -->
+                                <input hidden type="text" name="respuestaAlComentario" value="<?=$unComentario->getId();?>">
                                 <br>
-                                <input class="btn btn-primary" type="submit" name="accion" value="Responder">
+                                <input class="btn btn-primary" type="submit" value="Responder">
                               </form>
                             </div>
                           </div>
@@ -277,7 +283,7 @@
                                         <?php $nuevaRespuesta = $unaRespuesta->getReply(); ?>
                                           <td>
                                             <form class="" action="editReply.php" method="get">
-                                              <input hidden type="text" name="idreply" value="<?=$unaRespuesta->getId();?>">
+                                              <input hidden type="text" name="id" value="<?=$unaRespuesta->getId();?>">
                                               <textarea class="form-control" name="nuevaRespuesta" value="<?=$nuevaRespuesta?>"><?=$nuevaRespuesta?></textarea>
                                           </td>
                                           <td>
@@ -288,7 +294,7 @@
                                             </form>
 
                                             <form class="" action="deleteReply.php" method="get">
-                                              <input hidden type="text" name="idreply" value="<?=$unaRespuesta->getId();?>">
+                                              <input hidden type="text" name="id" value="<?=$unaRespuesta->getId();?>">
                                               <button type="submit" class="btn btn-danger" name="">
                                                 <span class="ion-android-delete" aria-hidden="true"></span>
                                                 <span><strong>Eliminar</strong></span>

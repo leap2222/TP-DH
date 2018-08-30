@@ -7,10 +7,10 @@
 
   if(isset($_GET['idcomment']) && isset($_GET['nuevoComentario']) && estaLogueado()){
 
-    $unComentario = new comentario($_GET['idcomment'],null,null,$_GET['nuevoComentario']);
+    $unComentario = new comentario($_GET['idcomment'], $_GET['event_id'], null, $_GET['nuevoComentario']);
     $unComentario->Editar();
   }
 
-  header('location: VerEventos.php');
+  header('location: EventoDetalle.php?id='.$unComentario->getEventId().'#commentId'.$unComentario->getId());
   exit;
 ?>

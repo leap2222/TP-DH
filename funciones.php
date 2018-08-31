@@ -8,7 +8,8 @@
 	require_once("Clases/comentario.php");
 	require_once("Clases/Respuestas.php");
 	require_once("Clases/respuesta.php");
-
+	require_once("Clases/Inscripciones.php");
+	
 	session_start();
 
 	// Chequeo si está la cookie seteada y se la paso a session para auto-logueo

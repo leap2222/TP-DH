@@ -11,7 +11,7 @@
 
   if(isset($_GET['id'])){
 
-    //$idEvento = $_GET['id'];
+    // COMENTARIO
 
     $usuariosInscriptos = Inscripciones::ObtenerTodas($_GET['id']);
     $comentariosDelEvento = Comentarios::ObtenerTodos($_GET['id']);
@@ -23,17 +23,16 @@
     $language = $elEvento->getLanguage();
     $estado = $elEvento->getStatus();
 
-  }
-  // Resolver que al inscribirse muestre el detalle del evento sin ir a la pantalla de VerEventos
-  // else{
-  //   $elEvento = traerEventoPorId($idEvento);
-  //   // Variables para persistencia
-  //   $name = $elEvento->getName();
-  //   $site = $elEvento->getSite();
-  //   $language = $elEvento->getLanguage();
-  //   $estado = $elEvento->getStatus();
-  // }
-  // $idEvento = $elEvento->getId();
+    // RESPUESTA A Comentarios
+    if(isset($_POST['respuestaAlComentario'])) {
+      $respuesta = isset($_POST['respuesta']) ? trim($_POST['respuesta']) : "";
+      if($respuesta) {
+        $unaRespuesta = guardarRespuesta($_POST['respuestaAlComentario'], $_SESSION['id'], $respuesta);
+        $respuesta='';
+      }
+    }
+}
+
   $comentario='';
   $respuesta='';
   $nuevoComentario ='';
@@ -45,6 +44,9 @@
       if($comentario){
         $unComentario = guardarComentario($elEvento->getId(), $_SESSION['id'], $comentario);
         $comentario='';
+
+        header('location: EventoDetalle.php?id=' . $_GET['id']);
+        exit;
       }
 	}
 
@@ -143,7 +145,7 @@
       <tr>
         <th>Usuario</th>
         <th>Publicaciones</th>
-        <!--th>Respuestas</th-->
+        <th>Respuestas</th>
       </tr>
     </thead>
     <tbody>
@@ -154,6 +156,7 @@
             <a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a>
 
             <?php if($unComentario->getUserId() == $_SESSION['id']): ?>
+              <?php /*
               <form class="" action="editComment.php" method="get">
                 <input hidden type="text" name="event_id" value="<?=$unComentario->getEventId(); ?>">
                 <button type="submit" class="btn btn-primary" name="">
@@ -168,11 +171,18 @@
                   <span><strong>Eliminar</strong></span>
                 </button>
               </form>
+              */ ?>
+              <div>
+                <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='btn-danger'>Borrar Comentario</a>
+              </div>
             <?php endif; ?>
           </td>
           <td>
             <?php $nuevoComentario = $unComentario->getComment(); ?>
             <textarea class="form-control" name=""><?=$unComentario->getComment();?></textarea>
+          </td>
+          <td>
+            Respuesta a comentario
           </td>
         </tr>
       <?php endforeach; ?>

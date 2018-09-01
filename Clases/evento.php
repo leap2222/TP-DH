@@ -1,7 +1,7 @@
 <?php
   require_once("connect.php");
   // Método guardar(), registrará una película en la base de datos a través de un form.
-  class evento {
+  class evento extends Modelo{
 
     private $event_id;
     private $name;
@@ -10,7 +10,8 @@
     private $status;
     private $inscripciones;
     private $comentarios;
-
+    public $table = 'events';
+    public $columns = ['name', 'site', 'language', 'status_id'];
 
     public function __construct($event_id, $name, $site, $language){
       $this->event_id = $event_id;

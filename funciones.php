@@ -9,7 +9,7 @@
 	require_once("Clases/Respuestas.php");
 	require_once("Clases/respuesta.php");
 	require_once("Clases/Inscripciones.php");
-	
+
 	session_start();
 
 	// Chequeo si está la cookie seteada y se la paso a session para auto-logueo
@@ -165,8 +165,24 @@
 		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
 		$role_id = 2;
 
-		$unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma, $role_id);
-		$unUsuario->Registrar();
+		$unUsuario = new usuario();
+
+		$unUsuario->setAttr('name', $nombre);
+		$unUsuario->setAttr('email', $email);
+		$unUsuario->setAttr('password', $passh);
+		$unUsuario->setAttr('age', $edad);
+		$unUsuario->setAttr('telephone', $tel);
+		$unUsuario->setAttr('country', $pais);
+		$unUsuario->setAttr('website', $website);
+		$unUsuario->setAttr('message', $mensaje);
+		$unUsuario->setAttr('sex', $sex);
+		$unUsuario->setAttr('language', $language);
+		$unUsuario->setAttr('role_id', $role_id);
+
+		$unUsuario->save();
+
+		// $unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma, $role_id);
+		// $unUsuario->Registrar();
 		return $unUsuario;
 	}
 
@@ -192,18 +208,21 @@
 
 	function buscarPorEmail($email){
 
-			if($db = dbConnect()) {
-				//Ejecuto la lectura
-				$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
-				$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-				$ConsultaALaBase->execute();
-				//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-			} else {
-					echo "Conexion fallida";
-					exit;
-				}
+			$unUsuario = new usuario();
+			$unRegistro = $unUsuario->findByEmail($email);
 
-				$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+			// if($db = dbConnect()) {
+			// 	//Ejecuto la lectura
+			// 	$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
+			// 	$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+			// 	$ConsultaALaBase->execute();
+			// 	//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+			// } else {
+			// 		echo "Conexion fallida";
+			// 		exit;
+			// 	}
+			//
+			// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 				if($unRegistro){
 					$unUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],

@@ -13,7 +13,7 @@
     $usuario = buscarPorEmail($_GET['email']);
 
 	  require_once("Clases/Inscripciones.php");
-	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($usuario->getId());
+	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($usuario->getAttr('id'));
 
 		// $paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
 		// "Alemania", "Grecia", "Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",

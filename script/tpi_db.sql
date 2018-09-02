@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: tpi_db
+-- Host: localhost    Database: tpi_db
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.34-MariaDB
+-- Server version	5.7.23-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,11 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-DROP DATABASE IF EXISTS tpi_db;
-CREATE DATABASE tpi_db;
-USE tpi_db;
-
 
 --
 -- Table structure for table `comments`
@@ -33,7 +28,7 @@ CREATE TABLE `comments` (
   `user_id` int(11) NOT NULL,
   `comment` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`idcomment`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +37,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (2,1,1,'quiero asistir al evento para hablar chino'),(27,1,4,'hola estoy contento'),(29,8,9,'hola, voy a asistir al evento !'),(30,8,9,'hola, voy a asistir al evento !'),(31,8,9,'hola, voy a asistir al evento !');
+INSERT INTO `comments` VALUES (27,1,4,'hola estoy contento'),(29,8,9,'hola, voy a asistir al evento !'),(38,1,2,'quiero practicar chino y ruso'),(39,2,1,'hola'),(40,1,1,'buenas');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,8 +112,8 @@ CREATE TABLE `inscriptions` (
   KEY `user_event_user_id_foreign` (`user_id`),
   KEY `user_event_event_id_foreign` (`event_id`),
   CONSTRAINT `user_event_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`),
-  CONSTRAINT `user_event_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  CONSTRAINT `user_event_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +122,7 @@ CREATE TABLE `inscriptions` (
 
 LOCK TABLES `inscriptions` WRITE;
 /*!40000 ALTER TABLE `inscriptions` DISABLE KEYS */;
-INSERT INTO `inscriptions` VALUES (3,4,5,NULL,NULL),(4,4,8,NULL,NULL),(6,4,2,NULL,NULL),(7,4,4,NULL,NULL),(9,1,2,NULL,NULL),(11,8,1,NULL,NULL),(13,4,1,NULL,NULL),(14,1,1,NULL,NULL),(15,9,8,NULL,NULL);
+INSERT INTO `inscriptions` VALUES (3,4,5,NULL,NULL),(4,4,8,NULL,NULL),(6,4,2,NULL,NULL),(7,4,4,NULL,NULL),(9,1,2,NULL,NULL),(11,8,1,NULL,NULL),(13,4,1,NULL,NULL),(14,1,1,NULL,NULL),(15,9,8,NULL,NULL),(17,2,1,NULL,NULL),(18,1,1,NULL,NULL),(19,1,1,NULL,NULL),(20,1,1,NULL,NULL),(21,1,1,NULL,NULL),(22,1,1,NULL,NULL);
 /*!40000 ALTER TABLE `inscriptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,8 +143,8 @@ CREATE TABLE `matches_users` (
   KEY `user_match_user_id_foreign` (`match_id`),
   KEY `user_match_user1_id_foreign` (`user1_id`),
   KEY `user_match_user2_id_foreign` (`user2_id`),
-  CONSTRAINT `user_match_user1_id_foreign` FOREIGN KEY (`user1_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `user_match_user2_id_foreign` FOREIGN KEY (`user2_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `user_match_user1_id_foreign` FOREIGN KEY (`user1_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `user_match_user2_id_foreign` FOREIGN KEY (`user2_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -218,7 +213,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `user_id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -232,9 +227,9 @@ CREATE TABLE `users` (
   `role_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +238,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Esteban Raffo','e.fraffo@gmail.com','$2y$10$B4c2nOJQkV7TDHA2lxBnS.PSdFAtvnB6K7nZaPg89XGJFS4mCa4dy',31,'01166880926','Argentina','http://www.facebook.com/e.fraffo','Busco gente para practicar inglés.','M','Inglés',2,NULL,NULL),(2,'Raul Perez','raul@hotmail.com','$2y$10$crKQdoCND6tHU5v459z5XOEDHChq7BgoKDuQc2Xgyy1.rYLCON5yG',25,'1122-3344','Argentina','http://www.facebook.com/raul','busco gente para practicar Italiano y Frances','M','Ruso',2,NULL,NULL),(3,'Cacho Castaña','cacho@hotmail.com','$2y$10$MpZh1jaTUq8uiTiXoSzL8upEKjVLaWsntQfc014Ex.nOlez22tdny',20,'1122-0033','Brasil','http://www.facebook.com/cacho','Busco gente para hablar ingles','O','Inglés',2,NULL,NULL),(4,'Rodolfo Perez','rodolfo@hotmail.com','$2y$10$YvHmgESp/rwYAATSoGIWmOPlBJNCZ/m4iZp7rcvGmAkuegJdWe8YS',6,'2233-4466','Colombia','http://www.facebook.com/rodolfo','Busco gente para practicar frances.','M','Frances',2,NULL,NULL),(6,'Mamarracho Perez','mamaracho@hotmail.com','$2y$10$ARJrzia0FZ3jil5FKTx2Ie466XN0nALtXP5ttUOcdRelVWEnhvYkW',88,'3344-5566','0','http://www.facebook.com/mamaracho','Hola que tal','M','Aleman',2,NULL,NULL),(8,'Administrador','admin@admin.com','$2y$10$CeFFG400yssdp70agHEqqODjHlqFLNbg2fwdAuIO3QFMSMaL9e/ue',30,'','Argentina','','','O','0',1,NULL,NULL),(9,'Myriam Bregman','myriam@hotmail.com','$2y$10$NklmuWbAQSvy7pXJhybD5uifj34goL7X//oqqvjLvD4a49HnFxMeG',40,'1122-0033','Argentina','http://www.facebook.com/myriam','myriam presidente !','F','Ruso',2,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Esteban Raffo','e.fraffo@gmail.com','$2y$10$B4c2nOJQkV7TDHA2lxBnS.PSdFAtvnB6K7nZaPg89XGJFS4mCa4dy',31,'01166880926','Argentina','http://www.facebook.com/e.fraffo','Busco gente para practicar inglés.','M','Inglés',2,NULL,NULL),(2,'Raul Perez','raul@hotmail.com','$2y$10$crKQdoCND6tHU5v459z5XOEDHChq7BgoKDuQc2Xgyy1.rYLCON5yG',25,'1122-3344','Argentina','http://www.facebook.com/raul','busco gente para practicar Italiano y Frances','M','Ruso',2,NULL,NULL),(3,'Cacho Castaña','cacho@hotmail.com','$2y$10$MpZh1jaTUq8uiTiXoSzL8upEKjVLaWsntQfc014Ex.nOlez22tdny',20,'1122-0033','Brasil','http://www.facebook.com/cacho','Busco gente para hablar ingles','O','Inglés',2,NULL,NULL),(4,'Rodolfo Perez','rodolfo@hotmail.com','$2y$10$YvHmgESp/rwYAATSoGIWmOPlBJNCZ/m4iZp7rcvGmAkuegJdWe8YS',6,'2233-4466','Colombia','http://www.facebook.com/rodolfo','Busco gente para practicar frances.','M','Frances',2,NULL,NULL),(6,'Mamarracho Perez','mamaracho@hotmail.com','$2y$10$ARJrzia0FZ3jil5FKTx2Ie466XN0nALtXP5ttUOcdRelVWEnhvYkW',88,'3344-5566','0','http://www.facebook.com/mamaracho','Hola que tal','M','Aleman',2,NULL,NULL),(8,'Administrador','admin@admin.com','$2y$10$CeFFG400yssdp70agHEqqODjHlqFLNbg2fwdAuIO3QFMSMaL9e/ue',30,'','Argentina','','','O','0',1,NULL,NULL),(9,'Myriam Bregman','myriam@hotmail.com','$2y$10$NklmuWbAQSvy7pXJhybD5uifj34goL7X//oqqvjLvD4a49HnFxMeG',40,'1122-0033','Argentina','http://www.facebook.com/myriam','myriam presidente !','F','Ruso',2,NULL,NULL),(10,'Nicolas Del CaÃ±o','nico@hotmail.com','$2y$10$HJq/YcM.nX1HGaiK4kit/OquedjJpSyc7uDow9hi2rAiwkI1Dr7PG',40,'2222-3333','Argentina','http://www.facebook.com/nico','hola','','',2,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -256,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-22 21:27:14
+-- Dump completed on 2018-09-02 20:22:57

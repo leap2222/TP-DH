@@ -40,7 +40,7 @@ class MySQL_DB extends DB
   }
 
 
-  function update($datos, $tabla, $id)
+  public function update($datos, $tabla, $id)
   {
     //global $db;
     $set = '';
@@ -60,24 +60,45 @@ class MySQL_DB extends DB
     }
   }
 
+  public function delete($tabla, $id){
+    $sql = 'delete from'.$tabla.'where id = '. $id;
 
-  function find($tabla, $id)
+    try {
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute();
+    } catch(Exception $e) {
+      $e->getMessage();
+    }
+  }
+
+
+  public function find($tabla, $id)
   {
-    //global $db;
     $sql = 'select * from '.$tabla.' where id = :id'; //fecth
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':id', $id);
-    $stmt->execute();
+
+    try {
+      $stmt = $this->conn->prepare($sql);
+      $stmt->bindValue(':id', $id);
+      $stmt->execute();
+    } catch(Exception $e) {
+      $e->getMessage();
+    }
+
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  function findByEmail($email)
+  public function findByEmail($email)
   {
-    //global $db;
-    $sql = 'select * from users where email = :email'; //fecth
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':email', $email);
-    $stmt->execute();
+    $sql = 'select * from tpi_db.users where email like :email'; //fecth
+
+    try {
+      $stmt = $this->conn->prepare($sql);
+      $stmt->bindValue(':email', $email);
+      $stmt->execute();
+    } catch (Exception $e) {
+      $e->getMessage();
+    }
+
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
   // $datos = [

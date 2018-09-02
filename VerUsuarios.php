@@ -11,7 +11,7 @@
 	 	exit;
 	}
   $usuario = traerUsuarioPorId($_SESSION['id']);
-  $userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
+  $userIsAdmin = Usuarios::isAdmin($usuario->getAttr('email'));
 ?>
 
 
@@ -30,13 +30,13 @@
         <tbody>
         <?php foreach($TodosLosUsuarios as $unUsuario): ?>
         <tr>
-                <td><?=$unUsuario->getName();?></td>
-                <td><?=$unUsuario->getEmail();?></td>
-                <td><?=$unUsuario->getLanguage();?></td>
+                <td><?=$unUsuario->getAttr('name');?></td>
+                <td><?=$unUsuario->getAttr('email');?></td>
+                <td><?=$unUsuario->getAttr('language')?></td>
                 <td>
                   <div class="d-flex justify-content-around">
                     <form class="" action="UsuarioDetalle.php" method="get">
-                      <input hidden type="text" name="email" value="<?=$unUsuario->getEmail();?>">
+                      <input hidden type="text" name="email" value="<?=$unUsuario->getAttr('email');?>">
                       <button type="submit" class="btn btn-info" name="">
                         <span class="ion-edit" aria-hidden="true"></span>
                         <span><strong>Ver</strong></span>
@@ -45,7 +45,7 @@
 
                     <?php if ($userIsAdmin): ?>
                       <form class="" action="deleteUser.php" method="post">
-                        <input hidden type="text" name="id" value="<?=$unUsuario->getId();?>">
+                        <input hidden type="text" name="id" value="<?=$unUsuario->getAttr('id');?>">
                           <button type="submit" class="btn btn-danger" name="">
                             <span class="ion-android-delete" aria-hidden="true"></span>
                             <span><strong>Eliminar</strong></span>

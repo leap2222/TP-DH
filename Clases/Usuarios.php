@@ -7,8 +7,8 @@
 
     public static function isAdmin($email){
       foreach (Usuarios::ObtenerTodos() as $user) {
-        if($user->getEmail()==$email){
-          return ($user->getRole()==1);
+        if($user->getAttr('email')==$email){
+          return ($user->getAttr('role_id')==1);
         }
       }
       return false;
@@ -28,7 +28,7 @@
 
         if($db = dbConnect()) {
           //Ejecuto la lectura
-          $CadenaDeBusqueda = "SELECT user_id, name, email, password, age, telephone, country, website, message, sex, language, role_id FROM users";
+          $CadenaDeBusqueda = "SELECT id, name, email, password, age, telephone, country, website, message, sex, language, role_id FROM users";
           $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
           $ConsultaALaBase->execute();
           //$UsuariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC);
@@ -45,7 +45,7 @@
 
             //Instancio un objeto de tipo Usuario
             require_once("Clases/usuario.php");
-            $UnUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'],
+            $UnUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'],
                                     $unRegistro['language'], $unRegistro['role_id']);
 
             //Agrego el objeto Usuario al array

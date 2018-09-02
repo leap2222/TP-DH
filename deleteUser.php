@@ -4,7 +4,7 @@
 
   if(isset($_POST['id']) && estaLogueado()){
     $elUsuario = new usuario($_POST['id'],"","","","","","","","","","","");
-    $elUsuario->Eliminar();
+    $elUsuario->delete();
   }
 
   header('location: VerUsuarios.php');

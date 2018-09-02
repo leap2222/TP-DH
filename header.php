@@ -30,7 +30,7 @@
           <div>
             <?php if(estaLogueado()): ?>
               <?php $usuario = traerUsuarioPorId($_SESSION['id']); ?>
-              <a href=perfil.php><?= $usuario->getName() ?> </a>
+              <a href=perfil.php><?= $usuario->getAttr('name') ?> </a>
               (<a href=logout.php>Salir</a>)
             <?php else: ?>
               <a href=registracion.php><ion-icon name="person"></ion-icon>Registrar</a>

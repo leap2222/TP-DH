@@ -9,6 +9,7 @@
 	require_once("Clases/Respuestas.php");
 	require_once("Clases/respuesta.php");
 	require_once("Clases/Inscripciones.php");
+	require_once("Clases/Modelo.php");
 
 	session_start();
 
@@ -103,7 +104,7 @@
 				$usuario = buscarPorEmail($email);
 
 			// Pregunto si coindice la password escrita con la guardada en el JSON
-				if (!password_verify($pass, $usuario->getPass())) {
+				if (!password_verify($pass, $usuario->getAttr('password'))) {
 					$arrayADevolver['pass'] = "Credenciales incorrectas";
 				}
 		}
@@ -175,8 +176,8 @@
 		$unUsuario->setAttr('country', $pais);
 		$unUsuario->setAttr('website', $website);
 		$unUsuario->setAttr('message', $mensaje);
-		$unUsuario->setAttr('sex', $sex);
-		$unUsuario->setAttr('language', $language);
+		$unUsuario->setAttr('sex', $sexo);
+		$unUsuario->setAttr('language', $idioma);
 		$unUsuario->setAttr('role_id', $role_id);
 
 		$unUsuario->save();
@@ -194,10 +195,10 @@
 		$usuario = buscarPorEmail($email);
 
 		if($usuario){
-			if (password_verify($pass, $usuario->getPass())) {
-					$_SESSION['id'] = $usuario->getId();
+			if (password_verify($pass, $usuario->getAttr('password'))) {
+					$_SESSION['id'] = $usuario->getAttr('id');
 					if ($data['recordar']) {
-							setcookie('id', $usuario->getId(), time() + 3000);
+							setcookie('id', $usuario->getAttr('id'), time() + 3000);
 					}
 			}
 			return $usuario;
@@ -212,11 +213,11 @@
 			$unRegistro = $unUsuario->findByEmail($email);
 
 			// if($db = dbConnect()) {
-			// 	//Ejecuto la lectura
-			// 	$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
+			//
+			// 	$CadenaDeBusqueda = "SELECT id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
 			// 	$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 			// 	$ConsultaALaBase->execute();
-			// 	//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+			//
 			// } else {
 			// 		echo "Conexion fallida";
 			// 		exit;
@@ -225,7 +226,7 @@
 			// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 				if($unRegistro){
-					$unUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
+					$unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
 																		$unRegistro['role_id']);
 
 					return $unUsuario;
@@ -237,17 +238,20 @@
 
 	function traerUsuarioPorId($id){
 
-		if($db = dbConnect()) {
-			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE user_id = '{$id}'";
-			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-			$ConsultaALaBase->execute();
-			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-		} else {
-				echo "Conexion fallida";
-			}
+		$unUsuario = new usuario();
+		$unRegistro = $unUsuario->find($id);
 
-			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+		// if($db = dbConnect()) {
+		// 	//Ejecuto la lectura
+		// 	$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE user_id = '{$id}'";
+		// 	$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+		// 	$ConsultaALaBase->execute();
+		// 	//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+		// } else {
+		// 		echo "Conexion fallida";
+		// 	}
+		//
+		// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 			if($unRegistro){
 				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],

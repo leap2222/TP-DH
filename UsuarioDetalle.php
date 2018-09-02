@@ -21,15 +21,15 @@
 		// $idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
 	  // Variables para persistencia
-	  $nombre = $usuario->getname();
-		$email = $usuario->getEmail();
-		$edad = $usuario->getAge();
-		$tel = $usuario->getTelephone();
-		$pais = $usuario->getCountry();
-		$website = $usuario->getWebsite();
-		$mensaje = $usuario->getMessage();
-		$sexo = $usuario->getSex();
-		$language = $usuario->getLanguage();
+		$nombre = $usuario->getAttr('name');
+		$email = $usuario->getAttr('email');
+		$edad = $usuario->getAttr('age');
+		$tel = $usuario->getAttr('telephone');
+		$pais = $usuario->getAttr('country');
+		$website = $usuario->getAttr('website');
+		$mensaje = $usuario->getAttr('message');
+		$sexo = $usuario->getAttr('sex');
+		$language = $usuario->getAttr('language');
 		//$photo = $usuario->getPhoto();
 	}
 

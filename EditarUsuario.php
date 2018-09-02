@@ -21,21 +21,22 @@
 	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
   // Variables para persistencia
-  $nombre = $usuario->getname();
-	$email = $usuario->getEmail();
-	$edad = $usuario->getAge();
-	$tel = $usuario->getTelephone();
-	$pais = $usuario->getCountry();
-	$website = $usuario->getWebsite();
-	$mensaje = $usuario->getMessage();
-	$sexo = $usuario->getSex();
-	$language = $usuario->getLanguage();
+  $nombre = $usuario->getAttr('name');
+	$email = $usuario->getAttr('email');
+	$edad = $usuario->getAttr('age');
+	$tel = $usuario->getAttr('telephone');
+	$pais = $usuario->getAttr('country');
+	$website = $usuario->getAttr('website');
+	$mensaje = $usuario->getAttr('message');
+	$sexo = $usuario->getAttr('sex');
+	$language = $usuario->getAttr('language');
 	//$photo = $usuario->getPhoto();
 
   $errores = [];
 
   if ($_POST) {
 
+		$id = $usuario->getAttr('id');
 		$nombre = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
 		$email = isset($_POST['email']) ? trim($_POST['email']) : "";
 		$pass = isset($_POST['pass']) ? trim($_POST['pass']) : "";
@@ -52,28 +53,25 @@
     $errores = validar($_POST, 'avatar');
 
     if (empty($errores)){
-			// Borrar usuario anterior y volver a grabar.
-			//
-			//			borrarUsuario($email);
-			//
-			//		Falta resolver como borrar el usuario anterior y grabar la foto anterior
-			//		tambien si no la modifico.
+
       require_once("Clases/evento.php");
-      $usuario->Actualizar($nombre, $email, $passh, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
-    }
+      $usuario = new usuario($id, $nombre, $email, $passh, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
+			$usuario->update();
+			header('location: VerUsuarios.php');
+		}
   } else {
 		// Cargar datos del usuario.
 		$usuario = traerUsuarioPorId($_SESSION['id']);
 
-		$nombre = $usuario->getname();
-		$email = $usuario->getEmail();
-		$edad = $usuario->getAge();
-		$tel = $usuario->getTelephone();
-		$pais = $usuario->getCountry();
-		$website = $usuario->getWebsite();
-		$mensaje = $usuario->getMessage();
-		$sexo = $usuario->getSex();
-		$idioma = $usuario->getLanguage();
+		$nombre = $usuario->getAttr('name');
+		$email = $usuario->getAttr('email');
+		$edad = $usuario->getAttr('age');
+		$tel = $usuario->getAttr('telephone');
+		$pais = $usuario->getAttr('country');
+		$website = $usuario->getAttr('website');
+		$mensaje = $usuario->getAttr('message');
+		$sexo = $usuario->getAttr('sex');
+		$idioma = $usuario->getAttr('language');
 		//$photo = $usuario->getPhoto();
 	}
 ?>

@@ -19,7 +19,7 @@
 		$recordar = isset($_POST['recordar']) ? trim($_POST['recordar']) : "";
 
 		$errores = validarLogin($_POST);
-
+		var_dump($errores);
 		if (empty($errores)) {
 				$usuario = LoginDeUsuario($_POST);
 				header('location: perfil.php');

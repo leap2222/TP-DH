@@ -29,12 +29,23 @@ class Modelo
   }
 
   private function update(){
-    $this->db->update($this->datos, $this, 1);
+    $this->db->update($this->datos, $this, $this->datos['id']);
+  }
+
+  private function delete(){
+    $this->db->delete($this, $this->datos['id']);
   }
 
   public function getAttr($attr)
   {
-    return isset($this->datos[$attr]) ? $this->datos[$attr] : null;
+    //return isset($this->datos[$attr]) ? $this->datos[$attr] : null;
+
+    $unRegistro = $this->find($this->datos['id']);
+    if($unRegistro){
+        return $unRegistro[$attr];
+    }else{
+      return null;
+    }
   }
 
   public function setAttr($attr, $value)
@@ -43,6 +54,10 @@ class Modelo
   }
 
   public function findByEmail($email){
-    $this->db->findByEmail($email);
+    return $this->db->findByEmail($email);
+  }
+
+  public function find($id){
+    return $this->db->find($this->table, $id);
   }
 }

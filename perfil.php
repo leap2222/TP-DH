@@ -9,13 +9,13 @@
 	}
 
 	$usuario = traerUsuarioPorId($_SESSION['id']);
-	$userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
+	$userIsAdmin = Usuarios::isAdmin($usuario->getAttr('email'));
 ?>
 
 
       <?php $TituloPagina = "Perfil de usuario"; include 'header.php'; ?>
 
-			<h1>Bienvenido, <?=$usuario->getName()?>!</h1>
+			<h1>Bienvenido, <?=$usuario->getAttr('name')?>!</h1>
 			<br><br>
       <div class="row">
 			<div class="col-sm cuerpo color-cuerpo">

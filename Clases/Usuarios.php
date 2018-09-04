@@ -45,11 +45,24 @@
 
             //Instancio un objeto de tipo Usuario
             require_once("Clases/usuario.php");
-            $UnUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'],
-                                    $unRegistro['language'], $unRegistro['role_id']);
+            // $UnUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'],
+            //                         $unRegistro['language'], $unRegistro['role_id']);
+            $unUsuario = new usuario();
+            $unUsuario->setAttr('id', $unRegistro['id']);
+            $unUsuario->setAttr('name', $unRegistro['name']);
+            $unUsuario->setAttr('email', $unRegistro['email']);
+            $unUsuario->setAttr('password', $unRegistro['password']);
+            $unUsuario->setAttr('age', $unRegistro['age']);
+            $unUsuario->setAttr('telephone', $unRegistro['telephone']);
+            $unUsuario->setAttr('country', $unRegistro['country']);
+            $unUsuario->setAttr('website', $unRegistro['website']);
+            $unUsuario->setAttr('message', $unRegistro['message']);
+            $unUsuario->setAttr('sex', $unRegistro['sex']);
+            $unUsuario->setAttr('language', $unRegistro['language']);
+            $unUsuario->setAttr('role_id', $unRegistro['role_id']);
 
             //Agrego el objeto Usuario al array
-            $UsuariosADevolver[] = $UnUsuario;
+            $UsuariosADevolver[] = $unUsuario;
         }
 
         //Guardo las variables globales de la clase de entidad, para no tener que volverlas a llenar

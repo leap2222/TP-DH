@@ -1,5 +1,6 @@
 <?php
 
+
 class Modelo
 {
   public $table;
@@ -38,14 +39,7 @@ class Modelo
 
   public function getAttr($attr)
   {
-    //return isset($this->datos[$attr]) ? $this->datos[$attr] : null;
-
-    $unRegistro = $this->find($this->datos['id']);
-    if($unRegistro){
-        return $unRegistro[$attr];
-    }else{
-      return null;
-    }
+    return isset($this->datos[$attr]) ? $this->datos[$attr] : null;
   }
 
   public function setAttr($attr, $value)
@@ -58,6 +52,12 @@ class Modelo
   }
 
   public function find($id){
-    return $this->db->find($this->table, $id);
+    $reg = $this->db->find($this->table, $id);
+
+    if($reg){
+      foreach ($reg as $attr => $value) {
+        $this->setAttr($attr, $value);
+      }
+    }
   }
 }

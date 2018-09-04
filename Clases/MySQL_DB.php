@@ -87,13 +87,14 @@ class MySQL_DB extends DB
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
+
   public function findByEmail($email)
   {
-    $sql = 'select * from tpi_db.users where email like :email'; //fecth
+    $sql = "SELECT id, name, email, password, age, telephone, country, website, message, sex, language, role_id from tpi_db.users where email like '{$email}'"; //fecth
 
     try {
       $stmt = $this->conn->prepare($sql);
-      $stmt->bindValue(':email', $email);
+      //$stmt->bindValue(':email', $email);
       $stmt->execute();
     } catch (Exception $e) {
       $e->getMessage();
@@ -101,14 +102,5 @@ class MySQL_DB extends DB
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
-  // $datos = [
-  //   'nombre' => 'Bronco',
-  //   'especie' => 'Dog',
-  //   'humano_id' => 1
-  // ];
-  // insert('humanos', $datos);
-  // update('mascotas', $datos, 1);
-
-  // $mascota = find('mascotas', 2);
-  // var_dump($mascota);
+  
 }

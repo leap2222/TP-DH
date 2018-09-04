@@ -226,8 +226,21 @@
 			// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 				if($unRegistro){
-					$unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
-																		$unRegistro['role_id']);
+					// $unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
+					// 												$unRegistro['role_id']);
+
+					$unUsuario->setAttr('id', $unRegistro['id']);
+					$unUsuario->setAttr('name', $unRegistro['name']);
+					$unUsuario->setAttr('email', $email);
+					$unUsuario->setAttr('password', $unRegistro['password']);
+					$unUsuario->setAttr('age', $unRegistro['age']);
+					$unUsuario->setAttr('telephone', $unRegistro['telephone']);
+					$unUsuario->setAttr('country', $unRegistro['country']);
+					$unUsuario->setAttr('website', $unRegistro['website']);
+					$unUsuario->setAttr('message', $unRegistro['message']);
+					$unUsuario->setAttr('sex', $unRegistro['sex']);
+					$unUsuario->setAttr('language', $unRegistro['language']);
+					$unUsuario->setAttr('role_id', $unRegistro['role_id']);
 
 					return $unUsuario;
 				}
@@ -239,8 +252,13 @@
 	function traerUsuarioPorId($id){
 
 		$unUsuario = new usuario();
-		$unRegistro = $unUsuario->find($id);
+		$unUsuario->find($id);
 
+		if($unUsuario){
+			return $unUsuario;
+		}
+
+		return false;
 		// if($db = dbConnect()) {
 		// 	//Ejecuto la lectura
 		// 	$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE user_id = '{$id}'";
@@ -253,13 +271,27 @@
 		//
 		// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
-			if($unRegistro){
-				$unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
-																	$unRegistro['role_id']);
-				return $unUsuario;
-			}
+			// if($unRegistro){
+			// 	// $unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
+			// 	// 													$unRegistro['role_id']);
+			//
+			// 	$unUsuario->setAttr('id', $id);
+			// 	$unUsuario->setAttr('name', $unRegistro['name']);
+			// 	$unUsuario->setAttr('email', $unRegistro['email']);
+			// 	$unUsuario->setAttr('password', $unRegistro['password']);
+			// 	$unUsuario->setAttr('age', $unRegistro['age']);
+			// 	$unUsuario->setAttr('telephone', $unRegistro['telephone']);
+			// 	$unUsuario->setAttr('country', $unRegistro['country']);
+			// 	$unUsuario->setAttr('website', $unRegistro['website']);
+			// 	$unUsuario->setAttr('message', $unRegistro['message']);
+			// 	$unUsuario->setAttr('sex', $unRegistro['sex']);
+			// 	$unUsuario->setAttr('language', $unRegistro['language']);
+			// 	$unUsuario->setAttr('role_id', $unRegistro['role_id']);
 
-			return false;
+				//return $unUsuario;
+			//}
+
+			//return false;
 	}
 
 

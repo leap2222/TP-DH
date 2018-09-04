@@ -20,7 +20,7 @@
     // //private $photo;
     // private $inscripciones;
     public $table = 'users';
-    public $columns = ['name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id'];
+    public $columns = ['id', 'name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id'];
 
     // public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language, $role_id){
     //   $this->user_id = $user_id;

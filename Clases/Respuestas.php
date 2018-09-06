@@ -1,4 +1,4 @@
-<?php
+<?php /*
 
   class Respuestas {
     public static $Cantidad;
@@ -103,4 +103,4 @@
       //   }
   }
 
-?>
+*/ ?>

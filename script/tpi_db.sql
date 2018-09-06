@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: tpi_db
+-- Host: 127.0.0.1    Database: tpi_db
 -- ------------------------------------------------------
--- Server version	5.7.23-0ubuntu0.16.04.1
+-- Server version	5.5.5-10.1.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -15,9 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP DATABASE IF EXISTS tpi_db;
-CREATE DATABASE tpi_db;
-USE tpi_db;
 --
 -- Table structure for table `comments`
 --
@@ -26,12 +23,13 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
-  `idcomment` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `comment` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`idcomment`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +38,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (27,1,4,'hola estoy contento'),(29,8,9,'hola, voy a asistir al evento !'),(38,1,2,'quiero practicar chino y ruso'),(39,2,1,'hola'),(40,1,1,'buenas');
+INSERT INTO `comments` VALUES (27,0,1,4,'hola estoy contento'),(29,0,8,9,'hola, voy a asistir al evento !'),(38,0,1,2,'quiero practicar chino y ruso'),(39,0,2,1,'hola'),(40,0,1,1,'buenas'),(41,0,1,2,'Comentario'),(42,0,1,3,'Otro comentario mas'),(43,0,1,4,'Mas comentarios.');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,4 +252,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-02 20:22:57
+-- Dump completed on 2018-09-06 18:59:21

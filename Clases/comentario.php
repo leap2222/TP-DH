@@ -4,15 +4,16 @@
   class comentario extends Modelo{
 
     private $id;
+    private $parent_id;
     private $event_id;
     private $user_id;
     private $comment;
-    private $respuestas;
     public $table = 'comments';
-    public $columns = ['event_id', 'user_id', 'comment'];
+    public $columns = ['id', 'parent_id','event_id', 'user_id', 'comment'];
 
-    public function __construct($id, $event_id, $user_id, $comment){
+    public function __construct($id, $parent_id, $event_id, $user_id, $comment){
       $this->id = $id;
+      $this->parent_id = $parent_id;
       $this->event_id = $event_id;
       $this->user_id = $user_id;
       $this->comment = $comment;
@@ -41,12 +42,14 @@
     public function Guardar(){
       try{
         $db = dbConnect();
-    		$query = "INSERT into tpi_db.comments (event_id, user_id, comment)
-                  values ('{$this->event_id}', '{$this->user_id}', '{$this->comment}')";
+    		$query = "INSERT into tpi_db.comments (event_id, user_id, parent_id, comment)
+                  values ('{$this->event_id}', '{$this->user_id}', '{$this->parent_id}', '{$this->comment}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
+        echo "Comentario->guardar(); <br>";
         echo $Exception->getMessage();
+        exit;
       }
     }
 
@@ -59,6 +62,7 @@
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
+        exit;
       }
       // header('location: VerEventos.php');
       // exit;
@@ -72,6 +76,7 @@
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
+        exit;
       }
     }
   }

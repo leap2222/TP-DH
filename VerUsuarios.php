@@ -12,7 +12,7 @@
 	 	exit;
 	}
   $usuario = traerUsuarioPorId($_SESSION['id']);
-  var_dump($usuario);
+  
   $userIsAdmin = Usuarios::isAdmin($usuario->getAttr('email'));
 ?>
 

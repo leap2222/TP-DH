@@ -210,7 +210,7 @@
 	function buscarPorEmail($email){
 
 			$unUsuario = new usuario();
-			$unRegistro = $unUsuario->findByEmail($email);
+			$unUsuario->findByEmail($email);
 
 			// if($db = dbConnect()) {
 			//
@@ -225,22 +225,9 @@
 			//
 			// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
-				if($unRegistro){
+				if($unUsuario){
 					// $unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
 					// 												$unRegistro['role_id']);
-
-					$unUsuario->setAttr('id', $unRegistro['id']);
-					$unUsuario->setAttr('name', $unRegistro['name']);
-					$unUsuario->setAttr('email', $email);
-					$unUsuario->setAttr('password', $unRegistro['password']);
-					$unUsuario->setAttr('age', $unRegistro['age']);
-					$unUsuario->setAttr('telephone', $unRegistro['telephone']);
-					$unUsuario->setAttr('country', $unRegistro['country']);
-					$unUsuario->setAttr('website', $unRegistro['website']);
-					$unUsuario->setAttr('message', $unRegistro['message']);
-					$unUsuario->setAttr('sex', $unRegistro['sex']);
-					$unUsuario->setAttr('language', $unRegistro['language']);
-					$unUsuario->setAttr('role_id', $unRegistro['role_id']);
 
 					return $unUsuario;
 				}
@@ -275,20 +262,7 @@
 			// 	// $unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
 			// 	// 													$unRegistro['role_id']);
 			//
-			// 	$unUsuario->setAttr('id', $id);
-			// 	$unUsuario->setAttr('name', $unRegistro['name']);
-			// 	$unUsuario->setAttr('email', $unRegistro['email']);
-			// 	$unUsuario->setAttr('password', $unRegistro['password']);
-			// 	$unUsuario->setAttr('age', $unRegistro['age']);
-			// 	$unUsuario->setAttr('telephone', $unRegistro['telephone']);
-			// 	$unUsuario->setAttr('country', $unRegistro['country']);
-			// 	$unUsuario->setAttr('website', $unRegistro['website']);
-			// 	$unUsuario->setAttr('message', $unRegistro['message']);
-			// 	$unUsuario->setAttr('sex', $unRegistro['sex']);
-			// 	$unUsuario->setAttr('language', $unRegistro['language']);
-			// 	$unUsuario->setAttr('role_id', $unRegistro['role_id']);
-
-				//return $unUsuario;
+			// return $unUsuario;
 			//}
 
 			//return false;

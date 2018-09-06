@@ -90,6 +90,16 @@
     //   $this->photo = $foto;
     // }
 
+    public function findByEmail($email){
+      $reg = $this->db->findByEmail($email);
+
+      if($reg){
+        foreach ($reg as $attr => $value) {
+          $this->setAttr($attr, $value);
+        }
+      }
+    }
+
     public function setInscripcion($nuevaInscripcion){
       $this->inscripciones[] = $nuevaInscripcion;
     }

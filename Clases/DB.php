@@ -8,7 +8,5 @@ abstract class DB
 
   abstract public function delete($modelo, $id);
 
-  //abstract public function findByEmail($email);
-
   abstract public function find($table, $id);
 }

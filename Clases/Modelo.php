@@ -29,12 +29,13 @@ class Modelo
     $this->db->insert($this->datos, $this);
   }
 
-  private function update(){
-    $this->db->update($this->datos, $this, $this->datos['id']);
+  public function update(){
+    $this->db->update($this->datos, $this->table, $this->datos['id']);
   }
 
-  private function delete(){
-    $this->db->delete($this, $this->datos['id']);
+  public function delete(){
+    //print_r($this->table);exit;
+    $this->db->delete($this->table, $this->datos['id']);
   }
 
   public function getAttr($attr)
@@ -45,10 +46,6 @@ class Modelo
   public function setAttr($attr, $value)
   {
     $this->datos[$attr] = $value;
-  }
-
-  public function findByEmail($email){
-    return $this->db->findByEmail($email);
   }
 
   public function find($id){

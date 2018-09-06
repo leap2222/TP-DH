@@ -7,7 +7,7 @@ class MySQL_DB extends DB
   public function __construct()
   {
     try {
-      $this->conn = new PDO('mysql:host=localhost;dbname=tpi_db', 'root', 'root');
+      $this->conn = new PDO('mysql:host=localhost;dbname=tpi_db', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (Exception $e) {
       echo $e->getMessage();
@@ -61,7 +61,9 @@ class MySQL_DB extends DB
   }
 
   public function delete($tabla, $id){
-    $sql = 'delete from'.$tabla.'where id = '. $id;
+    $sql = 'delete from '.$tabla.' where id = '.$id;
+    //$sql = "delete from {$tabla} where id = {$id}";
+    //echo "$sql";exit;
 
     try {
       $stmt = $this->conn->prepare($sql);
@@ -102,5 +104,5 @@ class MySQL_DB extends DB
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
-  
+
 }

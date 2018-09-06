@@ -54,8 +54,22 @@
 
     if (empty($errores)){
 
-      require_once("Clases/evento.php");
-      $usuario = new usuario($id, $nombre, $email, $passh, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo);
+      require_once("Clases/usuario.php");
+      $usuario = new usuario();
+
+			$usuario->setAttr('id', $id);
+			$usuario->setAttr('name', $nombre);
+			$usuario->setAttr('email', $email);
+			$usuario->setAttr('password', $passh);
+			$usuario->setAttr('age', $edad);
+			$usuario->setAttr('telephone', $tel);
+			$usuario->setAttr('country', $pais);
+			$usuario->setAttr('website', $website);
+			$usuario->setAttr('message', $mensaje);
+			$usuario->setAttr('sex', $sexo);
+			$usuario->setAttr('language', $idioma);
+			//$usuario->setAttr('role_id', $role_id);
+
 			$usuario->update();
 			header('location: VerUsuarios.php');
 		}

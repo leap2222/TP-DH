@@ -13,7 +13,7 @@
 			//echo "Conexión Exitosa!<br><br>";
 		}
 		catch( PDOException $ErrorEnConexion ) {
-			//echo "Se ha producido un error: ".$ErrorEnConexion->getMessage();
+			echo "Error DB, dbConnect(): ".$ErrorEnConexion->getMessage();
 			return false;
 		}
 	}

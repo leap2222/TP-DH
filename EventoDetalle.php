@@ -105,7 +105,6 @@
             <th>Nombre</th>
             <th>email</th>
             <th>Idioma Interesado</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -115,15 +114,6 @@
               <td><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a></td>
               <td><?=$unUsuario->getEmail();?></td>
               <td><?=$unUsuario->getLanguage();?></td>
-              <td>
-                <form class="" action="UsuarioDetalle.php" method="get">
-                  <input hidden type="text" name="email" value="<?=$unUsuario->getEmail();?>">
-                  <button type="submit" class="btn btn-info" name="">
-                    <span class="ion-edit" aria-hidden="true"></span>
-                    <span><strong>Ver</strong></span>
-                  </button>
-                </form>
-              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
@@ -153,33 +143,21 @@
         <?php $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
         <tr>
           <td>
-            <a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a>
-
+            <div>
+              <a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a>
+            </div>
+            <div>
+              <a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>
+            </div>
             <?php if($unComentario->getUserId() == $_SESSION['id']): ?>
-              <?php /*
-              <form class="" action="editComment.php" method="get">
-                <input hidden type="text" name="event_id" value="<?=$unComentario->getEventId(); ?>">
-                <button type="submit" class="btn btn-primary" name="">
-                  <span class="ion-edit" aria-hidden="true"></span>
-                  <span><strong>Editar</strong></span>
-                </button>
-              </form>
-              <form class="" action="deleteComment.php" method="get">
-                <input hidden type="text" name="id" value="<?=$unComentario->getId();?>">
-                <button type="submit" class="btn btn-danger" name="">
-                  <span class="ion-android-delete" aria-hidden="true"></span>
-                  <span><strong>Eliminar</strong></span>
-                </button>
-              </form>
-              */ ?>
               <div>
-                <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='btn-danger'>Borrar Comentario</a>
+                <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
               </div>
             <?php endif; ?>
           </td>
           <td>
             <?php $nuevoComentario = $unComentario->getComment(); ?>
-            <textarea class="form-control" name=""><?=$unComentario->getComment();?></textarea>
+            <p class="texto-comentario"><?=$unComentario->getComment();?></p>
           </td>
           <td>
             Respuesta a comentario

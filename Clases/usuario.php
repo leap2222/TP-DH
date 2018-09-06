@@ -38,57 +38,61 @@
     //   //$this->photo = $foto;
     // }
 
-    // public function getId(){
-    //   return $this->user_id;
-    // }
-    //
-    // public function getName(){
-    //   return $this->name;
-    // }
-    //
-    // public function getEmail(){
-    //   return $this->email;
-    // }
-    //
-    // public function getPass(){
-    //   return $this->pass;
-    // }
-    //
-    // public function getAge(){
-    //   return $this->age;
-    // }
-    //
-    // public function getTelephone(){
-    //   return $this->telephone;
-    // }
-    //
-    // public function getCountry(){
-    //   return $this->country;
-    // }
-    //
-    // public function getWebsite(){
-    //   return $this->website;
-    // }
-    //
-    // public function getMessage(){
-    //   return $this->message;
-    // }
-    //
-    // public function getSex(){
-    //   return $this->sex;
-    // }
-    //
-    // public function getLanguage(){
-    //   return $this->language;
-    // }
-    //
-    // public function getRole(){
-    //   return $this->role_id;
-    // }
+    public function getId() {
+       return $this->getAttr('id');
+    }
 
-    // public function getPhoto(){
-    //   $this->photo = $foto;
-    // }
+    public function getName(){
+       return $this->getAttr('name');
+    }
+
+    public function getEmail(){
+       return $this->getAttr('email');
+    }
+    //
+    public function getPass(){
+       return $this->getAttr('pass');
+    }
+
+    public function getAge(){
+       return $this->getAttr('age');
+    }
+
+    public function getTelephone(){
+       return $this->getAttr('telephone');
+    }
+
+    public function getCountry(){
+       return $this->getAttr('country');
+    }
+
+    public function getWebsite(){
+      return $this->getAttr('website');
+    }
+
+    public function getMessage(){
+      return $this->getAttr('message');
+    }
+
+    public function getSex(){
+      return $this->getAttr('sex');
+    }
+
+    public function getLanguage(){
+      return $this->getAttr('language');
+    }
+
+    public function getRole(){
+      return $this->getAttr('role_id');
+    }
+
+    public function getPhoto(){
+      return $this->getAttr('photo');
+    }
+
+    public function isAdmin() {
+      return $this->getAttr('role_id') == 1;
+    }
 
     public function findByEmail($email){
       $reg = $this->db->findByEmail($email);

@@ -1,6 +1,4 @@
 <?php
-  require_once("connect.php");
-
   class comentario extends Modelo{
 
     public $id;
@@ -75,7 +73,7 @@
       try{
         $db = dbConnect();
     		$query = "UPDATE tpi_db.comments set comment = '{$this->comment}'
-                  where idcomment = '{$this->id}'";
+                  where id = '{$this->id}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
@@ -89,7 +87,7 @@
     public function Eliminar(){
       try{
         $db = dbConnect();
-    		$query = "DELETE from tpi_db.comments where idcomment = '{$this->id}'";
+    		$query = "DELETE from tpi_db.comments where id = '{$this->id}'";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){

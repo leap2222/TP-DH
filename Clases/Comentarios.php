@@ -15,7 +15,6 @@
         if (!isset(self::$TodosLosComentarios)) {
 
             //Me conecto a la base de datos
-            require_once("connect.php");
             if($db = dbConnect()) {
               // Ejecuto la lectura
               $CadenaDeBusqueda = "SELECT id, event_id, user_id, parent_id, comment FROM tpi_db.comments where event_id = '{$event_id}'";
@@ -35,7 +34,6 @@
             while ($unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
 
                 //Instancio un objeto de tipo Pelicula
-                require_once("Clases/comentario.php");
                 $unComentario = new comentario();
                 $unComentario->id = $unRegistro['id'];
                 $unComentario->event_id = $unRegistro['event_id'];
@@ -71,7 +69,6 @@
           if (!isset(self::$TodosLosComentariosDelUsuario)) {
 
               //Me conecto a la base de datos
-              require_once("connect.php");
               if($db = dbConnect()) {
                 // Ejecuto la lectura
                 $CadenaDeBusqueda = "SELECT idcomment, event_id, user_id, comment FROM tpi_db.comments where user_id = '{$user_id}'";
@@ -81,6 +78,7 @@
 
               } else {
                   echo "Conexion fallida";
+                  exit;
                 }
 
               //Declaro el array de objetos Pelicula

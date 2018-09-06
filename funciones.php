@@ -10,6 +10,7 @@
 	require_once("Clases/respuesta.php");
 	require_once("Clases/Inscripciones.php");
 	require_once("Clases/Modelo.php");
+	require_once("connect.php");
 
 	session_start();
 

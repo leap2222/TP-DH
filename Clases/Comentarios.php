@@ -18,13 +18,14 @@
             require_once("connect.php");
             if($db = dbConnect()) {
               // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT idcomment, event_id, user_id, comment FROM tpi_db.comments where event_id = '{$event_id}'";
+              $CadenaDeBusqueda = "SELECT id, event_id, user_id, parent_id, comment FROM tpi_db.comments where event_id = '{$event_id}'";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
               //$ComentariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 
             } else {
                 echo "Conexion fallida";
+                exit;
               }
 
             //Declaro el array de objetos Pelicula
@@ -35,7 +36,12 @@
 
                 //Instancio un objeto de tipo Pelicula
                 require_once("Clases/comentario.php");
-                $unComentario = new comentario($unRegistro['idcomment'], $unRegistro['event_id'], $unRegistro['user_id'], $unRegistro['comment']);
+                $unComentario = new comentario();
+                $unComentario->id = $unRegistro['id'];
+                $unComentario->event_id = $unRegistro['event_id'];
+                $unComentario->user_id = $unRegistro['user_id'];
+                $unComentario->parent_id = $unRegistro['parent_id'];
+                $unComentario->comment = $unRegistro['comment'];
 
                 //Agrego el objeto Pelicula al array
                 $ComentariosADevolver[] = $unComentario;
@@ -83,8 +89,12 @@
               //Recorro cada registro que obtuve
               while ($unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
 
-                  require_once("Clases/comentario.php");
-                  $unComentario = new comentario($unRegistro['idcomment'], $unRegistro['event_id'], $unRegistro['user_id'], $unRegistro['comment']);
+                  $unComentario = new comentario();
+                  $unComentario->id = $unRegistro['id'];
+                  $unComentario->event_id = $unRegistro['event_id'];
+                  $unComentario->user_id = $unRegistro['user_id'];
+                  $unComentario->parent_id = $unRegistro['parent_id'];
+                  $unComentario->comment = $unRegistro['comment'];
 
                   //Agrego el objeto Pelicula al array
                   $ComentariosADevolver[] = $unComentario;

@@ -23,7 +23,7 @@
     $language = $elEvento->getLanguage();
     $estado = $elEvento->getStatus();
 
-    // RESPUESTA A Comentarios
+    // RESPUESTA A Comentarios ///  REVISARRRR!!!!
     if(isset($_POST['respuestaAlComentario'])) {
       $respuesta = isset($_POST['respuesta']) ? trim($_POST['respuesta']) : "";
       if($respuesta) {
@@ -41,10 +41,14 @@
   if($_POST){
 
       $comentario = isset($_POST['comentario']) ? trim($_POST['comentario']) : "";
-      if($comentario){
-        $unComentario = guardarComentario($elEvento->getId(), $_SESSION['id'], $comentario);
-        $comentario='';
 
+      if($comentario) {
+        $unComentario = new comentario;
+        $unComentario->setUserId($_SESSION['id']);
+        $unComentario->setComment($comentario);
+        $unComentario->setParentId(0);
+        $unComentario->Guardar();
+        
         header('location: EventoDetalle.php?id=' . $_GET['id']);
         exit;
       }

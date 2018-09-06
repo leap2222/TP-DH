@@ -1,22 +1,18 @@
 <?php
   require_once("connect.php");
-  // Método guardar(), registrará una película en la base de datos a través de un form.
+
   class comentario extends Modelo{
 
-    private $id;
-    private $parent_id;
-    private $event_id;
-    private $user_id;
-    private $comment;
+    public $id;
+    public $parent_id;
+    public $event_id;
+    public $user_id;
+    public $comment;
     public $table = 'comments';
     public $columns = ['id', 'parent_id','event_id', 'user_id', 'comment'];
 
-    public function __construct($id, $parent_id, $event_id, $user_id, $comment){
-      $this->id = $id;
-      $this->parent_id = $parent_id;
-      $this->event_id = $event_id;
-      $this->user_id = $user_id;
-      $this->comment = $comment;
+    public function __construct() {
+
     }
 
     public function setReply($unaRespuesta){
@@ -31,12 +27,34 @@
       return $this->event_id;
     }
 
+    public function getParentId() {
+      return $this->parent_id;
+    }
     public function getUserId(){
       return $this->user_id;
     }
 
     public function getComment(){
       return $this->comment;
+    }
+
+    public function setId($id){
+      return $this->id = $id;;
+    }
+
+    public function setEventId($event_id){
+      return $this->event_id = $event_id;
+    }
+
+    public function setParentId($parent_id) {
+      return $this->parent_id = $parent_id;
+    }
+    public function setUserId($user_id){
+      return $this->user_id = $user_id;
+    }
+
+    public function setComment($comment){
+      return $this->comment = $comment;
     }
 
     public function Guardar(){

@@ -17,7 +17,7 @@
             //Me conecto a la base de datos
             if($db = dbConnect()) {
               // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT id, event_id, user_id, parent_id, comment FROM tpi_db.comments where event_id = '{$event_id}'";
+              $CadenaDeBusqueda = "SELECT id, event_id, user_id, parent_id, comment, timestamp FROM tpi_db.comments where event_id = '{$event_id}'";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
               //$ComentariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -40,6 +40,7 @@
                 $unComentario->user_id = $unRegistro['user_id'];
                 $unComentario->parent_id = $unRegistro['parent_id'];
                 $unComentario->comment = $unRegistro['comment'];
+                $unComentario->timestamp = $unRegistro['timestamp'];
 
                 //Agrego el objeto Pelicula al array
                 $ComentariosADevolver[] = $unComentario;
@@ -71,7 +72,7 @@
               //Me conecto a la base de datos
               if($db = dbConnect()) {
                 // Ejecuto la lectura
-                $CadenaDeBusqueda = "SELECT idcomment, event_id, user_id, comment FROM tpi_db.comments where user_id = '{$user_id}'";
+                $CadenaDeBusqueda = "SELECT idcomment, event_id, user_id, comment, timestamp FROM tpi_db.comments where user_id = '{$user_id}'";
                 $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
                 $ConsultaALaBase->execute();
                 //$ComentariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -93,6 +94,7 @@
                   $unComentario->user_id = $unRegistro['user_id'];
                   $unComentario->parent_id = $unRegistro['parent_id'];
                   $unComentario->comment = $unRegistro['comment'];
+                  $unComentario->timestamp = $unRegistro['timestamp'];
 
                   //Agrego el objeto Pelicula al array
                   $ComentariosADevolver[] = $unComentario;

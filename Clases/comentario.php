@@ -6,8 +6,9 @@
     public $event_id;
     public $user_id;
     public $comment;
+    public $timestamp;
     public $table = 'comments';
-    public $columns = ['id', 'parent_id','event_id', 'user_id', 'comment'];
+    public $columns = ['id', 'parent_id','event_id', 'user_id', 'comment', 'timestamp'];
 
     public function __construct() {
 
@@ -36,6 +37,10 @@
       return $this->comment;
     }
 
+    public function getTimestamp() {
+      return $this->timestamp;
+    }
+
     public function setId($id){
       return $this->id = $id;;
     }
@@ -55,13 +60,18 @@
       return $this->comment = $comment;
     }
 
+    public function setTimestamp($timestamp) {
+      return $this->timestamp = $timestamp;
+    }
+
     public function Guardar(){
       try{
         $db = dbConnect();
-    		$query = "INSERT into tpi_db.comments (event_id, user_id, parent_id, comment)
-                  values ('{$this->event_id}', '{$this->user_id}', '{$this->parent_id}', '{$this->comment}')";
+    		$query = "INSERT into tpi_db.comments (event_id, user_id, parent_id, comment, timestamp)
+                  values ('{$this->event_id}', '{$this->user_id}', '{$this->parent_id}', '{$this->comment}', '{$this->timestamp}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
+
       }catch(PDOException $Exception){
         echo "Comentario->guardar(); <br>";
         echo $Exception->getMessage();

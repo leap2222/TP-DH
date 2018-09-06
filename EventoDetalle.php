@@ -45,10 +45,13 @@
       if($comentario) {
         $unComentario = new comentario;
         $unComentario->setUserId($_SESSION['id']);
+        $unComentario->setEventId($_GET['id']);
         $unComentario->setComment($comentario);
         $unComentario->setParentId(0);
+        $date = new DateTime();
+        $unComentario->setTimestamp($date->format('Y-m-d H:i:s'));
         $unComentario->Guardar();
-        
+
         header('location: EventoDetalle.php?id=' . $_GET['id']);
         exit;
       }
@@ -149,6 +152,9 @@
           <td>
             <div>
               <a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a>
+            </div>
+            <div>
+              <?=$unComentario->timestamp ?>
             </div>
             <div>
               <a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>

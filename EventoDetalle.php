@@ -142,34 +142,40 @@
       $actual = 0;
 
      while(count($comentariosDelEvento)) {
-
-       if(!$pila) {
+       if($pila) {
          $encontrado = false;
          for($x=0; $x<count($comentariosDelEvento) && !$encontrado; $x++) {
            if($comentariosDelEvento[$x]->getParentId() == end($pila)) {
              $actual = $x;
              $encontrado = true;
-//             break;
            }
          }
-
          if(!$encontrado) {
-           echo "NO ENCONTRADO!";
-           exit;
            echo "</ul>";
            array_pop($pila);
            $actual = 0;
+           continue;
          }
-
+       } else {
+         $encontrado = false;
+         for($x=0; $x<count($comentariosDelEvento) && !$encontrado; $x++) {
+           if($comentariosDelEvento[$x]->getParentId() == 0) {
+             $actual = $x;
+             $encontrado = true;
+           }
+         }
+         if(!$encontrado) {
+           $comentariosDelEvento = [];
+         }
        }
-         array_push($pila, $comentariosDelEvento[$actual]->getId());
-         $unComentario = $comentariosDelEvento[$actual];
-         array_splice($comentariosDelEvento, $actual, 1);
+       array_push($pila, $comentariosDelEvento[$actual]->getId());
+       $unComentario = $comentariosDelEvento[$actual];
+       array_splice($comentariosDelEvento, $actual, 1);
 
          $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
          <ul class="<?= $unComentario->getParentId() == 0 ? '' : 'anidado' ?>">
              <div class="comment">
-               <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) (parent #<?=$unComentario->getParentId()?>) <em><?=$unComentario->timestamp ?></em></p>
+               <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) (respuesta a #<?=$unComentario->getParentId()?>) <em><?=$unComentario->timestamp ?></em></p>
                <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
                <p class="texto-comentario"><?=$unComentario->getComment();?></p>
                <p><a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>

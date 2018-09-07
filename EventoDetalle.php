@@ -136,23 +136,50 @@
 
 <?php if($comentariosDelEvento): // COMENTARIOS ?>
   <div class="table table-striped table-hover">
-    <?php foreach($comentariosDelEvento as $unComentario): ?>
-      <?php $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
-      <ul class="simple-nested">
-      <li>
-        <div class="comment">
-          <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) (parent #<?=$unComentario->getParentId()?>) <em><?=$unComentario->timestamp ?></em></p>
-          <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
-          <p class="texto-comentario"><?=$unComentario->getComment();?></p>
-          <p><a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>
-            <?php if(($unComentario->getUserId() == $_SESSION['id']) || $usuario->isAdmin()): ?>
-              <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
-            <?php endif; ?>
-          </p>
-        </div>
-      </li>
-    </ul>
-    <?php endforeach; ?>
+
+    <?php
+      $pila = [];
+      $actual = 0;
+
+     while(count($comentariosDelEvento)) {
+
+       if(!$pila) {
+         $encontrado = false;
+         for($x=0; $x<count($comentariosDelEvento) && !$encontrado; $x++) {
+           if($comentariosDelEvento[$x]->getParentId() == end($pila)) {
+             $actual = $x;
+             $encontrado = true;
+//             break;
+           }
+         }
+
+         if(!$encontrado) {
+           echo "NO ENCONTRADO!";
+           exit;
+           echo "</ul>";
+           array_pop($pila);
+           $actual = 0;
+         }
+
+       }
+         array_push($pila, $comentariosDelEvento[$actual]->getId());
+         $unComentario = $comentariosDelEvento[$actual];
+         array_splice($comentariosDelEvento, $actual, 1);
+
+         $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
+         <ul class="<?= $unComentario->getParentId() == 0 ? '' : 'anidado' ?>">
+             <div class="comment">
+               <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) (parent #<?=$unComentario->getParentId()?>) <em><?=$unComentario->timestamp ?></em></p>
+               <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
+               <p class="texto-comentario"><?=$unComentario->getComment();?></p>
+               <p><a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>
+                 <?php if(($unComentario->getUserId() == $_SESSION['id']) || $usuario->isAdmin()): ?>
+                   <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
+                 <?php endif; ?>
+               </p>
+             </div>
+        <?php
+     } ?>
   </div>
   <br><br>
 <?php endif; ?>

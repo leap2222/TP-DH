@@ -141,22 +141,23 @@
       $pila = [];
       $actual = 0;
 
+     // recorro todos los comentarios. Se van borrando cuando se muestran.
      while(count($comentariosDelEvento)) {
-       if($pila) {
+       if($pila) { // en $pila se guarda el nivel de anidamiento. Si esta vacio es un comentario original sino es una respuesta a otro..
          $encontrado = false;
-         for($x=0; $x<count($comentariosDelEvento) && !$encontrado; $x++) {
+         for($x=0; $x<count($comentariosDelEvento) && !$encontrado; $x++) {  // recorro buscando replies.
            if($comentariosDelEvento[$x]->getParentId() == end($pila)) {
              $actual = $x;
              $encontrado = true;
            }
          }
-         if(!$encontrado) {
+         if(!$encontrado) { // si no encuentro ningun reply cierro el thread y paso al proximo comentario original.
            echo "</ul>";
            array_pop($pila);
            $actual = 0;
            continue;
          }
-       } else {
+       } else { // Si no hay nada en $pila busco un mensaje original con ParentId 0.
          $encontrado = false;
          for($x=0; $x<count($comentariosDelEvento) && !$encontrado; $x++) {
            if($comentariosDelEvento[$x]->getParentId() == 0) {
@@ -164,18 +165,22 @@
              $encontrado = true;
            }
          }
-         if(!$encontrado) {
+         if(!$encontrado) { // si no llego a encontrar ningun comentario original vacio el array por si quedo algun reply colgado.
            $comentariosDelEvento = [];
          }
        }
+
+       // mando el id del comentario a la pila y lo borro del array general de comentarios.
        array_push($pila, $comentariosDelEvento[$actual]->getId());
        $unComentario = $comentariosDelEvento[$actual];
        array_splice($comentariosDelEvento, $actual, 1);
+       $enRespuestaA = $unComentario->getParentId() ? " (respuesta a #" . $unComentario->getParentId() . ")" : ""; // Si es reply hago referencia al original.
 
+       // muestro el mensaje en si.
          $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
          <ul class="<?= $unComentario->getParentId() == 0 ? '' : 'anidado' ?>">
              <div class="comment">
-               <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) (respuesta a #<?=$unComentario->getParentId()?>) <em><?=$unComentario->timestamp ?></em></p>
+               <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) <?= $enRespuestaA ?><em> <?=$unComentario->timestamp ?></em></p>
                <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
                <p class="texto-comentario"><?=$unComentario->getComment();?></p>
                <p><a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>
@@ -184,7 +189,7 @@
                  <?php endif; ?>
                </p>
              </div>
-        <?php
+        <?php // dejo el ul abierto. Si encuentro replies quedan anidados sino lo cierro.
      } ?>
   </div>
   <br><br>

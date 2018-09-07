@@ -177,10 +177,11 @@
        $enRespuestaA = $unComentario->getParentId() ? " (respuesta a #" . $unComentario->getParentId() . ")" : ""; // Si es reply hago referencia al original.
 
        // muestro el mensaje en si.
-         $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
+       // $unUsuario = traerUsuarioPorId($unComentario->getUserId()); // Esto lo trae en un left join a los comentarios directamente.
+           ?>
          <ul class="<?= $unComentario->getParentId() == 0 ? '' : 'anidado' ?>">
              <div class="comment">
-               <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) <?= $enRespuestaA ?><em> <?=$unComentario->timestamp ?></em></p>
+               <p><a href=usuarioDetalle.php?id=<?=$unComentario->getUserId() ?> class='nombreUsuario'><?=$unComentario->getUserName();?></a> (#<?=$unComentario->GetId() ?>) <?= $enRespuestaA ?><em> <?=$unComentario->timestamp ?></em></p>
                <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
                <p class="texto-comentario"><?=$unComentario->getComment();?></p>
                <p><a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>

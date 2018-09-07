@@ -142,5 +142,30 @@ a {
 }
 
 .texto-comentario {
-  color: white;
+  color: black;
+}
+
+.comentarios {
+	font: 1em/1.5em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	color: black;
+	background-color: #eaeaea;
+}
+
+div.comentarios {
+	margin: 5em auto;
+}
+
+.comentarios em {
+	font-size: 0.9em;
+  font-style: normal;
+}
+
+ul.simple-nested li {
+	margin-left: 3em;
+}
+
+div.comment {
+	background: gray;
+	border: 1px solid #999;
+	padding: 1em;
 }

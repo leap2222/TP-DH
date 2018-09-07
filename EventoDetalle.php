@@ -48,8 +48,7 @@
         $unComentario->setEventId($_GET['id']);
         $unComentario->setComment($comentario);
         $unComentario->setParentId(0);
-        $date = new DateTime();
-        $unComentario->setTimestamp($date->format('Y-m-d H:i:s'));
+        $unComentario->setTimestamp(date('Y-m-d H:i:s'));
         $unComentario->Guardar();
 
         header('location: EventoDetalle.php?id=' . $_GET['id']);
@@ -135,51 +134,26 @@
 
 
 
-<?php if($comentariosDelEvento): ?>
-  <label>Comentarios:</label>
-  <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Usuario</th>
-        <th>Publicaciones</th>
-        <th>Respuestas</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach($comentariosDelEvento as $unComentario): ?>
-        <?php $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
-        <tr>
-          <td>
-            <div>
-              <a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a>
-            </div>
-            <div>
-              <?=$unComentario->timestamp ?>
-            </div>
-            <div>
-              <a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>
-            </div>
-            <?php if($unComentario->getUserId() == $_SESSION['id']): ?>
-              <div>
-                <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
-              </div>
+<?php if($comentariosDelEvento): // COMENTARIOS ?>
+  <div class="table table-striped table-hover">
+    <?php foreach($comentariosDelEvento as $unComentario): ?>
+      <?php $unUsuario = traerUsuarioPorId($unComentario->getUserId()); ?>
+      <ul class="simple-nested">
+      <li>
+        <div class="comment">
+          <p><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a> (#<?=$unComentario->GetId() ?>) (parent #<?=$unComentario->getParentId()?>) <em><?=$unComentario->timestamp ?></em></p>
+          <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
+          <p class="texto-comentario"><?=$unComentario->getComment();?></p>
+          <p><a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>
+            <?php if(($unComentario->getUserId() == $_SESSION['id']) || $usuario->isAdmin()): ?>
+              <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
             <?php endif; ?>
-          </td>
-          <td>
-            <?php $nuevoComentario = $unComentario->getComment(); ?>
-            <p class="texto-comentario"><?=$unComentario->getComment();?></p>
-          </td>
-          <td>
-            Respuesta a comentario
-          </td>
-        </tr>
-      <?php endforeach; ?>
-      </td>
-    </tbody>
-  </table>
-  <br>
-<?php else: ?>
-  <label> Sin publicaciones </label>
+          </p>
+        </div>
+      </li>
+    </ul>
+    <?php endforeach; ?>
+  </div>
   <br><br>
 <?php endif; ?>
 

@@ -6,14 +6,13 @@
   require_once("Clases/Usuarios.php");
   require_once("Clases/usuario.php");
   $TodosLosUsuarios = Usuarios::ObtenerTodos();
+
   //var_dump($TodosLosUsuarios);
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
 	}
-  $usuario = traerUsuarioPorId($_SESSION['id']);
-
-  $userIsAdmin = Usuarios::isAdmin($usuario->getEmail());
+  $userIsAdmin = $usuario->isAdmin();
 ?>
 
 

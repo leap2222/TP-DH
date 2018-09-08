@@ -19,6 +19,10 @@
 		$_SESSION['id'] = $_COOKIE['id'];
 	}
 
+  if(isset($_SESSION['id'])) {
+		$usuario = traerUsuarioPorId($_SESSION['id']);
+	}
+
 	// == FUNCTION - validar ==
 
 	function validar($data, $archivo) {

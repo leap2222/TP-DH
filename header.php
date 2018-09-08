@@ -29,7 +29,6 @@
 
           <div>
             <?php if(estaLogueado()): ?>
-              <?php $usuario = traerUsuarioPorId($_SESSION['id']); ?>
               <a href=perfil.php><?= $usuario->getAttr('name') ?> </a>
               (<a href=logout.php>Salir</a>)
             <?php else: ?>

@@ -70,6 +70,7 @@
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
+        exit;
       }
     }
 
@@ -82,6 +83,7 @@
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
+        exit;
       }
       $this->name = $name;
       $this->site = $site;
@@ -100,6 +102,7 @@
     		$ConsultaALaBase->execute();
       }catch(PDOException $Exception){
         echo $Exception->getMessage();
+        exit;
       }
 
       header('location: VerEventos.php');
@@ -115,6 +118,7 @@
           $ConsultaALaBase->execute();
         }catch(PDOException $Exception){
           echo $Exception->getMessage();
+          exit;
         }
         $unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 

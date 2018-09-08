@@ -169,3 +169,10 @@ div.comment {
 	border: 1px solid #999;
 	padding: 1em;
 }
+
+.nuevo {
+  border: 1px solid red;
+}
+.responder {
+  show: none;
+}

@@ -82,6 +82,7 @@
                   values ('{$this->event_id}', '{$this->user_id}', '{$this->parent_id}', '{$this->comment}', '{$this->timestamp}')";
     		$ConsultaALaBase = $db->prepare($query);
     		$ConsultaALaBase->execute();
+        $this->id = $db->lastInsertId();
 
       }catch(PDOException $Exception){
         echo "Comentario->guardar(); <br>";

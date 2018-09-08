@@ -9,49 +9,38 @@
 	 	exit;
 	}
 
-  if(isset($_GET['id'])){
-
-    // COMENTARIO
-
-    $usuariosInscriptos = Inscripciones::ObtenerTodas($_GET['id']);
-    $comentariosDelEvento = Comentarios::ObtenerTodos($_GET['id']);
-
-    $elEvento = traerEventoPorId($_GET['id']);
-    // Variables para persistencia
-    $name = $elEvento->getName();
-    $site = $elEvento->getSite();
-    $language = $elEvento->getLanguage();
-    $estado = $elEvento->getStatus();
-
-    // RESPUESTA A Comentarios ///  REVISARRRR!!!!
-    if(isset($_POST['respuestaAlComentario'])) {
-      $respuesta = isset($_POST['respuesta']) ? trim($_POST['respuesta']) : "";
-      if($respuesta) {
-        $unaRespuesta = guardarRespuesta($_POST['respuestaAlComentario'], $_SESSION['id'], $respuesta);
-        $respuesta='';
-      }
-    }
-}
-
   $comentario='';
   $respuesta='';
   $nuevoComentario ='';
   $nuevaRespuesta='';
 
-  if($_POST){
+  if(!isset($_GET['id'])) {
+    echo "no hay get. 404.";
+    exit;
+  }
+    $Evento = traerEventoPorId($_GET['id']);
 
-      $comentario = isset($_POST['comentario']) ? trim($_POST['comentario']) : "";
+    // COMENTARIO
+    $usuariosInscriptos = Inscripciones::ObtenerTodas($Evento->getId());
+    $comentariosDelEvento = Comentarios::ObtenerTodos($Evento->getId());
+    $nuevo = null;
+
+  if(isset($_POST)) {
+      $parent_id = isset($_POST['parent_id']) ? $_POST['parent_id'] : 0;
+      $comentario = isset($_POST['comentario']) ? $_POST['comentario'] : '';
+      $nuevo = isset($_GET['Nuevo']) ? $_GET['Nuevo'] : '';
 
       if($comentario) {
         $unComentario = new comentario;
-        $unComentario->setUserId($_SESSION['id']);
-        $unComentario->setEventId($_GET['id']);
+        $unComentario->setUserId($usuario->getId());
+        $unComentario->setEventId($Evento->getId());
         $unComentario->setComment($comentario);
-        $unComentario->setParentId(0);
+        $unComentario->setParentId($parent_id);
         $unComentario->setTimestamp(date('Y-m-d H:i:s'));
         $unComentario->Guardar();
+        $resaltar = $parent_i ? $parent_id : $unComentario->GetId();
 
-        header('location: EventoDetalle.php?id=' . $_GET['id']);
+        header('location: EventoDetalle.php?id=' . $_GET['id'] . "&Nuevo=" . $unComentario->getId(). "#Comentario" . $resaltar);
         exit;
       }
 	}
@@ -93,10 +82,10 @@
   </div>
 </div>
 
-<?php if(!$elEvento->EstaInscripto($_SESSION['id'])): ?>
-  <a class="btn btn-success" href="inscribir.php?event_id=<?=$elEvento->getId()?>">Inscribirme</a>
+<?php if(!$Evento->EstaInscripto($_SESSION['id'])): ?>
+  <a class="btn btn-success" href="inscribir.php?event_id=<?=$Evento->getId()?>">Inscribirme</a>
 <?php else: ?>
-  <a class="btn btn-danger" href="deleteInscription.php?event_id=<?=$elEvento->getId()?>">Cancelar Inscripción</a>
+  <a class="btn btn-danger" href="deleteInscription.php?event_id=<?=$Evento->getId()?>">Cancelar Inscripción</a>
 <?php endif; ?>
 
 <br><br>
@@ -140,6 +129,7 @@
     <?php
       $pila = [];
       $actual = 0;
+      $parent_id = 0;
 
      // recorro todos los comentarios. Se van borrando cuando se muestran.
      while(count($comentariosDelEvento)) {
@@ -159,10 +149,11 @@
          }
        } else { // Si no hay nada en $pila busco un mensaje original con ParentId 0.
          $encontrado = false;
-         for($x=0; $x<count($comentariosDelEvento) && !$encontrado; $x++) {
+         for($x=$actual; $x<count($comentariosDelEvento) && !$encontrado; $x++) {
            if($comentariosDelEvento[$x]->getParentId() == 0) {
              $actual = $x;
              $encontrado = true;
+             $parent_id = $comentariosDelEvento[$x]->getId();
            }
          }
          if(!$encontrado) { // si no llego a encontrar ningun comentario original vacio el array por si quedo algun reply colgado.
@@ -174,39 +165,82 @@
        array_push($pila, $comentariosDelEvento[$actual]->getId());
        $unComentario = $comentariosDelEvento[$actual];
        array_splice($comentariosDelEvento, $actual, 1);
-       $enRespuestaA = $unComentario->getParentId() ? " (respuesta a #" . $unComentario->getParentId() . ")" : ""; // Si es reply hago referencia al original.
+       $enRespuestaA = $unComentario->getParentId() ? ' (respuesta a #' . $unComentario->getParentId() . ")" : ""; // Si es reply hago referencia al original.
 
        // muestro el mensaje en si.
        // $unUsuario = traerUsuarioPorId($unComentario->getUserId()); // Esto lo trae en un left join a los comentarios directamente.
+         $anidado = $unComentario->getParentId() == 0 ? '' : 'anidado'; ?>
+
+         <ul class="<?=$anidado ?> <?=$nuevo==$unComentario->getId() ? 'nuevo' : ''?>" id=Comentario<?=$unComentario->getId() ?>>
+           <div class='comment'>
+            <p>
+              <a href=usuarioDetalle.php?id=<?=$unComentario->getUserId() ?> class='nombreUsuario'><?=$unComentario->getUserName();?></a>
+              (#<?=$unComentario->GetId() ?>) <?= $enRespuestaA ?>
+              <em> <?=$unComentario->timestamp ?></em>
+            </p>
+            <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
+            <p class="texto-comentario"><?=$unComentario->getComment();?></p>
+            <p>
+                <a href=#
+                  class="nombreUsuario"
+                  data-toggle="collapse"
+                  data-target="#Respuesta<?=$unComentario->GetId()?>"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="Respuesta<?=$unComentario->GetId()?>">
+                  (Responder)
+                </a>
+
+              <?php if(($unComentario->getUserId() == $_SESSION['id']) || $usuario->isAdmin()): ?>
+              <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
+              <?php endif; ?>
+            </p>
+           </div>
+
+           <!-- REPLY -->
+           <?php
+           for($x=0; $x<count($pila); $x++) {
+             echo "</ul>";
+           }
            ?>
-         <ul class="<?= $unComentario->getParentId() == 0 ? '' : 'anidado' ?>">
-             <div class="comment">
-               <p><a href=usuarioDetalle.php?id=<?=$unComentario->getUserId() ?> class='nombreUsuario'><?=$unComentario->getUserName();?></a> (#<?=$unComentario->GetId() ?>) <?= $enRespuestaA ?><em> <?=$unComentario->timestamp ?></em></p>
-               <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
-               <p class="texto-comentario"><?=$unComentario->getComment();?></p>
-               <p><a href=#ResponderComentario class='nombreUsuario'>(Responder)</a>
-                 <?php if(($unComentario->getUserId() == $_SESSION['id']) || $usuario->isAdmin()): ?>
-                   <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
-                 <?php endif; ?>
-               </p>
-             </div>
-        <?php // dejo el ul abierto. Si encuentro replies quedan anidados sino lo cierro.
-     } ?>
+         </div>
+
+         <div class="collapse" id=Respuesta<?=$unComentario->GetId()?>>
+           <form  method="post" enctype="multipart/form-data" action=EventoDetalle.php?id=<?=$Evento->GetId()?>>
+               <label>Responde a #<?=$unComentario->GetId()?>:</label>
+               <textarea class="form-control" name="comentario" value="<?=$comentario?>"><?=$comentario?></textarea>
+               <input type=text hidden name=mostrarDesde value=<?=end($pila)?>>
+               <input type=text hidden name=parent_id value=<?=$unComentario->GetId()?>>
+               <input type=text hidden name=event_id value=<?=$Evento->GetId()?>>
+               <br>
+               <input class="btn btn-primary" type="submit" name="accion" value="Responder">
+           </form>
+         </div>
+
+         <div>
+           <ul>
+           <?php
+           for($x=0; $x<count($pila)-1; $x++) {
+             echo "<ul class=" . $anidado . ">";
+           }
+           ?>
+           <!-- REPLY -->
+
+      <?php // dejo el ul abierto. Si encuentro replies quedan anidados sino lo cierro.
+    } ?>
   </div>
   <br><br>
 <?php endif; ?>
 
 
-<?php if($elEvento->EstaInscripto($_SESSION['id'])): ?>
-  <div class="row">
-    <div class="col-sm">
-      <form  method="post" enctype="multipart/form-data">
-          <label>Comenta:</label>
-          <textarea class="form-control" name="comentario" value="<?=$comentario?>"><?=$comentario?></textarea>
-          <br>
-          <input class="btn btn-primary" type="submit" name="accion" value="Comentar">
-      </form>
-    </div>
+<?php if($Evento->EstaInscripto($usuario->getId())): ?>
+  <div class="" id=DivComentario>
+    <form method="post" enctype="multipart/form-data">
+      <label>Comenta:</label>
+      <textarea class="form-control" name="comentario" value="<?=$comentario?>"><?=$comentario?></textarea>
+      <br>
+      <input class="btn btn-primary" type="submit" name="accion" value="Comentar">
+    </form>
   </div>
   <br>
 <?php endif; ?>

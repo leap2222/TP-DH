@@ -15,6 +15,16 @@ class Modelo
     //$this->db = new JSON_DB();
   }
 
+  public function getAttr($attr)
+  {
+    return isset($this->datos[$attr]) ? $this->datos[$attr] : null;
+  }
+
+  public function setAttr($attr, $value)
+  {
+    $this->datos[$attr] = $value;
+  }
+
   public function save()
   {
     if (!$this->getAttr('id')) {
@@ -38,14 +48,8 @@ class Modelo
     $this->db->delete($this->table, $this->datos['id']);
   }
 
-  public function getAttr($attr)
-  {
-    return isset($this->datos[$attr]) ? $this->datos[$attr] : null;
-  }
-
-  public function setAttr($attr, $value)
-  {
-    $this->datos[$attr] = $value;
+  public function select(){
+    return $this->db->select($this->table, $this->columns, $this);
   }
 
   public function find($id){

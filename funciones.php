@@ -10,7 +10,8 @@
 	require_once("Clases/respuesta.php");
 	require_once("Clases/Inscripciones.php");
 	require_once("Clases/Modelo.php");
-	require_once("connect.php");
+	//require_once("Clases/DB.php");
+
 	date_default_timezone_set('America/Argentina/Buenos_Aires');
 	session_start();
 
@@ -198,22 +199,7 @@
 			$unUsuario = new usuario();
 			$unUsuario->findByEmail($email);
 
-			// if($db = dbConnect()) {
-			//
-			// 	$CadenaDeBusqueda = "SELECT id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
-			// 	$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-			// 	$ConsultaALaBase->execute();
-			//
-			// } else {
-			// 		echo "Conexion fallida";
-			// 		exit;
-			// 	}
-			//
-			// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
-
 				if($unUsuario->getEmail()){
-					// $unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
-					// 												$unRegistro['role_id']);
 
 					return $unUsuario;
 				}
@@ -232,26 +218,7 @@
 		}
 
 		return false;
-		// if($db = dbConnect()) {
-		// 	//Ejecuto la lectura
-		// 	$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE user_id = '{$id}'";
-		// 	$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-		// 	$ConsultaALaBase->execute();
-		// 	//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-		// } else {
-		// 		echo "Conexion fallida";
-		// 	}
-		//
-		// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
-			// if($unRegistro){
-			// 	// $unUsuario = new usuario($id, $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
-			// 	// 													$unRegistro['role_id']);
-			//
-			// return $unUsuario;
-			//}
-
-			//return false;
 	}
 
 

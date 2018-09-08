@@ -8,5 +8,8 @@ abstract class DB
 
   abstract public function delete($modelo, $id);
 
+  abstract public function select($table, $columns, $modelo);
+
   abstract public function find($table, $id);
+
 }

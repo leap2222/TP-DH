@@ -56,13 +56,13 @@
 		<div class="col-sm">
 			<div class="form-group">
 				<label class="control-label">Nombre:</label>
-				<input type="text" class="form-control" name="" value="<?=$name?>">
+				<input type="text" class="form-control" name="" value="<?=$Evento->getName()?>">
 			</div>
 		</div>
 		<div class="col-sm">
 			<div class="form-group">
 				<label class="control-label">Lugar del Encuentro:</label>
-				<input class="form-control" type="text" name="" value="<?=$site?>">
+				<input class="form-control" type="text" name="" value="<?=$Evento->getSite()?>">
       </div>
 		</div>
   </div>
@@ -70,13 +70,13 @@
 		<div class="col-sm">
 			<div class="form-group">
 				<label class="control-label">Idioma Preferido:</label>
-				<input class="form-control" type="text" name="" value="<?=$language?>">
+				<input class="form-control" type="text" name="" value="<?=$Evento->getLanguage()?>">
       </div>
 		</div>
 		<div class="col-sm">
 			<div class="form-group">
 				<label class="control-label">Estado:</label>
-				<input class="form-control" type="text" name="" value="<?=$estado?>">
+				<input class="form-control" type="text" name="" value="<?=$Evento->getStatus()?>">
       </div>
 		</div>
   </div>
@@ -198,7 +198,7 @@
            </div>
 
            <!-- REPLY -->
-           <?php
+           <?php // cierro todos los comentarios anidados para abrir el textarea y que ocupe todo el ancho..
            for($x=0; $x<count($pila); $x++) {
              echo "</ul>";
            }
@@ -217,7 +217,7 @@
 
          <div>
            <ul>
-           <?php
+           <?php // los vuelvo a abrir para seguir el thread.
            for($x=0; $x<count($pila)-1; $x++) {
              echo "<ul class=" . $anidado . ">";
            }

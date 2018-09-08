@@ -7,6 +7,9 @@
     public $user_id;
     public $comment;
     public $timestamp;
+    public $user_name;
+    public $user_photo;
+
     public $table = 'comments';
     public $columns = ['id', 'parent_id','event_id', 'user_id', 'comment', 'timestamp'];
 
@@ -39,6 +42,14 @@
 
     public function getTimestamp() {
       return $this->timestamp;
+    }
+
+    public function getUserName() {
+      return $this->user_name;
+    }
+
+    public function getUserPhoto() {
+      return $this->user_photo;
     }
 
     public function setId($id){

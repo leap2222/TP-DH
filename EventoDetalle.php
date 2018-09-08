@@ -179,7 +179,7 @@
               <em> <?=$unComentario->timestamp ?></em>
             </p>
             <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
-            <p class="texto-comentario"><?=$unComentario->getComment();?></p>
+            <p class="links-comentario"><?=$unComentario->getComment();?></p>
             <p>
                 <a href=#
                   class="nombreUsuario"
@@ -192,7 +192,7 @@
                 </a>
 
               <?php if(($unComentario->getUserId() == $_SESSION['id']) || $usuario->isAdmin()): ?>
-              <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='nombreUsuario'>(Borrar)</a>
+              <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='links-comentario'>(Borrar)</a>
               <?php endif; ?>
             </p>
            </div>

@@ -21,33 +21,34 @@
 	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
   // Variables para persistencia
-  $nombre = $usuario->getAttr('name');
-	$email = $usuario->getAttr('email');
-	$edad = $usuario->getAttr('age');
-	$tel = $usuario->getAttr('telephone');
-	$pais = $usuario->getAttr('country');
-	$website = $usuario->getAttr('website');
-	$mensaje = $usuario->getAttr('message');
-	$sexo = $usuario->getAttr('sex');
-	$language = $usuario->getAttr('language');
+  $nombre = $usuario->getName();
+	$email = $usuario->getEmail();
+	$edad = $usuario->getAge();
+	$tel = $usuario->getTelephone();
+	$pais = $usuario->getCountry();
+	$website = $usuario->getWebsite();
+	$mensaje = $usuario->getMessage();
+	$sexo = $usuario->getSex();
+	$language = $usuario->getLanguage();
 	//$photo = $usuario->getPhoto();
 
   $errores = [];
+	$datos = [];
 
   if ($_POST) {
 
-		$id = $usuario->getAttr('id');
-		$nombre = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
-		$email = isset($_POST['email']) ? trim($_POST['email']) : "";
+		$datos['id'] = $usuario->getId();
+		$datos['name'] = isset($POST['nombre']) ? trim($_POST['nombre']) : "";
+		$datos['email'] = isset($_POST['email']) ? trim($_POST['email']) : "";
 		$pass = isset($_POST['pass']) ? trim($_POST['pass']) : "";
-		$passh = password_hash($pass, PASSWORD_DEFAULT);
-		$edad = isset($_POST['edad']) ? trim($_POST['edad']) : "";
-		$tel = isset($_POST['tel']) ? trim($_POST['tel']) : "";
-		$pais = isset($_POST['pais']) ? trim($_POST['pais']) : "";
-		$idioma = isset($_POST['idioma']) ? trim($_POST['idioma']) : "";
-		$website = isset($_POST['website']) ? trim($_POST['website']) : "";
-		$mensaje = isset($_POST['mensaje']) ? trim($_POST['mensaje']) : "";
-		$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
+		$datos['password'] = password_hash($pass, PASSWORD_DEFAULT);
+		$datos['age'] = isset($_POST['edad']) ? trim($_POST['edad']) : "";
+		$datos['telephone'] = isset($_POST['tel']) ? trim($_POST['tel']) : "";
+		$datos['country'] = isset($_POST['pais']) ? trim($_POST['pais']) : "";
+		$datos['language'] = isset($_POST['idioma']) ? trim($_POST['idioma']) : "";
+		$datos['website'] = isset($_POST['website']) ? trim($_POST['website']) : "";
+		$datos['message'] = isset($_POST['mensaje']) ? trim($_POST['mensaje']) : "";
+		$datos['sex'] = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
 
     // valido todo
     $errores = validar($_POST, 'avatar');
@@ -55,37 +56,25 @@
     if (empty($errores)){
 
       require_once("Clases/usuario.php");
-      $usuario = new usuario();
 
-			$usuario->setAttr('id', $id);
-			$usuario->setAttr('name', $nombre);
-			$usuario->setAttr('email', $email);
-			$usuario->setAttr('password', $passh);
-			$usuario->setAttr('age', $edad);
-			$usuario->setAttr('telephone', $tel);
-			$usuario->setAttr('country', $pais);
-			$usuario->setAttr('website', $website);
-			$usuario->setAttr('message', $mensaje);
-			$usuario->setAttr('sex', $sexo);
-			$usuario->setAttr('language', $idioma);
-			//$usuario->setAttr('role_id', $role_id);
+      $usuario = new usuario($datos);
 
-			$usuario->update();
+			$usuario->save();
 			header('location: VerUsuarios.php');
 		}
   } else {
 		// Cargar datos del usuario.
 		$usuario = traerUsuarioPorId($_SESSION['id']);
 
-		$nombre = $usuario->getAttr('name');
-		$email = $usuario->getAttr('email');
-		$edad = $usuario->getAttr('age');
-		$tel = $usuario->getAttr('telephone');
-		$pais = $usuario->getAttr('country');
-		$website = $usuario->getAttr('website');
-		$mensaje = $usuario->getAttr('message');
-		$sexo = $usuario->getAttr('sex');
-		$idioma = $usuario->getAttr('language');
+		$nombre = $usuario->getName();
+		$email = $usuario->getEmail();
+		$edad = $usuario->getAge();
+		$tel = $usuario->getTelephone();
+		$pais = $usuario->getCountry();
+		$website = $usuario->getWebsite();
+		$mensaje = $usuario->getMessage();
+		$sexo = $usuario->getSex();
+		$idioma = $usuario->getLanguage();
 		//$photo = $usuario->getPhoto();
 	}
 ?>

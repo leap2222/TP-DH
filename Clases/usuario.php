@@ -5,38 +5,10 @@
   require 'Modelo.php';
 
   class usuario extends Modelo{
-    // private $user_id;
-    // private $name;
-    // private $email;
-    // private $pass;
-    // private $age;
-    // private $telephone;
-    // private $country;
-    // private $website;
-    // private $message;
-    // private $sex;
-    // private $language;
-    // private $role_id;
-    // //private $photo;
-    // private $inscripciones;
+
     public $table = 'users';
     public $columns = ['id', 'name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id'];
 
-    // public function __construct($user_id, $name, $email, $pass, $age, $telephone, $country, $website, $message, $sex, $language, $role_id){
-    //   $this->user_id = $user_id;
-    //   $this->name = $name;
-    //   $this->email = $email;
-    //   $this->pass = $pass;
-    //   $this->age = $age;
-    //   $this->telephone = $telephone;
-    //   $this->country = $country;
-    //   $this->website = $website;
-    //   $this->message = $message;
-    //   $this->sex = $sex;
-    //   $this->language = $language;
-    //   $this->role_id = $role_id;
-    //   //$this->photo = $foto;
-    // }
 
     public function getId() {
        return $this->getAttr('id');
@@ -51,7 +23,7 @@
     }
     //
     public function getPass(){
-       return $this->getAttr('pass');
+       return $this->getAttr('password');
     }
 
     public function getAge(){
@@ -96,7 +68,7 @@
 
     public function findByEmail($email){
       $reg = $this->db->findByEmail($email);
-
+      // print_r($reg);exit;
       if($reg){
         foreach ($reg as $attr => $value) {
           $this->setAttr($attr, $value);

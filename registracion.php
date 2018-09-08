@@ -45,7 +45,7 @@
 
 		// valido todo
 		$errores = validar($_POST, 'avatar');
-
+		
 		if (empty($errores)) {
 			//$errores = guardarImagen('avatar');
 			// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
@@ -54,7 +54,7 @@
 			// Logueo al usuario
 
 			$usuario->Loguear($email, $_POST['pass']);
-			var_dump($usuario);
+
 		}
 	}
 ?>

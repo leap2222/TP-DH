@@ -25,7 +25,6 @@
 		$errores = [];
 
 		$nombre = trim($data['nombre']);
-		//$apellido = trim($data['apellido']);
 		$email = trim($data['email']);
 		$pais = trim($data['pais']);
 		$sexo = isset($_POST['sexo']) ? trim($data['sexo']) : "";
@@ -105,7 +104,7 @@
 				$usuario = buscarPorEmail($email);
 
 			// Pregunto si coindice la password escrita con la guardada en el JSON
-				if (!password_verify($pass, $usuario->getAttr('password'))) {
+				if (!password_verify($pass, $usuario->getPass())) {
 					$arrayADevolver['pass'] = "Credenciales incorrectas";
 				}
 		}
@@ -153,38 +152,24 @@
 
 	function guardarUsuario($data, $imagen){
 
-		$nombre = trim($data['nombre']);
-		$email = trim($data['email']);
+		$datos['name'] = trim($data['nombre']);
+		$datos['email'] = trim($data['email']);
 		$pass = trim($data['pass']);
-		$passh = password_hash($pass, PASSWORD_DEFAULT);
-		$edad = trim($_POST['edad']);
-		$tel = trim($_POST['tel']);
-		$pais = trim($_POST['pais']);
-		$idioma = trim($_POST['idioma']);
-		$website = trim($_POST['website']);
-		$mensaje = trim($_POST['mensaje']);
-		$sexo = trim($_POST['sexo']);
+		$datos['password'] = password_hash($pass, PASSWORD_DEFAULT);
+		$datos['age'] = trim($_POST['edad']);
+		$datos['telephone'] = trim($_POST['tel']);
+		$datos['country'] = trim($_POST['pais']);
+		$datos['language'] = trim($_POST['idioma']);
+		$datos['website'] = trim($_POST['website']);
+		$datos['message'] = trim($_POST['mensaje']);
+		$datos['sex'] = trim($_POST['sexo']);
 		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
-		$role_id = 2;
+		$datos['role_id'] = 2;
 
-		$unUsuario = new usuario();
-
-		$unUsuario->setAttr('name', $nombre);
-		$unUsuario->setAttr('email', $email);
-		$unUsuario->setAttr('password', $passh);
-		$unUsuario->setAttr('age', $edad);
-		$unUsuario->setAttr('telephone', $tel);
-		$unUsuario->setAttr('country', $pais);
-		$unUsuario->setAttr('website', $website);
-		$unUsuario->setAttr('message', $mensaje);
-		$unUsuario->setAttr('sex', $sexo);
-		$unUsuario->setAttr('language', $idioma);
-		$unUsuario->setAttr('role_id', $role_id);
+		$unUsuario = new usuario($datos);
 
 		$unUsuario->save();
 
-		// $unUsuario = new usuario(null, $nombre, $email, $passh, $edad, $tel, $pais, $website, $mensaje, $sexo, $idioma, $role_id);
-		// $unUsuario->Registrar();
 		return $unUsuario;
 	}
 
@@ -196,10 +181,10 @@
 		$usuario = buscarPorEmail($email);
 
 		if($usuario){
-			if (password_verify($pass, $usuario->getAttr('password'))) {
-					$_SESSION['id'] = $usuario->getAttr('id');
+			if (password_verify($pass, $usuario->getPass())) {
+					$_SESSION['id'] = $usuario->getId();
 					if ($data['recordar']) {
-							setcookie('id', $usuario->getAttr('id'), time() + 3000);
+							setcookie('id', $usuario->getId(), time() + 3000);
 					}
 			}
 			return $usuario;
@@ -226,7 +211,7 @@
 			//
 			// 	$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
-				if($unUsuario){
+				if($unUsuario->getEmail()){
 					// $unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
 					// 												$unRegistro['role_id']);
 

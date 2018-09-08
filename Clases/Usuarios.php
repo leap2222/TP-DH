@@ -1,14 +1,19 @@
 <?php
 
-  class Usuarios {
+  require_once("usuario.php");
+
+  class Usuarios extends Modelo{
 
     public static $Cantidad;
     public static $TodosLosUsuarios;
 
+    public $table = 'users';
+    public $columns = ['id', 'name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id'];
+
     public static function isAdmin($email){
       foreach (Usuarios::ObtenerTodos() as $user) {
-        if($user->getAttr('email')==$email){
-          return ($user->getAttr('role_id')==1);
+        if($user->getEmail() == $email){
+          return ($user->getRole() == 1);
         }
       }
       return false;
@@ -23,43 +28,16 @@
       //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
       if (!isset(self::$TodosLosUsuarios)) {
 
-        //Me conecto a la base de datos
-        require_once("connect.php");
-
-        if($db = dbConnect()) {
-          //Ejecuto la lectura
-          $CadenaDeBusqueda = "SELECT id, name, email, password, age, telephone, country, website, message, sex, language, role_id FROM users";
-          $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-          $ConsultaALaBase->execute();
-          //$UsuariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC);
-        }
-        else{
-          echo "Conexion fallida";
-        }
-
         //Declaro el array de objetos Usuarios
         $UsuariosADevolver = array();
 
+        $unUsuario = new usuario();
+
         //Recorro cada registro que obtuve
-        while ($unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
+        while ($unRegistro = $unUsuario->select()) {
 
             //Instancio un objeto de tipo Usuario
-            require_once("Clases/usuario.php");
-            // $UnUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'],
-            //                         $unRegistro['language'], $unRegistro['role_id']);
-            $unUsuario = new usuario();
-            $unUsuario->setAttr('id', $unRegistro['id']);
-            $unUsuario->setAttr('name', $unRegistro['name']);
-            $unUsuario->setAttr('email', $unRegistro['email']);
-            $unUsuario->setAttr('password', $unRegistro['password']);
-            $unUsuario->setAttr('age', $unRegistro['age']);
-            $unUsuario->setAttr('telephone', $unRegistro['telephone']);
-            $unUsuario->setAttr('country', $unRegistro['country']);
-            $unUsuario->setAttr('website', $unRegistro['website']);
-            $unUsuario->setAttr('message', $unRegistro['message']);
-            $unUsuario->setAttr('sex', $unRegistro['sex']);
-            $unUsuario->setAttr('language', $unRegistro['language']);
-            $unUsuario->setAttr('role_id', $unRegistro['role_id']);
+        		$unUsuario = new usuario($unRegistro);
 
             //Agrego el objeto Usuario al array
             $UsuariosADevolver[] = $unUsuario;

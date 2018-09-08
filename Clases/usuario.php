@@ -21,7 +21,7 @@
     public function getEmail(){
        return $this->getAttr('email');
     }
-    //
+
     public function getPass(){
        return $this->getAttr('password');
     }
@@ -84,19 +84,6 @@
       return $this->inscripciones; //si esta seteado, si no levantar de la base
     }
 
-    // public function Registrar(){
-    //
-    //   require_once("connect.php");
-    //   try{
-    //     $db = dbConnect();
-    // 		$query = "insert into tpi_db.users (name, email, password, age, telephone, country, website, message, sex, language, role_id)
-    //               values ('{$this->name}', '{$this->email}', '{$this->pass}', '{$this->age}', '{$this->telephone}', '{$this->country}', '{$this->website}', '{$this->message}', '{$this->sex}', '{$this->language}', '{$this->role_id}')";
-    // 		$ConsultaALaBase = $db->prepare($query);
-    // 		$ConsultaALaBase->execute();
-    //   }catch(PDOException $Exception){
-    //     echo $Exception->getMessage();
-    //   }
-    // }
 
     public function Loguear($mail, $pass) {
   		require_once("funciones.php");
@@ -113,46 +100,5 @@
       return false;
     }
 
-    // public function Actualizar($nombre, $email, $pass, $edad, $tel, $pais, $idioma, $website, $mensaje, $sexo){
-    //   try{
-    //     $db = dbConnect();
-    //     $query = "update users set name = '{$nombre}', email = '{$email}', password = '{$pass}', age = '{$edad}', telephone = '{$tel}',
-    //               country = '{$pais}', language = '{$idioma}', website = '{$website}', message = '{$mensaje}', sex = '{$sexo}'
-    //               where email like '{$this->email}'";
-    //     $ConsultaALaBase = $db->prepare($query);
-    //     $ConsultaALaBase->execute();
-    //   }catch(PDOException $Exception){
-    //     echo $Exception->getMessage();
-    //   }
-    //   $this->name = $nombre;
-    //   $this->email = $email;
-    //   $this->pass = $pass;
-    //   $this->age = $edad;
-    //   $this->telephone = $tel;
-    //   $this->country = $pais;
-    //   $this->language = $language;
-    //   $this->website = $website;
-    //   $this->message = $mensaje;
-    //   $this->sex = $sexo;
-    //   //$this->photo = $foto;
-    //
-    //   header('location: VerUsuarios.php');
-    //   echo "Los datos se guardaron exitosamente !";
-    //   exit;
-    // }
-
-    // public function Eliminar(){
-    //   try{
-    //     $db = dbConnect();
-    // 		$query = "delete from users where user_id like '{$this->user_id}'";
-    // 		$ConsultaALaBase = $db->prepare($query);
-    // 		$ConsultaALaBase->execute();
-    //   }catch(PDOException $Exception){
-    //     echo $Exception->getMessage();
-    //   }
-    //
-    //   header('location: VerUsuarios.php');
-    //   exit;
-    // }
   }
 ?>

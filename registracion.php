@@ -40,19 +40,17 @@
 		$idioma = trim($_POST['idioma']);
 		$website = trim($_POST['website']);
 		$mensaje = trim($_POST['mensaje']);
-		$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : "";
-		//$sexo = $_POST['sexo'] ?? "";
+		$sexo = isset($_POST['sexo']) ? trim($_POST['sexo']) : ""; //$sexo = $_POST['sexo'] ?? "";
 
 		// valido todo
 		$errores = validar($_POST, 'avatar');
-		
+
 		if (empty($errores)) {
-			//$errores = guardarImagen('avatar');
+			// $errores = guardarImagen('avatar');
 			// En la variable $usuario, guardo al usuario creado con la función crearUsuario() la cual recibe los datos
-			//de $_POST y el avatar
+			// de $_POST y el avatar
 			$usuario = guardarUsuario($_POST, 'avatar');
 			// Logueo al usuario
-
 			$usuario->Loguear($email, $_POST['pass']);
 
 		}

@@ -74,6 +74,32 @@ class MySQL_DB extends DB
   }
 
 
+  public function select($tabla, $columnas, $modelo){
+
+    $campos = '';
+    
+    foreach ($columnas as $value) {
+      if (in_array($value, $modelo->columns)) {
+        $campos .= $value . ',';
+      }
+    }
+
+    $campos = trim($campos, ',');
+
+    $sql = "SELECT {$campos} FROM {$tabla}";
+    //$sql = 'select '.$campos.' from '.$tabla;
+
+    try {
+      $ConsultaALaBase = $this->conn->prepare($sql);
+      $ConsultaALaBase->execute();
+    } catch (Exception $e) {
+      $e->getMessage();
+    }
+
+    return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+  }
+
+
   public function find($tabla, $id)
   {
     $sql = 'select * from '.$tabla.' where id = :id'; //fecth

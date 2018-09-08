@@ -38,7 +38,7 @@
         $unComentario->setParentId($parent_id);
         $unComentario->setTimestamp(date('Y-m-d H:i:s'));
         $unComentario->Guardar();
-        $resaltar = $parent_i ? $parent_id : $unComentario->GetId();
+        $resaltar = $parent_id ? $parent_id : $unComentario->GetId();
 
         header('location: EventoDetalle.php?id=' . $_GET['id'] . "&Nuevo=" . $unComentario->getId(). "#Comentario" . $resaltar);
         exit;
@@ -209,9 +209,7 @@
            <form  method="post" enctype="multipart/form-data" action=EventoDetalle.php?id=<?=$Evento->GetId()?>>
                <label>Responde a #<?=$unComentario->GetId()?>:</label>
                <textarea class="form-control" name="comentario" value="<?=$comentario?>"><?=$comentario?></textarea>
-               <input type=text hidden name=mostrarDesde value=<?=end($pila)?>>
                <input type=text hidden name=parent_id value=<?=$unComentario->GetId()?>>
-               <input type=text hidden name=event_id value=<?=$Evento->GetId()?>>
                <br>
                <input class="btn btn-primary" type="submit" name="accion" value="Responder">
            </form>

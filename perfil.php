@@ -8,8 +8,7 @@
 	 	exit;
 	}
 
-	$usuario = traerUsuarioPorId($_SESSION['id']);
-	$userIsAdmin = Usuarios::isAdmin($usuario->getAttr('email'));
+	$userIsAdmin = $usuario->isAdmin();
 ?>
 
 

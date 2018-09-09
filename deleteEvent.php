@@ -3,10 +3,12 @@
   require_once("funciones.php");
 
   if(isset($_POST['id']) && estaLogueado()){
-    $elEvento = new evento($_POST['id'],"","","");
-    $elEvento->Eliminar();
+    $elEvento = new evento();
+    $elEvento->find($_POST['id']);
+    $elEvento->delete();
+
   }
 
-  header('location: movies.php');
+  header('location: VerEventos.php');
   exit;
 ?>

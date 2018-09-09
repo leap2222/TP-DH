@@ -224,24 +224,14 @@
 
 	function traerEventoPorId($id){
 
-		if($db = dbConnect()) {
-			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT name, site, language FROM tpi_db.events WHERE event_id = '{$id}'";
-			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-			$ConsultaALaBase->execute();
-			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-		} else {
-				echo "Conexion fallida";
-			}
+		$unEvento = new evento();
+		$unEvento->find($id);
 
-			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+		if($unEvento){
+			return $unEvento;
+		}
 
-			if(isset($unRegistro)){
-				$unEvento = new evento($id, $unRegistro['name'], $unRegistro['site'], $unRegistro['language']);
-				return $unEvento;
-			}
-
-			return false;
+		return false;
 	}
 
 
@@ -341,14 +331,14 @@
 
 	function guardarEvento($data){
 
-		$name = trim($data['name']);
-		$site = trim($data['site']);
-		$language = trim($data['language']);
+		$datos['name'] = trim($data['name']);
+		$datos['site'] = trim($data['site']);
+		$datos['language'] = trim($data['language']);
 
-		//Crear el objeto
-		$unEvento = new evento(null, $name, $site, $language);
-		//Guardar en la Base
-		$unEvento->Guardar();
+		$unEvento = new evento($datos);
+
+		$unEvento->save();
+
 		return $unEvento;
 	}
 

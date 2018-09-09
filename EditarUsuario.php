@@ -54,11 +54,9 @@
     $errores = validar($_POST, 'avatar');
 
     if (empty($errores)){
-
       require_once("Clases/usuario.php");
 
       $usuario = new usuario($datos);
-
 			$usuario->save();
 			header('location: VerUsuarios.php');
 		}

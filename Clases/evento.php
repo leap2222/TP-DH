@@ -1,47 +1,37 @@
 <?php
-  require_once("connect.php");
-  // Método guardar(), registrará una película en la base de datos a través de un form.
+  require 'DB.php';
+  //require 'JSON_DB.php';
+  require 'MySQL_DB.php';
+  require 'Modelo.php';
+
   class evento extends Modelo{
 
-    private $event_id;
-    private $name;
-    private $site;
-    private $language;
-    private $status;
-    private $inscripciones;
-    private $comentarios;
     public $table = 'events';
-    public $columns = ['name', 'site', 'language', 'status_id'];
+    public $columns = ['id', 'name', 'site', 'language', 'status_id'];
 
-    public function __construct($event_id, $name, $site, $language){
-      $this->event_id = $event_id;
-      $this->name = $name;
-      $this->site = $site;
-      $this->language = $language;
-    }
 
     public function getId(){
-      return $this->event_id;
+      return $this->getAttr('id');
     }
 
     public function getName(){
-      return $this->name;
+      return $this->getAttr('name');
     }
 
     public function getSite(){
-      return $this->site;
+      return $this->getAttr('site');
     }
 
     public function getLanguage(){
-      return $this->language;
+      return $this->getAttr('language');
     }
 
     public function getStatus(){
-      return $this->status;
+      return $this->getAttr('status_id');
     }
 
     public function setStatus($newStatus){
-      $this->status = $newStatus;
+      $this->setAttr('status_id', $newStatus);
     }
 
     public function setInscripcion($nuevaInscripcion){
@@ -60,63 +50,9 @@
       return $this->$comentarios;
     }
 
-    public function Guardar(){
-
-      try{
-        $db = dbConnect();
-    		$query = "INSERT into tpi_db.events (name, site, language)
-                  values ('{$this->name}', '{$this->site}', '{$this->language}')";
-    		$ConsultaALaBase = $db->prepare($query);
-    		$ConsultaALaBase->execute();
-      }catch(PDOException $Exception){
-        echo $Exception->getMessage();
-      }
-    }
-
-    public function Actualizar($name, $site, $language){
-      try{
-        $db = dbConnect();
-    		$query = "UPDATE events set name = '{$name}', site = '{$site}', language = '{$language}'
-                  where name like '{$this->name}'";
-    		$ConsultaALaBase = $db->prepare($query);
-    		$ConsultaALaBase->execute();
-      }catch(PDOException $Exception){
-        echo $Exception->getMessage();
-      }
-      $this->name = $name;
-      $this->site = $site;
-      $this->language = $language;
-
-      header('location: VerEventos.php');
-      echo "Los datos se guardaron exitosamente !";
-      exit;
-    }
-
-    public function Eliminar(){
-      try{
-        $db = dbConnect();
-    		$query = "DELETE from events where event_id like '{$this->event_id}'";
-    		$ConsultaALaBase = $db->prepare($query);
-    		$ConsultaALaBase->execute();
-      }catch(PDOException $Exception){
-        echo $Exception->getMessage();
-      }
-
-      header('location: VerEventos.php');
-      exit;
-    }
-
-
     public function EstaInscripto($user_id){
-        try{
-          $db = dbConnect();
-          $query = "SELECT user_id, event_id from tpi_db.inscriptions where user_id = '{$user_id}' and event_id = '{$this->event_id}'";
-          $ConsultaALaBase = $db->prepare($query);
-          $ConsultaALaBase->execute();
-        }catch(PDOException $Exception){
-          echo $Exception->getMessage();
-        }
-        $unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+
+        $unRegistro = $this->db->EstaInscripto($user_id, $this->getAttr('id')); 
 
         if($unRegistro){
           return true;

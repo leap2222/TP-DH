@@ -79,7 +79,7 @@ DROP TABLE IF EXISTS `events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `events` (
-  `event_id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `site` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `language` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,

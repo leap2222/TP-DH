@@ -39,7 +39,6 @@ class MySQL_DB extends DB
     }
   }
 
-
   public function update($datos, $tabla, $id)
   {
     //global $db;
@@ -77,7 +76,7 @@ class MySQL_DB extends DB
   public function select($tabla, $columnas, $modelo){
 
     $campos = '';
-    
+
     foreach ($columnas as $value) {
       if (in_array($value, $modelo->columns)) {
         $campos .= $value . ',';
@@ -131,4 +130,18 @@ class MySQL_DB extends DB
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
+
+  public function EstaInscripto($user_id, $event_id){
+
+    $query = "SELECT user_id, event_id from tpi_db.inscriptions where user_id = '{$user_id}' and event_id = '{$event_id}'";
+
+    try{
+      $ConsultaALaBase = $this->conn->prepare($query);
+      $ConsultaALaBase->execute();
+    }catch(Exception $e){
+      echo $e->getMessage();
+    }
+
+    return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+  }
 }

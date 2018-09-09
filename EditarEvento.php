@@ -16,23 +16,27 @@
   $datosEventos = Eventos::ObtenerTodos();
 
   // Variables para persistencia
-  $name = $elEvento->getname();
-  $site = $elEvento->getsite();
-  $language = $elEvento->getlanguage();
+  $name = $elEvento->getName();
+  $site = $elEvento->getSite();
+  $language = $elEvento->getLanguage();
 
   $errores = [];
 
   if ($_POST) {
-    $name = isset($_POST['name']) ? trim($_POST['name']) : "";
-    $site = isset($_POST['site']) ? trim($_POST['site']) : "";
-    $language = isset($_POST['language']) ? trim($_POST['language']) : "";
+    $datos['id'] = $elEvento->getId();
+    $datos['name'] = isset($_POST['name']) ? trim($_POST['name']) : "";
+    $datos['site'] = isset($_POST['site']) ? trim($_POST['site']) : "";
+    $datos['language'] = isset($_POST['language']) ? trim($_POST['language']) : "";
 
     // valido todo
     $errores = validarDatosEventoParaEditar($_POST);
 
     if (empty($errores)){
       require_once("Clases/evento.php");
-      $elEvento->Actualizar($name, $site, $language);
+
+      $evento = new evento($datos);
+      $evento->save();
+      header('location: VerEventos.php');
     }
   }
 ?>

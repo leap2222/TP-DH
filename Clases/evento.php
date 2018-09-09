@@ -1,8 +1,8 @@
 <?php
-  require 'DB.php';
+  require_once('DB.php');
   //require 'JSON_DB.php';
-  require 'MySQL_DB.php';
-  require 'Modelo.php';
+  require_once('MySQL_DB.php');
+  require_once('Modelo.php');
 
   class evento extends Modelo{
 

@@ -1,5 +1,5 @@
 <?php
-  require_once("Clases/inscripcion.php");
+  require_once("inscripcion.php");
   require_once("connect.php");
 
   class Inscripciones {

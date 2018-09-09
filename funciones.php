@@ -9,8 +9,7 @@
 	require_once("Clases/Respuestas.php");
 	require_once("Clases/respuesta.php");
 	require_once("Clases/Inscripciones.php");
-	require_once("Clases/Modelo.php");
-	//require_once("Clases/DB.php");
+
 
 	date_default_timezone_set('America/Argentina/Buenos_Aires');
 	session_start();

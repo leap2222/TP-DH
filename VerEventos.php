@@ -4,8 +4,9 @@
 
   require_once("funciones.php");
   require_once("Clases/Eventos.php");
-  $TodosLosEventos = Eventos::ObtenerTodos();
 
+  $TodosLosEventos = Eventos::ObtenerTodos();
+  //print_r($TodosLosEventos);exit;
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;

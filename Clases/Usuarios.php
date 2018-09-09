@@ -7,9 +7,6 @@
     public static $Cantidad;
     public static $TodosLosUsuarios;
 
-    // public $table = 'users';
-    // public $columns = ['id', 'name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id'];
-
     public static function Guardar($nuevoUsuario){
       self::$TodosLosUsuarios[] = $nuevoUsuario;
     }

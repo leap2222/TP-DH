@@ -1,4 +1,6 @@
 <?php
+ini_set('memory_limit', '-1');
+ini_set('max_execution_time', 0);
 
 class MySQL_DB extends DB
 {
@@ -6,8 +8,9 @@ class MySQL_DB extends DB
 
   public function __construct()
   {
+    //require_once("connect.php");
     try {
-      $this->conn = new PDO('mysql:host=localhost;dbname=tpi_db', 'root', 'root', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+      $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db', 'root', 'root', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (Exception $e) {
       echo $e->getMessage();
@@ -38,6 +41,7 @@ class MySQL_DB extends DB
       $e->getMessage();
     }
   }
+
 
   public function update($datos, $tabla, $id)
   {
@@ -85,8 +89,17 @@ class MySQL_DB extends DB
 
     $campos = trim($campos, ',');
 
-    $sql = "SELECT {$campos} FROM {$tabla}";
-    //$sql = 'select '.$campos.' from '.$tabla;
+    //$sql = "SELECT {$campos} FROM {$tabla}";
+    $sql = 'select '.$campos.' from '.$tabla;
+    //print_r($sql); exit;
+
+    // if($db = dbConnect()){
+    //     $ConsultaALaBase = $db->prepare($sql);
+    //     $ConsultaALaBase->execute();
+    // }else{
+    //     echo "Conexion fallida";
+    //     exit;
+    //   }
 
     try {
       $ConsultaALaBase = $this->conn->prepare($sql);
@@ -94,15 +107,36 @@ class MySQL_DB extends DB
     } catch (Exception $e) {
       $e->getMessage();
     }
-
     return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
   }
+
+  //Me conecto a la base de datos
+  // if($db = dbConnect()) {
+  //   // Ejecuto la lectura
+  //   $CadenaDeBusqueda = "SELECT id, name, site, language FROM tpi_db.events";
+  //   $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
+  //   $ConsultaALaBase->execute();
+  //   //$EventosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
+  //
+  // } else {
+  //     echo "Conexion fallida";
+  //     exit;
+  //   }
+
 
 
   public function find($tabla, $id)
   {
     $sql = 'select * from '.$tabla.' where id = :id'; //fecth
 
+    // if($db = dbConnect()){
+    //     $ConsultaALaBase = $db->prepare($sql);
+    //     $ConsultaALaBase->bindValue(':id', $id);
+    //     $ConsultaALaBase->execute();
+    // }else{
+    //     echo "Conexion fallida";
+    //     exit;
+    //   }
     try {
       $stmt = $this->conn->prepare($sql);
       $stmt->bindValue(':id', $id);
@@ -111,7 +145,7 @@ class MySQL_DB extends DB
       $e->getMessage();
     }
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
   }
 
 
@@ -119,6 +153,14 @@ class MySQL_DB extends DB
   {
     $sql = "SELECT id, name, email, password, age, telephone, country, website, message, sex, language, role_id from tpi_db.users where email like '{$email}'"; //fecth
 
+    // if($db = dbConnect()){
+    //     $ConsultaALaBase = $db->prepare($sql);
+    //     $ConsultaALaBase->bindValue(':email', $email);
+    //     $ConsultaALaBase->execute();
+    // }else{
+    //     echo "Conexion fallida";
+    //     exit;
+    //   }
     try {
       $stmt = $this->conn->prepare($sql);
       //$stmt->bindValue(':email', $email);
@@ -127,7 +169,7 @@ class MySQL_DB extends DB
       $e->getMessage();
     }
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
   }
 
 

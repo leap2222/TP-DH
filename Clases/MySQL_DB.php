@@ -1,6 +1,5 @@
 <?php
-ini_set('memory_limit', '-1');
-ini_set('max_execution_time', 0);
+
 
 class MySQL_DB extends DB
 {
@@ -9,8 +8,10 @@ class MySQL_DB extends DB
   public function __construct()
   {
     //require_once("connect.php");
+    // ini_set('memory_limit', '-1');
+    // ini_set('max_execution_time', 0);
     try {
-      $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db', 'root', 'root', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+      $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306', 'root', 'root', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (Exception $e) {
       echo $e->getMessage();
@@ -145,7 +146,8 @@ class MySQL_DB extends DB
       $e->getMessage();
     }
 
-    return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+    // return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
 
@@ -169,7 +171,8 @@ class MySQL_DB extends DB
       $e->getMessage();
     }
 
-    return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+    // return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
 

@@ -137,13 +137,6 @@ a {
   color: white;
 }
 
-.nombreUsuario {
-  color: white;
-}
-
-.texto-comentario {
-  color: black;
-}
 
 .comentarios {
 	font: 1em/1.5em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
@@ -168,4 +161,24 @@ div.comment {
 	background: gray;
 	border: 1px solid #999;
 	padding: 1em;
+}
+
+.nuevo {
+  border: 1px solid red;
+}
+.responder {
+  show: none;
+}
+
+.links-comentario {
+  linkcolor: white;
+  color: white;
+}
+
+.nombreUsuario {
+  color: white;
+}
+
+.texto-comentario {
+  color: black;
 }

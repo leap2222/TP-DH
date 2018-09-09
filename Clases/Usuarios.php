@@ -10,15 +10,6 @@
     // public $table = 'users';
     // public $columns = ['id', 'name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id'];
 
-    public static function isAdmin($email){
-      foreach (Usuarios::ObtenerTodos() as $user) {
-        if($user->getEmail() == $email){
-          return ($user->getRole() == 1);
-        }
-      }
-      return false;
-    }
-
     public static function Guardar($nuevoUsuario){
       self::$TodosLosUsuarios[] = $nuevoUsuario;
     }

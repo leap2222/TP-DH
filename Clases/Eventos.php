@@ -24,6 +24,7 @@
 
             } else {
                 echo "Conexion fallida";
+                exit;
               }
 
             //Declaro el array de objetos Pelicula

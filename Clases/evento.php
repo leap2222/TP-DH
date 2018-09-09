@@ -52,7 +52,7 @@
 
     public function EstaInscripto($user_id){
 
-        $unRegistro = $this->db->EstaInscripto($user_id, $this->getAttr('id')); 
+        $unRegistro = $this->db->EstaInscripto($user_id, $this->getAttr('id'));
 
         if($unRegistro){
           return true;

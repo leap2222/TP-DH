@@ -3,16 +3,17 @@
   ini_set('display_errors', 1);
 
   require_once("funciones.php");
+	require_once("Clases/Inscripciones.php");
+
 	// Si vengo del perfil para editar.
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
 	}
 
-  if($_GET['email']){
-    $usuario = buscarPorEmail($_GET['email']);
+  if($_GET['id']){
+    $usuario = traerUsuarioPorId($_GET['id']);
 
-	  require_once("Clases/Inscripciones.php");
 	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($usuario->getAttr('id'));
 
 		// $paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
@@ -36,25 +37,7 @@
 
 ?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Perfil del Usuario</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/styles.css">
-	</head>
-	<body>
-
-		<?php if (!empty($errores)): ?>
-			<div class="div-errores alert alert-danger">
-				<ul>
-					<?php foreach ($errores as $value): ?>
-					<li><?=$value?></li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-		<?php endif; ?>
+<?php $TituloPagina = "Perfil del Usuario"; include 'header.php'; ?>
 		<h1 align="center">
       <strong>Informacion del Usuario</strong>
     </h1>
@@ -191,7 +174,6 @@
 														<th>Evento</th>
 														<th>Lugar</th>
 														<th>Idioma Preferido</th>
-														<!-- <th>Acciones</th> -->
 												</tr>
 										</thead>
 										<tbody>
@@ -199,29 +181,10 @@
 										<?php foreach($eventosInscriptos as $unaInscripcion): ?>
 										<?php $unEvento = traerEventoPorId($unaInscripcion->getEventId())?>
 											<tr>
-												<td><?=$unEvento->getName();?></td>
+												<td><a href=EventoDetalle.php?id='<?=$unEvento->getId()?>' class='nombreUsuario'> <?=$unEvento->getName();?></a></td>
 												<td><?=$unEvento->getSite();?></td>
 												<td><?=$unEvento->getLanguage();?></td>
-												<td>
-													<div class="d-flex justify-content-around">
-														<form class="" action="EventoDetalle.php" method="get">
-															<input hidden type="text" name="id" value="<?=$unEvento->getId();?>">
-															<button type="submit" class="btn btn-info" name="">
-																<span class="ion-edit" aria-hidden="true"></span>
-																<span><strong>Ver</strong></span>
-															</button>
-														</form>
-														<!-- <?php //if ($userIsAdmin): ?>
-															<form class="" action="deleteInscription.php" method="get">
-																<input hidden type="text" name="id" value="<?//=$unaInscripcion->getId();?>">
-																	<button type="submit" class="btn btn-danger" name="">
-																		<span class="ion-android-delete" aria-hidden="true"></span>
-																		<span><strong>Eliminar</strong></span>
-																	</button>
-															</form>
-														<?php //endif; ?> -->
-													</td>
-												</tr>
+											</tr>
 											<?php endforeach; ?>
 								</tbody>
 						</table>
@@ -235,5 +198,5 @@
       </form>
 			<a class="btn btn-success" href="VerUsuarios.php">Volver</a>
     </section>
-  </body>
-</html>
+
+<?php include 'footer.php' ?>

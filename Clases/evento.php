@@ -9,7 +9,6 @@
     public $table = 'events';
     public $columns = ['id', 'name', 'site', 'language', 'status_id'];
 
-
     public function getId(){
       return $this->getAttr('id');
     }

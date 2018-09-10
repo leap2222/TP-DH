@@ -151,7 +151,9 @@ class MySQL_DB extends DB
       $stmt->bindValue(':id', $id);
       $stmt->execute();
     } catch(Exception $e) {
+      echo "Error MySQL_DB->find();\n";
       $e->getMessage();
+      exit;
     }
 
     // return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);

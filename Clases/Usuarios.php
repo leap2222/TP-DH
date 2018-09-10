@@ -22,12 +22,13 @@
         $UsuariosADevolver = array();
 
         if(!($conn = dbConnect())) {
-          echo "Conexión fallida. ObtenerTodos.";
+          echo "Conexión fallida. Usuarios::ObtenerTodos.";
           exit;
         }
 
         $unUsuario = new usuario(null, $conn);
         $Registros = $unUsuario->select();
+
         //Recorro cada registro que obtuve
         foreach($Registros as $unRegistro) {
 

@@ -227,7 +227,7 @@
 
 	function traerEventoPorId($id){
 
-		$unEvento = new evento();
+		$unEvento = new evento(null, null);
 		$unEvento->find($id);
 
 		if($unEvento){

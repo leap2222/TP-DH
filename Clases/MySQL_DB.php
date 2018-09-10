@@ -1,4 +1,5 @@
 <?php
+require_once("funciones.php");
  ini_set('memory_limit', '20000M');
  //ini_set('upload_max_filesize', '20000M') ;
  //ini_set('post_max_size', '20000M');
@@ -17,7 +18,7 @@ class MySQL_DB extends DB
       $this->conn = $conn;
     }else{
       try {
-        $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306', 'root', 'root', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch (Exception $e) {
         echo $e->getMessage();
@@ -115,7 +116,7 @@ class MySQL_DB extends DB
     } catch (Exception $e) {
       $e->getMessage();
     }
-    return $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+    return $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC);
   }
 
   //Me conecto a la base de datos

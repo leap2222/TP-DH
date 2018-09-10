@@ -4,7 +4,7 @@
 
   require_once("funciones.php");
   require_once("Clases/Usuarios.php");
-  
+
   $TodosLosUsuarios = Usuarios::ObtenerTodos();
 
   //var_dump($TodosLosUsuarios);

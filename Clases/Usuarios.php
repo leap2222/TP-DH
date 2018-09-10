@@ -21,15 +21,15 @@
         //Declaro el array de objetos Usuarios
         $UsuariosADevolver = array();
 
-        if($conn = dbConnect()){
-          $unUsuario = new usuario(null, $conn);
-        }else {
-          echo "Conexión fallida";
+        if(!($conn = dbConnect())) {
+          echo "Conexión fallida. ObtenerTodos.";
           exit;
         }
 
+        $unUsuario = new usuario(null, $conn);
+        $Registros = $unUsuario->select();
         //Recorro cada registro que obtuve
-        while ($unRegistro = $unUsuario->select()) {
+        foreach($Registros as $unRegistro) {
 
             //Instancio un objeto de tipo Usuario
         		$unUsuario = new usuario($unRegistro, $conn);

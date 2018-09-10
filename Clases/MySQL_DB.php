@@ -1,21 +1,28 @@
 <?php
-
+ ini_set('memory_limit', '20000M');
+ //ini_set('upload_max_filesize', '20000M') ;
+ //ini_set('post_max_size', '20000M');
+ //ini_set('max_file_uploads', '8');
+// ini_set('max_execution_time', 0);
 
 class MySQL_DB extends DB
 {
   protected $conn;
 
-  public function __construct()
-  {
-    //require_once("connect.php");
-    // ini_set('memory_limit', '-1');
-    // ini_set('max_execution_time', 0);
-    try {
-      $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306', 'root', 'root', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-      $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (Exception $e) {
-      echo $e->getMessage();
-      exit;
+  public function __construct($conn){
+    // require_once("connect.php");
+    // $GLOBALS['max_connections'] = 200;
+
+    if($conn){
+      $this->conn = $conn;
+    }else{
+      try {
+        $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      } catch (Exception $e) {
+        echo $e->getMessage();
+        exit;
+      }
     }
   }
 

@@ -1,6 +1,8 @@
 <?php
 
   require_once("usuario.php");
+  require_once("connect.php");
+  ini_set('memory_limit', '5072M');
 
   class Usuarios {
 
@@ -19,13 +21,18 @@
         //Declaro el array de objetos Usuarios
         $UsuariosADevolver = array();
 
-        $unUsuario = new usuario();
+        if($conn = dbConnect()){
+          $unUsuario = new usuario(null, $conn);
+        }else {
+          echo "Conexión fallida";
+          exit;
+        }
 
         //Recorro cada registro que obtuve
         while ($unRegistro = $unUsuario->select()) {
 
             //Instancio un objeto de tipo Usuario
-        		$unUsuario = new usuario($unRegistro);
+        		$unUsuario = new usuario($unRegistro, $conn);
 
             //Agrego el objeto Usuario al array
             $UsuariosADevolver[] = $unUsuario;

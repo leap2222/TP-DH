@@ -170,7 +170,7 @@
 		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
 		$datos['role_id'] = 2;
 
-		$unUsuario = new usuario($datos);
+		$unUsuario = new usuario($datos, null);
 
 		$unUsuario->save();
 
@@ -199,7 +199,7 @@
 
 	function buscarPorEmail($email){
 
-			$unUsuario = new usuario();
+			$unUsuario = new usuario(null, null);
 			$unUsuario->findByEmail($email);
 
 				if($unUsuario->getEmail()){
@@ -213,7 +213,7 @@
 
 	function traerUsuarioPorId($id){
 
-		$unUsuario = new usuario();
+		$unUsuario = new usuario(null, null);
 		$unUsuario->find($id);
 
 		if($unUsuario){

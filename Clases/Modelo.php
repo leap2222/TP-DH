@@ -8,10 +8,11 @@ class Modelo
   public $datos;
   protected $db;
 
-  public function __construct($datos=[])
+  public function __construct($datos=[], $conn)
   {
     $this->datos = $datos;
-    $this->db = new MySQL_DB();
+    $this->db = new MySQL_DB($conn);
+    //$this->db = new MySQL_DB();
     //$this->db = new JSON_DB();
   }
 

@@ -37,7 +37,7 @@
                 <td>
                   <div class="d-flex justify-content-around">
                     <form class="" action="UsuarioDetalle.php" method="get">
-                      <input hidden type="text" name="email" value="<?=$unUsuario->getEmail();?>">
+                      <input hidden type="text" name="id" value="<?=$unUsuario->getId();?>">
                       <button type="submit" class="btn btn-info" name="">
                         <span class="ion-edit" aria-hidden="true"></span>
                         <span><strong>Ver</strong></span>

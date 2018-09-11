@@ -56,7 +56,7 @@
     if (empty($errores)){
       require_once("Clases/usuario.php");
 
-      $usuario = new usuario($datos);
+      $usuario = new usuario($datos, null);
 			$usuario->save();
 			header('location: VerUsuarios.php');
 		}

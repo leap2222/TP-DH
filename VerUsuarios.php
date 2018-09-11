@@ -33,7 +33,7 @@
         <tr>
                 <td><?=$unUsuario->getName();?></td>
                 <td><?=$unUsuario->getEmail();?></td>
-                <td><?=$unUsuario->getLanguage()?></td>
+                <td><?=$unUsuario->getLanguage();?></td>
                 <td>
                   <div class="d-flex justify-content-around">
                     <form class="" action="UsuarioDetalle.php" method="get">

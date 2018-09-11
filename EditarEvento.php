@@ -34,7 +34,7 @@
     if (empty($errores)){
       require_once("Clases/evento.php");
 
-      $evento = new evento($datos);
+      $evento = new evento($datos, null);
       $evento->save();
       header('location: VerEventos.php');
     }

@@ -1,5 +1,7 @@
 <?php
   require_once("evento.php");
+  require_once("connect.php");
+  ini_set('memory_limit', '5072M');
 
   class Eventos {
     public static $Cantidad;

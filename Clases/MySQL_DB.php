@@ -1,17 +1,10 @@
 <?php
- ini_set('memory_limit', '20000M');
- //ini_set('upload_max_filesize', '20000M') ;
- //ini_set('post_max_size', '20000M');
- //ini_set('max_file_uploads', '8');
-// ini_set('max_execution_time', 0);
 
 class MySQL_DB extends DB
 {
   protected $conn;
 
   public function __construct($conn){
-    // require_once("connect.php");
-    // $GLOBALS['max_connections'] = 200;
 
     if($conn){
       $this->conn = $conn;

@@ -13,7 +13,7 @@
   $nuevaRespuesta='';
 
   if(!isset($_GET['id'])) {
-    echo "no hay get. 404.";
+//    echo "no hay get. 404.";
     exit;
   }
     $Evento = traerEventoPorId($_GET['id']);

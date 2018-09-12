@@ -1,5 +1,4 @@
 <?php
-	require_once("connect.php");
 	require_once("Clases/Usuarios.php");
 	require_once("Clases/usuario.php");
 	require_once("Clases/Eventos.php");
@@ -14,6 +13,13 @@
 
 	date_default_timezone_set('America/Argentina/Buenos_Aires');
 	session_start();
+
+	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
+	"Alemania", "Grecia","Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
+	"Republica Checa", "Estonia", "Hungría", "Latvia", "Malta", "Austria", "Polonia"];
+
+	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
+
 
 	// Chequeo si está la cookie seteada y se la paso a session para auto-logueo
 	if (isset($_COOKIE['id'])) {
@@ -290,7 +296,6 @@
 
 
 	function buscarEvento($name){
-
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
 			$CadenaDeBusqueda = "SELECT event_id, site, language FROM events WHERE name like '{$name}'";
@@ -298,17 +303,18 @@
 			$ConsultaALaBase->execute();
 			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 		} else {
-				echo "Conexion fallida";
-			}
+			echo "Conexion fallida";
+			exit;
+		}
 
-			$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
+		$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
-			if($unRegistro){
-				$unEvento = new evento($unRegistro['event_id'], $name, $unRegistro['site'], $unRegistro['language']);
-				return $unEvento;
-			}
+		if($unRegistro){
+			$unEvento = new evento($unRegistro['event_id'], $name, $unRegistro['site'], $unRegistro['language']);
+			return $unEvento;
+		}
 
-			return false;
+		return false;
 	}
 
 
@@ -349,23 +355,6 @@
 	}
 
 
-	function estadosDeEvento(){
-
-		if($db = dbConnect()) {
-			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT status_id, value FROM event_status";
-			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-			$ConsultaALaBase->execute();
-			$resultados = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-			return $resultados;
-		} else {
-				echo "Conexion fallida";
-			}
-
-			return false;
-	}
-
-
 	function guardarComentario($event_id, $user_id, $comment){
 
 		$unComentario = new comentario(null, $event_id, $user_id, $comment);
@@ -374,4 +363,22 @@
 		$elEvento = traerEventoPorId($event_id);
 		$elEvento->setComentario($unComentario);
 		return $unComentario;
+	}
+
+
+	function dbConnect(){
+		$ruta = 'mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306';
+		$usuario = 'root';
+		$password = 'root';
+		$opciones = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
+
+		try {
+			$conn = new PDO($ruta, $usuario, $password, $opciones);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			return $conn;
+		}
+		catch( PDOException $ErrorEnConexion ) {
+			echo "Error DB, dbConnect(): ".$ErrorEnConexion->getMessage();
+			return false;
+		}
 	}

@@ -1,6 +1,4 @@
 <?php
-  require_once("connect.php");
-  // Método guardar(), registrará una película en la base de datos a través de un form.
   class inscripcion extends Modelo{
 
     private $id;

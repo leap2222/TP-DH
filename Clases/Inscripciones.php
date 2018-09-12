@@ -1,6 +1,4 @@
 <?php
-  require_once("inscripcion.php");
-  require_once("connect.php");
 
   class Inscripciones {
     public static $Cantidad;
@@ -22,7 +20,6 @@
               $CadenaDeBusqueda = "SELECT id, user_id, event_id FROM tpi_db.inscriptions where event_id = '{$event_id}'";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
-              //$InscripcionesADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 
             } else {
                 echo "Conexion fallida";
@@ -66,16 +63,15 @@
           if (!isset(self::$TodosLosEventosDelUsuario)) {
 
               //Me conecto a la base de datos
-              require_once("connect.php");
               if($db = dbConnect()) {
                 // Ejecuto la lectura
                 $CadenaDeBusqueda = "SELECT id, user_id, event_id FROM tpi_db.inscriptions where user_id = '{$user_id}'";
                 $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
                 $ConsultaALaBase->execute();
-                //$InscripcionesADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
 
               } else {
                   echo "Conexion fallida";
+                  exit;
                 }
 
               //Declaro el array de objetos Pelicula
@@ -85,7 +81,6 @@
               while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
 
                   //Instancio un objeto de tipo Pelicula
-                  require_once("Clases/inscripcion.php");
                   $unaInscripcion = new inscripcion($UnRegistro['id'], $UnRegistro['event_id'], $UnRegistro['user_id']);
 
                   //Agrego el objeto Pelicula al array

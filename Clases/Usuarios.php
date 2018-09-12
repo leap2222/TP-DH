@@ -1,9 +1,4 @@
 <?php
-
-  require_once("usuario.php");
-  require_once("connect.php");
-  ini_set('memory_limit', '5072M');
-
   class Usuarios {
 
     public static $Cantidad;

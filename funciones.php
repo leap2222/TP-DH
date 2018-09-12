@@ -1,4 +1,7 @@
 <?php
+	require_once('Clases/DB.php');
+	require_once('Clases/MySQL_DB.php');
+	require_once('Clases/Modelo.php');
 	require_once("Clases/Usuarios.php");
 	require_once("Clases/usuario.php");
 	require_once("Clases/Eventos.php");
@@ -7,6 +10,7 @@
 	require_once("Clases/comentario.php");
 	require_once("Clases/inscripcion.php");
 	require_once("Clases/Inscripciones.php");
+
 
 	error_reporting(E_ALL);
   ini_set('display_errors', 1);
@@ -20,6 +24,8 @@
 
 	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
+	$userPictures = 'userPictures/';
+	$eventPictures = 'eventPictures/';
 
 	// Chequeo si está la cookie seteada y se la paso a session para auto-logueo
 	if (isset($_COOKIE['id'])) {

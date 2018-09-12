@@ -40,7 +40,7 @@
 
 	// == FUNCTION - validar ==
 
-	function validar($data, $archivo) {
+	function validar($data) {
 		$errores = [];
 
 		$nombre = trim($data['nombre']);
@@ -49,6 +49,7 @@
 		$sexo = isset($_POST['sexo']) ? trim($data['sexo']) : "";
 		$pass = trim($data['pass']);
 		$rpass = trim($data['rpass']);
+		$photo = trim($data['photo']);
 
 
 		if ($nombre == '') {
@@ -64,45 +65,33 @@
 		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Mail invalido
 			$errores['email'] = "Por favor poner un email valido";
 		} else
-			if(!estaLogueado()) {
-				if (buscarPorEmail($email)) {
-				$errores['email'] = "Este email ya existe.";
-			}
+			if (buscarPorEmail($email)) {
+			$errores['email'] = "Este email ya existe.";
 		}
 
 		if($sexo == ''){
 			$errores['sexo'] = "Complete el sexo";
 		}
 
-		if(!estaLogueado()) {
-			if ($pass == '' || $rpass == '') {
-				$errores['pass'] = "Por favor completa tus passwords";
-			}
+		if ($pass == '' || $rpass == '') {
+			$errores['pass'] = "Por favor completa tus passwords";
 		}
 
 		if ($pass != $rpass) {
 			$errores['pass'] = "Tus contraseñas no coinciden";
 		}
 
-		// if ($_FILES[$archivo]['error'] != UPLOAD_ERR_OK) { // Si no subieron ninguna imagen
-		// 	if(!estaLogueado()) {
-		// 		$errores['avatar'] = "No subiste ninguna foto!";
-		// 	}
-		// } else {
-		// 		$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
-		// 		if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
-		// 			$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
-		// 		}
-		// 	}
+		if ($_FILES[$userPictures . $photo]['error'] == UPLOAD_ERR_OK) {
+	 		$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
+	 		if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
+	 			$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
+	 		}
+	 	}
 		return $errores;
 	}
 
 
-	// FUNCTION - estaLogueado
-	/*
-		- No recibe parámetros
-		- Pregunta si está guardado en SESIÓN el ID del $usuarios
-	*/
+
 	function estaLogueado() {
 		return isset($_SESSION['id']);
 	}

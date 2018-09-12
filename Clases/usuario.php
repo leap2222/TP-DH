@@ -54,7 +54,7 @@
     }
 
     public function getPhoto(){
-      return $this->getAttr('photo');
+      return $this->getAttr('photo') ? $this->getAttr('photo') : 'profile.jpg';
     }
 
     public function isAdmin() {

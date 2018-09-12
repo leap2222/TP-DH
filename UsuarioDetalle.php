@@ -8,9 +8,9 @@
 	}
 
   if($_GET['id']){
-    $usuario = traerUsuarioPorId($_GET['id']);
+    $perfil = traerUsuarioPorId($_GET['id']);
 
-	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($usuario->getAttr('id'));
+	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($perfil->getAttr('id'));
 
 		// $paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
 		// "Alemania", "Grecia", "Irlanda", "Holanda", "Portugal", "España", "Suecia", "Reino Unido", "Chipre", "Lithuania",
@@ -18,16 +18,16 @@
 		// $idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
 	  // Variables para persistencia
-		$nombre = $usuario->getAttr('name');
-		$email = $usuario->getAttr('email');
-		$edad = $usuario->getAttr('age');
-		$tel = $usuario->getAttr('telephone');
-		$pais = $usuario->getAttr('country');
-		$website = $usuario->getAttr('website');
-		$mensaje = $usuario->getAttr('message');
-		$sexo = $usuario->getAttr('sex');
-		$language = $usuario->getAttr('language');
-		//$photo = $usuario->getPhoto();
+		$nombre = $perfil->getAttr('name');
+		$email = $perfil->getAttr('email');
+		$edad = $perfil->getAttr('age');
+		$tel = $perfil->getAttr('telephone');
+		$pais = $perfil->getAttr('country');
+		$website = $perfil->getAttr('website');
+		$mensaje = $perfil->getAttr('message');
+		$sexo = $perfil->getAttr('sex');
+		$language = $perfil->getAttr('language');
+		$photo = $perfil->getPhoto();
 	}
 
 
@@ -52,20 +52,14 @@
 				</div>
 			</div> -->
 
-      <legend>Datos personales</legend>
-
 			<div class="row">
 				<div class="col-sm-6">
-					<div class="form-group">
-						<label class="control-label">Nombre y Apellido:*</label>
+						<label class="control-label">Nombre y Apellido:</label>
 	          <input class="form-control" type="text" name="nombre" placeholder="Pedro Perez" value="<?=$nombre?>">
-					</div>
 				</div>
 				<div class="col-sm-6">
-					<div class="form-group">
-	          <label class="control-label">Correo:*</label>
+	          <label class="control-label">Correo:</label>
 	          <input class="form-control" type="email" name="email" value="<?=$email?>">
-					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -75,52 +69,23 @@
 				</div>
 				<div class="col-sm-6">
 					<label class="control-label">Teléfono de contacto:</label>
-					<i>+54 15</i>
 					<input class="form-control" type="tel" name="tel" value="<?=$tel?>">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
-					<div class="form-group">
-						<label class="control-label">País de nacimiento:*</label>
-						<select class="form-control" name="pais">
-								<option value="0">Elegí</option>
-								<?php foreach ($paises as $value): ?>
-									<?php if ($value == $pais): ?>
-									<option selected value="<?=$value?>"><?=$value?></option>
-									<?php else: ?>
-									<option value="<?=$value?>"><?=$value?></option>
-									<?php endif; ?>
-								<?php endforeach; ?>
-						</select>
-					</div>
+						<label class="control-label">País de nacimiento:</label>
+            <input class="form-control" type="text" name="pais" value="<?=$pais?>">
 				</div>
 				<div class="col-sm-6">
-					<div class="form-group">
 						<label class="control-label">Idioma de Interés:</label>
-						<select class="form-control" name="idioma">
-								<option value="0">Elegí</option>
-								<?php foreach ($idiomas as $value): ?>
-									<?php if ($value == $idioma): ?>
-									<option selected value="<?=$value?>"><?=$value?></option>
-									<?php else: ?>
-									<option value="<?=$value?>"><?=$value?></option>
-									<?php endif; ?>
-								<?php endforeach; ?>
-						</select>
-					</div>
+            <input class="form-control" type="text" name="idioma" value="<?=$language?>">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-6"> <!-- No seria mejor ponerlo en un combo? -->
+				<div class="col-sm-6">
 					<label>Género:</label>
-					<br>
-					<label><input type="radio" name="sexo" value="F" <?= $sexo == 'F' ? 'checked' : '' ?>>Femenino</label>
-					<br>
-          <label><input type="radio" name="sexo" value="M" <?= $sexo == 'M' ? 'checked' : '' ?>>Masculino</label>
-					<br>
-          <label><input type="radio" name="sexo" value="O" <?= $sexo == 'O' ? 'checked' : '' ?>>Otro</label>
-          <br><br>
+          <input class="form-control" type="text" name="sexo" value="<?= $sexo == 'F' ? 'Femenino' : '' ?><?= $sexo == 'M' ? 'Masculino' : '' ?><?= $sexo == 'O' ? 'Otro' : '' ?>">
 				</div>
 				<div class="col-sm-6">
 					<label class="control-label">Sitio web:</label>
@@ -157,7 +122,11 @@
 					</tbody>
 				</table>
 			<?php else: ?>
-				<label> No está inscripto en ningún evento </label>
+        <br>
+        <br>
+				<label>No está inscripto en ningún evento </label>
+        <br>
+        <br>
 			<?php endif; ?>
     </fieldset>
   </form>

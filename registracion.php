@@ -1,10 +1,6 @@
 <?php
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
-
 	require_once('funciones.php');
 
-	// Si vengo del el perfil para editar.
 	if(estaLogueado()) {
 		header('location: perfil.php');
 		exit;
@@ -59,136 +55,69 @@
 
 <?php $TituloPagina = "Registracion"; include 'header.php'; ?>
 
-		<h1 align="center">Registrarse</h1>
-		<form method="post" class="form-horizontal" enctype="multipart/form-data">
-				<fieldset>
+<h1 align="center">Registrarse</h1>
+<form method="post" class="form-horizontal" enctype="multipart/form-data">
+	<fieldset>
+		<div class="form-group">
+			<label class="control-label">Nombre y Apellido:*</label><input class="form-control" type="text" name="nombre" placeholder="Pedro Pérez" value="<?=$nombre?>">
+		</div>
+	<div class="form-group">
+      <label class="control-label">Correo:*</label><input class="form-control" type="email" name="email" value="<?=$email?>">
+		</div>
+		<div class="form-group">
+			<label class="control-label">Contraseña:*</label><input class="form-control" type="password" name="pass" value="">
+		</div>
+		<div class="form-group">
+			<label class="control-label">Repetir Contraseña:*</label><input class="form-control" type="password" name="rpass" value="">
+		</div>
 
-							<div class="form-group has-error has-feedback">
-								<label class="control-label <?= isset($errores['nombre']) ? 'has-error' : null ?>">Nombre y Apellido:*</label>
-			          <input class="form-control <?= isset($errores['nombre']) ? 'has-error' : null ?>" type="text" name="nombre" placeholder="Pedro Pérez" value="<?=$nombre?>">
-								<span class="help-block <?= !isset($errores['nombre']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['nombre']) ? $errores['nombre'] : ''; ?>
-								</span>
-							</div>
-							<br>
+	  <label class="control-label">Edad:</label><input class="form-control" type="number" name="edad" value="<?=$edad?>">
 
-							<div class="form-group <?= isset($errores['email']) ? 'has-error' : null ?>">
-			          <label class="control-label">Correo:*</label>
-			          <input class="form-control" type="email" name="email" value="<?=$email?>">
-								<span class="help-block" style="<?= !isset($errores['email']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['email']) ? $errores['email'] : ''; ?>
-								</span>
-							</div>
-							<br>
+		<label class="control-label">Teléfono de contacto:</label><i>+54 15</i><input class="form-control" type="tel" name="tel" value="<?=$tel?>">
 
-							<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
-								<label class="control-label">Contraseña:*</label>
-								<input class="form-control" type="password" name="pass" value="">
-								<span class="help-block" style="<?= !isset($errores['pass']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
-								</span>
-							</div>
-							<br>
+		<div class="form-group">
+			<label class="control-label">País de nacimiento:*</label>
+			<select class="form-control" name="pais">
+				<option value="0">Elegí</option>
+				<?php foreach ($paises as $value): ?>
+					<?php if ($value == $pais): ?>
+				<option selected value="<?=$value?>"><?=$value?></option>
+					<?php else: ?>
+				<option value="<?=$value?>"><?=$value?></option>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</select>
+		</div>
 
-							<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
-								<label class="control-label">Repetir Contraseña:*</label>
-								<input class="form-control" type="password" name="rpass" value="">
-								<span class="help-block" style="<?= !isset($errores['pass']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
-								</span>
-							</div>
+		<div class="form-group">
+			<label class="control-label">Idioma de Interés:</label>
+			<select class="form-control" name="idioma">
+					<option value="0">Elegí</option>
+					<?php foreach ($idiomas as $value): ?>
+						<?php if ($value == $idioma): ?>
+						<option selected value="<?=$value?>"><?=$value?></option>
+						<?php else: ?>
+						<option value="<?=$value?>"><?=$value?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+			</select>
+		</div>
 
-						  <label class="control-label">Edad:</label>
-						  <input class="form-control" type="number" name="edad" value="<?=$edad?>">
-							<br>
+		<label>Género:</label>
+		<label><input type="radio" name="sexo" value="F" <?= $sexo == 'F' ? 'checked' : '' ?>>Femenino</label>
+  	<label><input type="radio" name="sexo" value="M" <?= $sexo == 'M' ? 'checked' : '' ?>>Masculino</label>
+  	<label><input type="radio" name="sexo" value="O" <?= $sexo == 'O' ? 'checked' : '' ?>>Otro</label>
 
-							<label class="control-label">Teléfono de contacto:</label>
-							<i>+54 15</i>
-							<input class="form-control" type="tel" name="tel" value="<?=$tel?>">
+    <label class="control-label">Sitio web:</label><input class="form-control" type="url" name="website" value="<?=$website?>">
 
-							<div class="form-group <?= isset($errores['pais']) ? 'has-error' : null ?>">
-								<label class="control-label">País de nacimiento:*</label>
-								<select class="form-control" name="pais">
-										<option value="0">Elegí</option>
-										<?php foreach ($paises as $value): ?>
-											<?php if ($value == $pais): ?>
-											<option selected value="<?=$value?>"><?=$value?></option>
-											<?php else: ?>
-											<option value="<?=$value?>"><?=$value?></option>
-											<?php endif; ?>
-										<?php endforeach; ?>
-								</select>
-								<span class="help-block" style="<?= !isset($errores['pais']) ? 'display: none;' : ''; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['pais']) ? $errores['pais'] : ''; ?>
-								</span>
-							</div>
-						<br>
+    <label class="control-label">Tu mensaje:</label><textarea class="form-control" name="mensaje"><?=$mensaje?></textarea>
 
-								<div class="form-group <?= isset($errores['idioma']) ? 'has-error' : null ?>">
-									<label class="control-label">Idioma de Interés:</label>
-									<select class="form-control" name="idioma">
-											<option value="0">Elegí</option>
-											<?php foreach ($idiomas as $value): ?>
-												<?php if ($value == $idioma): ?>
-												<option selected value="<?=$value?>"><?=$value?></option>
-												<?php else: ?>
-												<option value="<?=$value?>"><?=$value?></option>
-												<?php endif; ?>
-											<?php endforeach; ?>
-									</select>
-									<span class="help-block" style="<?= !isset($errores['idioma']) ? 'display: none;' : ''; ?>">
-										<b class="glyphicon glyphicon-exclamation-sign"></b>
-										<?= isset($errores['idioma']) ? $errores['idioma'] : ''; ?>
-									</span>
-								</div>
-								<br>
+		<div class="form-group">
+			<label for="name" class="control-label">Subir Foto*:</label><input class="form-control" type="file" name="avatar" value="<?= isset($_FILES['avatar']) ? $_FILES['avatar']['name'] : null ?>">
+		</div>
 
-								<label>Género:</label>
-								<br>
-								<label>
-			            <input type="radio" name="sexo" value="F" <?= $sexo == 'F' ? 'checked' : '' ?>>
-			            Femenino
-			          </label>
-								<br>
-			          <label>
-			            <input type="radio" name="sexo" value="M" <?= $sexo == 'M' ? 'checked' : '' ?>>
-			            Masculino
-			          </label>
-								<br>
-			          <label>
-			            <input type="radio" name="sexo" value="O" <?= $sexo == 'O' ? 'checked' : '' ?>>
-			            Otro
-			          </label>
-			          <br><br>
+		<input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO">
+	</fieldset>
+</form>
 
-
-			        <label class="control-label">Sitio web:</label>
-			        <input class="form-control" type="url" name="website" value="<?=$website?>">
-							<br>
-
-			        <label class="control-label">Tu mensaje:</label>
-							<textarea class="form-control" name="mensaje"><?=$mensaje?></textarea>
-							<br>
-
-							<div class="form-group <?= isset($errores['avatar']) ? 'has-error' : null ?>">
-								<label for="name" class="control-label">Subir Foto*:</label>
-								<input class="form-control" type="file" name="avatar" value="<?= isset($_FILES['avatar']) ? $_FILES['avatar']['name'] : null ?>">
-								<span class="help-block" style="<?= !isset($errores['avatar']) ? 'display: none;' : '' ; ?>">
-									<b class="glyphicon glyphicon-exclamation-sign"></b>
-									<?= isset($errores['avatar']) ? $errores['avatar'] : '' ;?>
-								</span>
-							</div>
-						</div>
-
-					</div>
-					<input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO">
-        </fieldset>
-      </form>
-    </section>
-
-		<?php include 'footer.php'; ?>
+<?php include 'footer.php'; ?>

@@ -1,5 +1,4 @@
 <?php
-  require_once("Clases/inscripcion.php");
   require_once("funciones.php");
 
   $evento = isset($_GET['event_id']);

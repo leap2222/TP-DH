@@ -1,18 +1,11 @@
 <?php
-	error_reporting(E_ALL);
-  ini_set('display_errors', 1);
-
   require_once("funciones.php");
+
 	// Si vengo del perfil para editar.
-  if (!estaLogueado()) {
+  if(!$usuario) {
 	 	header('location: login.php');
 	 	exit;
-	} else {
-		require_once("Clases/Usuarios.php");
-		$usuario = traerUsuarioPorId($_SESSION['id']);
-		//$datosUsuarios = Usuarios::ObtenerTodos();
 	}
-
 
 
 	$paises = ["Argentina", "Brasil", "Colombia", "Chile", "Italia", "Luxembourg", "Bélgica", "Dinamarca", "Finlandia", "Francia", "Slovakia", "Eslovenia",
@@ -54,16 +47,12 @@
     $errores = validar($_POST, 'avatar');
 
     if (empty($errores)){
-      require_once("Clases/usuario.php");
-
       $usuario = new usuario($datos, null);
 			$usuario->save();
 			header('location: VerUsuarios.php');
 		}
   } else {
 		// Cargar datos del usuario.
-		$usuario = traerUsuarioPorId($_SESSION['id']);
-
 		$nombre = $usuario->getName();
 		$email = $usuario->getEmail();
 		$edad = $usuario->getAge();
@@ -77,28 +66,9 @@
 	}
 ?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Editar</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/styles.css">
-	</head>
-	<body>
+<?php $TituloPagina = "Editar usuario"; include 'header.php'; ?>
 
-		<?php if (!empty($errores)): ?>
-			<div class="div-errores alert alert-danger">
-				<ul>
-					<?php foreach ($errores as $value): ?>
-					<li><?=$value?></li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-		<?php endif; ?>
-		<h1 align="center">
-      <strong>Modificar datos del usuario</strong>
-    </h1>
+		<h1 align="center"><strong>Modificar datos del usuario</strong></h1>
     <section class="registracion">
 			<form method="post" enctype="multipart/form-data">
         <fieldset>
@@ -250,5 +220,5 @@
         </fieldset>
       </form>
     </section>
-  </body>
-</html>
+
+<?php include 'footer.php' ?>

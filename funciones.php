@@ -6,10 +6,11 @@
 	require_once("Clases/evento.php");
 	require_once("Clases/Comentarios.php");
 	require_once("Clases/comentario.php");
-	require_once("Clases/Respuestas.php");
-	require_once("Clases/respuesta.php");
+	require_once("Clases/inscripcion.php");
 	require_once("Clases/Inscripciones.php");
 
+	error_reporting(E_ALL);
+  ini_set('display_errors', 1);
 
 	date_default_timezone_set('America/Argentina/Buenos_Aires');
 	session_start();
@@ -21,6 +22,8 @@
 
   if(isset($_SESSION['id'])) {
 		$usuario = traerUsuarioPorId($_SESSION['id']);
+	} else {
+		$usuario = null;
 	}
 
 	// == FUNCTION - validar ==
@@ -371,15 +374,4 @@
 		$elEvento = traerEventoPorId($event_id);
 		$elEvento->setComentario($unComentario);
 		return $unComentario;
-	}
-
-
-	function guardarRespuesta($idcomment, $user_id, $reply){
-
-		$unaRespuesta = new respuesta(null, $idcomment, $user_id, $reply);
-		$unaRespuesta->Guardar();
-		Respuestas::Guardar($unaRespuesta);
-		$elComentario = traerComentarioPorId($idcomment);
-		$elComentario->setReply($unaRespuesta);
-		return $unaRespuesta;
 	}

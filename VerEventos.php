@@ -1,13 +1,9 @@
 <?php
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
-
   require_once("funciones.php");
-  require_once("Clases/Eventos.php");
 
   $TodosLosEventos = Eventos::ObtenerTodos();
 
-  
+
   if (!estaLogueado()) {
 	 	header('location: login.php');
 	 	exit;
@@ -47,7 +43,7 @@
               </button>
             </form>
 
-            <?php if ($userIsAdmin): ?>
+            <?php if ($usuario->isAdmin()): ?>
               <form class="" action="EditarEvento.php" method="get">
                 <input hidden type="text" name="id" value="<?=$unEvento->getId();?>">
                 <button type="submit" class="btn btn-primary" name="">
@@ -70,7 +66,7 @@
       <?php endforeach; ?>
       </tbody>
       </table>
-      <?php if($userIsAdmin):?>
+      <?php if($usuario->isAdmin()):?>
         <a class="btn btn-primary" href="CrearEvento.php">Nuevo Evento</a>
       <?php endif; ?>
       <a class="btn btn-success" href="perfil.php">Volver</a>

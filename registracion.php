@@ -108,7 +108,7 @@
     <label class="control-label">Tu mensaje:</label><textarea class="form-control" name="mensaje"><?=$mensaje?></textarea>
 
 		<div class="form-group">
-			<label for="name" class="control-label">Subir Foto*:</label><input class="form-control" type="file" name="avatar" value="<?= isset($_FILES['avatar']) ? $_FILES['avatar']['name'] : null ?>">
+			<label for="name" class="control-label">Subir Foto*:</label><input class="form-control" type="file" name="photo" value="<?= isset($_FILES['photo']) ? $_FILES['photo']['name'] : null ?>">
 		</div>
 
 		<input class="btn btn-primary" type="submit" name="accion" value="CREAR USUARIO">

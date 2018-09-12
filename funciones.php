@@ -43,33 +43,29 @@
 	function validar($data) {
 		$errores = [];
 
-		$nombre = trim($data['nombre']);
-		$email = trim($data['email']);
-		$pais = trim($data['pais']);
-		$sexo = isset($_POST['sexo']) ? trim($data['sexo']) : "";
 		$pass = trim($data['pass']);
 		$rpass = trim($data['rpass']);
 		$photo = trim($data['photo']);
 
 
-		if ($nombre == '') {
-			$errores['nombre'] = "Completa tu nombre";
+		if (trim($data['name']) == '') {
+			$errores['name'] = "Completa tu nombre";
 		}
 
-		if ($pais == '0') {
-			$errores['pais'] = "Debes elegir tu pais de procedencia";
+		if (trim($data['country']) == '0') {
+			$errores['country'] = "Debes elegir tu pais de procedencia";
 		}
 
-		if ($email == '') {
+		if (trim($data['email']) == '') {
 			$errores['email'] = "Completa tu email";
-		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Mail invalido
+		} elseif (!filter_var(trim($data['email']), FILTER_VALIDATE_EMAIL)) { // Mail invalido
 			$errores['email'] = "Por favor poner un email valido";
 		} else
-			if (buscarPorEmail($email)) {
+			if (buscarPorEmail(trim($data['email']))) {
 			$errores['email'] = "Este email ya existe.";
 		}
 
-		if($sexo == ''){
+		if(trim($data['sex']) == ''){
 			$errores['sexo'] = "Complete el sexo";
 		}
 
@@ -81,10 +77,10 @@
 			$errores['pass'] = "Tus contraseñas no coinciden";
 		}
 
-		if ($_FILES[$userPictures . $photo]['error'] == UPLOAD_ERR_OK) {
-	 		$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
+		if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
+	 		$ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
 	 		if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
-	 			$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
+	 			$errores['photo'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
 	 		}
 	 	}
 		return $errores;

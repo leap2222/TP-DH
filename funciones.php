@@ -38,55 +38,6 @@
 		$usuario = null;
 	}
 
-	// == FUNCTION - validar ==
-
-	function validar($data) {
-		$errores = [];
-
-		$pass = trim($data['pass']);
-		$rpass = trim($data['rpass']);
-		$photo = trim($data['photo']);
-
-
-		if (trim($data['name']) == '') {
-			$errores['name'] = "Completa tu nombre";
-		}
-
-		if (trim($data['country']) == '0') {
-			$errores['country'] = "Debes elegir tu pais de procedencia";
-		}
-
-		if (trim($data['email']) == '') {
-			$errores['email'] = "Completa tu email";
-		} elseif (!filter_var(trim($data['email']), FILTER_VALIDATE_EMAIL)) { // Mail invalido
-			$errores['email'] = "Por favor poner un email valido";
-		} else
-			if (buscarPorEmail(trim($data['email']))) {
-			$errores['email'] = "Este email ya existe.";
-		}
-
-		if(trim($data['sex']) == ''){
-			$errores['sexo'] = "Complete el sexo";
-		}
-
-		if ($pass == '' || $rpass == '') {
-			$errores['pass'] = "Por favor completa tus passwords";
-		}
-
-		if ($pass != $rpass) {
-			$errores['pass'] = "Tus contraseñas no coinciden";
-		}
-
-		if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
-	 		$ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
-	 		if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
-	 			$errores['photo'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
-	 		}
-	 	}
-		return $errores;
-	}
-
-
 
 	function estaLogueado() {
 		return isset($_SESSION['id']);
@@ -154,23 +105,13 @@
 	}
 
 
-	function guardarUsuario($data, $imagen){
+	function guardarUsuario($data){
 
-		$datos['name'] = trim($data['nombre']);
-		$datos['email'] = trim($data['email']);
-		$pass = trim($data['pass']);
-		$datos['password'] = password_hash($pass, PASSWORD_DEFAULT);
-		$datos['age'] = trim($_POST['edad']);
-		$datos['telephone'] = trim($_POST['tel']);
-		$datos['country'] = trim($_POST['pais']);
-		$datos['language'] = trim($_POST['idioma']);
-		$datos['website'] = trim($_POST['website']);
-		$datos['message'] = trim($_POST['mensaje']);
-		$datos['sex'] = trim($_POST['sexo']);
-		$foto = 'images/'.$data['email'].'.'.pathinfo($_FILES[$imagen]['name'], PATHINFO_EXTENSION);
-		$datos['role_id'] = 2;
+		$data['password'] = password_hash($data['pass'], PASSWORD_DEFAULT);
+		$data['role_id'] = 2;
+		$data['photo'] = $data['photo'] ? $data['photo'] : 'profile.jpg';
 
-		$unUsuario = new usuario($datos, null);
+		$unUsuario = new usuario($data, null);
 
 		$unUsuario->save();
 

@@ -4,7 +4,7 @@
   $evento = isset($_GET['event_id']);
 
   if($evento && estaLogueado()){
-    $laInscripcion = new inscripcion(null,$evento,$_SESSION['id']);
+    $laInscripcion = new inscripcion(['event_id' => $evento, 'user_id' => $_SESSION['id']]);
     $laInscripcion->Eliminar();
   }
 

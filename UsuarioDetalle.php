@@ -99,7 +99,7 @@
 			<?php foreach($eventosInscriptos as $unaInscripcion): ?>
 				<?php $unEvento = traerEventoPorId($unaInscripcion->getEventId())?>
 				<tr>
-					<td><a href=EventoDetalle.php?id='<?=$unEvento->getId()?>' class='nombreUsuario'> <?=$unEvento->getName();?></a></td>
+					<td><a href=EventoDetalle.php?id=<?=$unEvento->getId()?> class='nombreUsuario'> <?=$unEvento->getName();?></a></td>
 					<td><?=$unEvento->getSite();?></td>
 					<td><?=$unEvento->getLanguage();?></td>
 				</tr>

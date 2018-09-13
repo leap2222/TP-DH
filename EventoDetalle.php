@@ -1,7 +1,5 @@
 <?php
-
   require_once("funciones.php");
-  require_once("Clases/Inscripciones.php");
 
   if (!$usuario) {
 	 	header('location: login.php');
@@ -18,13 +16,16 @@
     exit;
   }
     $Evento = traerEventoPorId($_GET['id']);
-    //print_r($Evento->getId());exit;
 
     // COMENTARIO
     $usuariosInscriptos = Inscripciones::ObtenerTodas($Evento->getId());
-    
     $comentariosDelEvento = Comentarios::ObtenerTodos($Evento->getId());
     $nuevo = null;
+
+//    echo "<pre>";
+//    echo $usuariosInscriptos->getUserId() . "<br>";
+//    exit;
+
 
   if(isset($_POST)) {
       $parent_id = isset($_POST['parent_id']) ? $_POST['parent_id'] : 0;
@@ -103,11 +104,12 @@
             <th>Idioma Interesado</th>
           </tr>
         </thead>
+
         <tbody>
           <?php foreach($usuariosInscriptos as $unaInscripcion): ?>
             <?php $unUsuario = traerUsuarioPorId($unaInscripcion->getUserId());?>
             <tr>
-              <td><a href=usuarioDetalle.php?id=<?=$unUsuario->getId() ?> class='nombreUsuario'><?=$unUsuario->getName();?></a></td>
+              <td><a href=usuarioDetalle.php?id=<?=$unUsuario->getId()?> class='nombreUsuario'><?=$unUsuario->getName();?></a></td>
               <td><?=$unUsuario->getEmail();?></td>
               <td><?=$unUsuario->getLanguage();?></td>
             </tr>

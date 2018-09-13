@@ -163,21 +163,20 @@
        array_push($pila, $comentariosDelEvento[$actual]->getId());
        $unComentario = $comentariosDelEvento[$actual];
        array_splice($comentariosDelEvento, $actual, 1);
-       $enRespuestaA = $unComentario->getParentId() ? ' (respuesta a #' . $unComentario->getParentId() . ")" : ""; // Si es reply hago referencia al original.
+       $enRespuestaA = $unComentario->getParentId() ? ' (respuesta a #' . $unComentario->getParentId() . ") <br>" : ""; // Si es reply hago referencia al original.
 
        // muestro el mensaje en si.
        // $unUsuario = traerUsuarioPorId($unComentario->getUserId()); // Esto lo trae en un left join a los comentarios directamente.
          $anidado = $unComentario->getParentId() == 0 ? '' : 'anidado'; ?>
 
          <ul class="<?=$anidado ?> <?=$nuevo==$unComentario->getId() ? 'nuevo' : ''?>" id=Comentario<?=$unComentario->getId() ?>>
-           <div class='comment row'>
+           <div class='comment row' style="padding:5px;">
              <div class="col-sm-2 centrar">
                <p>
                  <a href=usuarioDetalle.php?id=<?=$unComentario->getUserId() ?> class='nombreUsuario'><?=$unComentario->getUserName();?></a>
                  (#<?=$unComentario->GetId() ?>)
                  <br>
                  <?= $enRespuestaA ?>
-                 <br>
                  <?=$unComentario->timestamp ?>
                </p>
 

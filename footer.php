@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="col-sm">
     <?php if($usuario):?>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
           <li class="nav-item active"><a href="VerEventos.php" class="nav-link btn btn-primary">Eventos</a></li>

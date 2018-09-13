@@ -173,16 +173,21 @@
          $anidado = $unComentario->getParentId() == 0 ? '' : 'anidado'; ?>
 
          <ul class="<?=$anidado ?> <?=$nuevo==$unComentario->getId() ? 'nuevo' : ''?>" id=Comentario<?=$unComentario->getId() ?>>
-           <div class='comment'>
-            <p>
-              <a href=usuarioDetalle.php?id=<?=$unComentario->getUserId() ?> class='nombreUsuario'><?=$unComentario->getUserName();?></a>
-              (#<?=$unComentario->GetId() ?>) <?= $enRespuestaA ?>
-              <em> <?=$unComentario->timestamp ?></em>
-            </p>
-            <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
-            <p class="links-comentario"><?=$unComentario->getComment();?></p>
-            <p>
-                <a href=#
+           <div class='comment row'>
+             <div class="col-sm-2 centrar">
+               <p>
+                 <a href=usuarioDetalle.php?id=<?=$unComentario->getUserId() ?> class='nombreUsuario'><?=$unComentario->getUserName();?></a>
+                 (#<?=$unComentario->GetId() ?>)
+                 <br>
+                 <?= $enRespuestaA ?>
+                 <br>
+                 <?=$unComentario->timestamp ?>
+               </p>
+
+               <img src='<?= file_exists($userPictures . $unComentario->getUserPhoto()) ? $userPictures . $unComentario->getUserPhoto() : $userPictures . 'profile.jpg' ?>' width=100px>
+
+               <p>
+                 <a href=#
                   class="nombreUsuario"
                   data-toggle="collapse"
                   data-target="#Respuesta<?=$unComentario->GetId()?>"
@@ -190,11 +195,17 @@
                   aria-expanded="false"
                   aria-controls="Respuesta<?=$unComentario->GetId()?>">
                   (Responder)
-                </a>
+                 </a>
+                 <?php if($unComentario->getUserId() == $usuario->getId() || $usuario->isAdmin()): ?>
+                   <br><a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='links-comentario'>(Borrar)</a>
+                 <?php endif; ?>
+               </p>
+              </div>
+             <div class="col-sm">
 
-              <?php if(($unComentario->getUserId() == $_SESSION['id']) || $usuario->isAdmin()): ?>
-              <a href=deleteComment.php?id_comment=<?=$unComentario->GetId() ?>&id_event=<?=$_GET['id']?> class='links-comentario'>(Borrar)</a>
-              <?php endif; ?>
+             <p><?php $nuevoComentario = $unComentario->getComment(); ?></p>
+             <p class="links-comentario"><?=$unComentario->getComment();?></p>
+
             </p>
            </div>
 

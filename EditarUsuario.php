@@ -17,26 +17,49 @@
   $datos['website'] = isset($_POST['website']) ? trim($_POST['website']) : $usuario->getWebsite();
   $datos['message'] = isset($_POST['message']) ? trim($_POST['message']) : $usuario->getMessage();
   $datos['sex'] = isset($_POST['sex']) ? trim($_POST['sex']) : $usuario->getSex();
-  $datos['photo'] = isset($_FILES['photo']['name']) ? trim($_FILES['photo']['name']) : $usuario->getPhoto();
+  if(isset($_FILES['photo']['error'])) {
+    $datos['photo'] = ($_FILES['photo']['error'] == UPLOAD_ERR_OK) ? trim($_FILES['photo']['name']) : $usuario->getPhoto();
+  } else {
+    $datos['photo'] = $usuario->getPhoto();
+  }
+
+
 
   $errores = [];
 
   if ($_POST) { // Si viene POST valido y trato de grabar.
 
     $errores = validarUsuarioEditar($datos, $usuario);
-    $datos['photo'] = file_exists($userPictures . $datos['photo']) ? $datos['photo'] : 'profile.jpg';
+
+//    var_dump($datos);
+//    exit;
+//    $datos['photo'] = file_exists($userPictures . $datos['photo']) ? $datos['photo'] : 'profile.jpg';
 
     if (empty($errores)){ // si no hay errores cargo el usuario y redirijo al perfil.
       $usuario = new usuario($datos, null);
+
+      if($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
+        $nombreFoto = time()."-".$_FILES['photo']['name'];
+        move_uploaded_file($_FILES['photo']['tmp_name'], $userPictures . $nombreFoto);
+        $usuario->setPhoto($nombreFoto);
+      } else {
+        $usuario->setPhoto($datos['photo']);
+      }
+
 			$usuario->save();
 
       // TODO:
       // Habria que grabar la imagen en la carpeta $userPictures tambien?
 
-			header('location: UsuarioDetalle.php?id=' . $usuario->getId());
+//			header('location: UsuarioDetalle.php?id=' . $usuario->getId());
+      header('location: EditarUsuario.php');
       exit;
 
 		} // sino vuelvo a mostrar el formulario con los errores.
+
+    if(isset($errores['photo'])) { // si hubo algun drama con la foto vuelvo a cargar la anterior.
+      $datos['photo'] = $usuario->getPhoto();
+    }
 
   } // cargo todo el formulario de nuevo para persistencia.
 
@@ -52,7 +75,7 @@
           <div class="row">
             <div class="row centrar">
               <div class="col-sm-12">
-    	           <img src='<?= $userPictures . $datos['photo'] ?>' width=300px>
+    	           <img src='<?= file_exists($userPictures . $datos['photo']) ? $userPictures . $datos['photo'] : $userPictures . 'profile.jpg' ?>' width=300px>
               </div>
               <div class="col-sm-12">
                 <br>

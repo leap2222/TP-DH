@@ -157,7 +157,7 @@ div.comentarios {
 	margin-left: 3em;
 }
 
-div.comment {
+.comment {
 	background: gray;
 	border: 1px solid #999;
 	padding: 1em;

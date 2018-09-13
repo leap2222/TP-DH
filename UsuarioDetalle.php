@@ -1,5 +1,6 @@
 <?php
   require_once("funciones.php");
+  require_once("Clases/Inscripciones.php");
 
 	// Si vengo del perfil para editar.
   if (!estaLogueado()) {
@@ -10,18 +11,18 @@
   if($_GET['id']){
     $perfil = traerUsuarioPorId($_GET['id']);
 
-	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($perfil->getAttr('id'));
+	  $eventosInscriptos = Inscripciones::ObtenerTodosLosEventos($perfil->getId());
 
 	  // Variables para persistencia
-		$nombre = $perfil->getAttr('name');
-		$email = $perfil->getAttr('email');
-		$edad = $perfil->getAttr('age');
-		$tel = $perfil->getAttr('telephone');
-		$pais = $perfil->getAttr('country');
-		$website = $perfil->getAttr('website');
-		$mensaje = $perfil->getAttr('message');
-		$sexo = $perfil->getAttr('sex');
-		$language = $perfil->getAttr('language');
+		$nombre = $perfil->getName();
+		$email = $perfil->getEmail();
+		$edad = $perfil->getAge();
+		$tel = $perfil->getTelephone();
+		$pais = $perfil->getCountry();
+		$website = $perfil->getWebsite();
+		$mensaje = $perfil->getMessage();
+		$sexo = $perfil->getSex();
+		$language = $perfil->getLanguage();
 		$photo = $perfil->getPhoto();
 	}
 ?>

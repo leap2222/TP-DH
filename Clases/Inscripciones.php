@@ -1,6 +1,7 @@
 <?php
 
   class Inscripciones {
+
     public static $Cantidad;
     public static $TodasLasInscripciones;
     public static $TodosLosEventosDelUsuario;
@@ -14,47 +15,49 @@
         //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
         if (!isset(self::$TodasLasInscripciones)) {
 
-            //Me conecto a la base de datos
-            if($db = dbConnect()) {
-              // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT id, user_id, event_id FROM tpi_db.inscriptions where event_id = '{$event_id}'";
-              $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-              $ConsultaALaBase->execute();
-
-            } else {
-                echo "Conexion fallida";
-                exit;
-              }
-
             //Declaro el array de objetos Pelicula
-            $InscripcionesADevolver = array();
+            $usuariosInscriptos = array();
 
-            //Recorro cada registro que obtuve
-            while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
-
-                //Instancio un objeto de tipo Pelicula
-                $unaInscripcion = new inscripcion($UnRegistro['id'], $UnRegistro['event_id'], $UnRegistro['user_id']);
-
-                //Agrego el objeto Pelicula al array
-                $InscripcionesADevolver[] = $unaInscripcion;
+            if(!($conn = dbConnect())) {
+              echo "Conexión fallida. Usuarios::ObtenerTodos.";
+              exit;
             }
 
+            $unaInscripcion = new inscripcion(null, $conn);
+            $unaInscripcion->find($event_id);
+
+
+            //Recorro cada registro que obtuve
+
+            while($unRegistro = $unaInscripcion->find($unaInscripcion->table, $event_id)) {
+
+                  $unUsuario = new usuario(null, $conn);
+
+                  $unRegistroUser = $unUsuario->find($unRegistro['user_id']);
+
+                  $unUsuario = new usuario($unRegistroUser, $conn);
+
+                  $usuariosInscriptos[] = $unUsuario;
+            }
+
+
             //Guardo las variables globales de la clase de entidad, para no tener que volverlas a llenar
-            self::$Cantidad = count($InscripcionesADevolver);
-            self::$TodasLasInscripciones = $InscripcionesADevolver;
+            self::$Cantidad = count($usuariosInscriptos);
+            self::$TodasLasInscripciones = $usuariosInscriptos;
 
         } else {
             //La lista ya había sido llenada con anterioridad, no la vuelvo a llenar
-            $InscripcionesADevolver = self::$TodasLasInscripciones;
+            $usuariosInscriptos = self::$TodasLasInscripciones;
         }
 
         //Devuelvo el array ya rellenado
-        return $InscripcionesADevolver;
+        // print_r($usuariosInscriptos);exit;
+        return $usuariosInscriptos;
       }
 
-      public static function getTodas(){
-        return self::$TodasLasInscripciones;
-      }
+      // public static function getTodas(){
+      //   return self::$TodasLasInscripciones;
+      // }
 
 
       public static function ObtenerTodosLosEventos($user_id) {
@@ -62,42 +65,39 @@
           //Me fijo si la lista había sido obtenida previamente, para no hacerlo de nuevo.
           if (!isset(self::$TodosLosEventosDelUsuario)) {
 
-              //Me conecto a la base de datos
-              if($db = dbConnect()) {
-                // Ejecuto la lectura
-                $CadenaDeBusqueda = "SELECT id, user_id, event_id FROM tpi_db.inscriptions where user_id = '{$user_id}'";
-                $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-                $ConsultaALaBase->execute();
-
-              } else {
-                  echo "Conexion fallida";
-                  exit;
-                }
-
               //Declaro el array de objetos Pelicula
-              $InscripcionesADevolver = array();
+              $eventosDelUsuario = array();
+
+              if(!($conn = dbConnect())) {
+                echo "Conexión fallida. Usuarios::ObtenerTodos.";
+                exit;
+              }
+
+              $unaInscripcion = new inscripcion(null, $conn);
 
               //Recorro cada registro que obtuve
-              while ($UnRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
+              while($unRegistro = $unaInscripcion->find($unaInscripcion->table, $user_id)) {
 
-                  //Instancio un objeto de tipo Pelicula
-                  $unaInscripcion = new inscripcion($UnRegistro['id'], $UnRegistro['event_id'], $UnRegistro['user_id']);
+                  $unEvento = new evento(null, $conn);
 
-                  //Agrego el objeto Pelicula al array
-                  $InscripcionesADevolver[] = $unaInscripcion;
+                  $unRegistroEvent = $unEvento->find($unEvento->table, $unRegistro['event_id']);
+
+                  $unEvento = new evento($unRegistroEvent, $conn);
+
+                  $eventosDelUsuario[] = $unEvento;
               }
 
               //Guardo las variables globales de la clase de entidad, para no tener que volverlas a llenar
-              self::$Cantidad = count($InscripcionesADevolver);
-              self::$TodosLosEventosDelUsuario = $InscripcionesADevolver;
+              self::$Cantidad = count($eventosDelUsuario);
+              self::$TodosLosEventosDelUsuario = $eventosDelUsuario;
 
           } else {
               //La lista ya había sido llenada con anterioridad, no la vuelvo a llenar
-              $InscripcionesADevolver = self::$TodosLosEventosDelUsuario;
+              $eventosDelUsuario = self::$TodosLosEventosDelUsuario;
           }
 
           //Devuelvo el array ya rellenado
-          return $InscripcionesADevolver;
+          return $eventosDelUsuario;
         }
   }
 

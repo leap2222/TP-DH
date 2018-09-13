@@ -24,17 +24,17 @@
       if (!isset(self::$TodosLosUsuarios)) {
 
         //Me conecto a la base de datos
-        require_once("connect.php");
 
         if($db = dbConnect()) {
           //Ejecuto la lectura
-          $CadenaDeBusqueda = "SELECT user_id, name, email, password, age, telephone, country, website, message, sex, language, role_id FROM users";
+          $CadenaDeBusqueda = "SELECT id, name, email, password, age, telephone, country, website, message, sex, language, role_id FROM users";
           $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
           $ConsultaALaBase->execute();
           //$UsuariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC);
         }
         else{
           echo "Conexion fallida";
+          exit;
         }
 
         //Declaro el array de objetos Usuarios
@@ -44,8 +44,7 @@
         while ($unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC)) {
 
             //Instancio un objeto de tipo Usuario
-            require_once("Clases/usuario.php");
-            $UnUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'],
+            $UnUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $unRegistro['email'], $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'],
                                     $unRegistro['language'], $unRegistro['role_id']);
 
             //Agrego el objeto Usuario al array

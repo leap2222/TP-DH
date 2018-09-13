@@ -1,7 +1,4 @@
 <?php
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
-
 	require_once('funciones.php');
 
 	if (estaLogueado()) {
@@ -9,43 +6,62 @@
 		exit;
 	}
 
-	$email = '';
 	$errores = [];
-	$usuario = null;
+	$email = "";
 
 	if ($_POST) {
 		$email = trim($_POST['email']);
 		$clave = $_POST['pass'];
-		$recordar = isset($_POST['recordar']) ? trim($_POST['recordar']) : "";
+		$recordar = $_POST['recordar'];
 
 		$errores = validarLogin($_POST);
 
-		if (empty($errores)) {
+		if(!count($errores)) {
 				$usuario = LoginDeUsuario($_POST);
 				header('location: perfil.php');
 				exit;
 		} else {
+			var_dump($errores);
 			$errores['email'] = "Error de credenciales al intentar loguear!";
 		}
 	}
-
 ?>
 
-			<?php $TituloPagina = "Login"; include 'header.php'; ?>
+<?php $TituloPagina = "Login"; include 'header.php'; ?>
 
-      <!-- Fin de Cabecera con Barra de navegacion -->
+<form method="post" enctype="multipart/form-data">
+	<input class="form-control" type="text" name="email" value="<?=$email?>"><br>
+ 	<input class="form-control" type="password" name="pass">
+  <label class="centrar"><input type="checkbox" name="recordar" checked> Recordar</label>
+  <button class="btn btn-primary" type="submit">ENTRAR</button>
+	<a href="recuperar.php" class="registrar">¿Olvidaste la contraseña?</a>
+	<a href="registracion.php" class="registrar">¿Sos nuevo? REGISTRATE!</a>
+</form>
 
+<?php include 'footer.php' ?>
 
-					<form method="post" enctype="multipart/form-data">
-						<input class="form-control" type="text" name="email" placeholder="usuario" value="<?=$email?>">
-						<br>
-		       	<input class="form-control" type="password" name="pass" placeholder="contraseña">
-	          <label class="centrar">
-							<input type="checkbox" name="recordar" checked> Recordar
-	          </label>
-	          <button class="btn btn-primary" type="submit">ENTRAR</button>
-						<a href="recuperar.php" class="registrar">¿Olvidaste la contraseña?</a>
-						<a href="registracion.php" class="registrar">¿Sos nuevo? REGISTRATE!</a>
-					</form>
+<?php
+ 	function validarLogin($data) {
+	$arrayADevolver = [];
+	$email = trim($data['email']);
+	$pass = trim($data['pass']);
 
-			<?php include 'footer.php' ?>
+	if ($email == '') {
+		$arrayADevolver['email'] = 'Completá tu email';
+	} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		$arrayADevolver['email'] = 'Poné un formato de email válido';
+	}
+
+	$usuario = buscarPorEmail($email);
+
+	if(!$usuario) {
+		$arrayADevolver['email'] = 'Este email no está registrado';
+	} else {
+		// Pregunto si coindice la password escrita con la guardada en el JSON
+		if (!password_verify($pass, $usuario->getPass())) {
+			$arrayADevolver['pass'] = "Credenciales incorrectas";
+		}
+	}
+
+	return $arrayADevolver;
+}

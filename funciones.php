@@ -9,7 +9,7 @@
 	require_once("Clases/Respuestas.php");
 	require_once("Clases/respuesta.php");
 	require_once("Clases/Inscripciones.php");
-	
+
 	session_start();
 
 	// Chequeo si está la cookie seteada y se la paso a session para auto-logueo
@@ -17,7 +17,9 @@
 		$_SESSION['id'] = $_COOKIE['id'];
 	}
 
-	// == FUNCTION - validar ==
+	if(isset($_SESSION['id'])) {
+		$usuario = traerUsuarioPorId($_SESSION['id']);
+	}
 
 	function validar($data, $archivo) {
 		$errores = [];
@@ -85,30 +87,6 @@
 	*/
 	function estaLogueado() {
 		return isset($_SESSION['id']);
-	}
-
-	function validarLogin($data) {
-		$arrayADevolver = [];
-		$email = trim($data['email']);
-		$pass = trim($data['pass']);
-
-		if ($email == '') {
-			$arrayADevolver['email'] = 'Completá tu email';
-		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$arrayADevolver['email'] = 'Poné un formato de email válido';
-		} elseif (!$usuario = buscarPorEmail($email)) {
-			$arrayADevolver['email'] = 'Este email no está registrado';
-		} else {
-			// Si el mail existe, me guardo al usuario dueño del mismo
-				$usuario = buscarPorEmail($email);
-
-			// Pregunto si coindice la password escrita con la guardada en el JSON
-				if (!password_verify($pass, $usuario->getPass())) {
-					$arrayADevolver['pass'] = "Credenciales incorrectas";
-				}
-		}
-
-		return $arrayADevolver;
 	}
 
 	// == FUNCTION - guardarImagen ==
@@ -180,6 +158,7 @@
 		if($usuario){
 			if (password_verify($pass, $usuario->getPass())) {
 					$_SESSION['id'] = $usuario->getId();
+					$_COOKIE['id'] = $usuario->getId();
 					if ($data['recordar']) {
 							setcookie('id', $usuario->getId(), time() + 3000);
 					}
@@ -194,7 +173,7 @@
 
 			if($db = dbConnect()) {
 				//Ejecuto la lectura
-				$CadenaDeBusqueda = "SELECT user_id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
+				$CadenaDeBusqueda = "SELECT id, name, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE email like '{$email}'";
 				$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 				$ConsultaALaBase->execute();
 				//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -206,7 +185,7 @@
 				$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 				if($unRegistro){
-					$unUsuario = new usuario($unRegistro['user_id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
+					$unUsuario = new usuario($unRegistro['id'], $unRegistro['name'], $email, $unRegistro['password'], $unRegistro['age'], $unRegistro['telephone'], $unRegistro['country'], $unRegistro['website'], $unRegistro['message'], $unRegistro['sex'], $unRegistro['language'],
 																		$unRegistro['role_id']);
 
 					return $unUsuario;
@@ -220,7 +199,7 @@
 
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE user_id = '{$id}'";
+			$CadenaDeBusqueda = "SELECT name, email, password, age, telephone, country, website, message, sex, language, role_id FROM tpi_db.users WHERE id = '{$id}'";
 			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 			$ConsultaALaBase->execute();
 			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array

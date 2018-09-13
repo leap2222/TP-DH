@@ -298,7 +298,7 @@
 	function buscarEvento($name){
 		if($db = dbConnect()) {
 			//Ejecuto la lectura
-			$CadenaDeBusqueda = "SELECT event_id, site, language FROM events WHERE name like '{$name}'";
+			$CadenaDeBusqueda = "SELECT id, site, language FROM events WHERE name like '{$name}'";
 			$ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
 			$ConsultaALaBase->execute();
 			//$PeliculasADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -310,7 +310,7 @@
 		$unRegistro = $ConsultaALaBase->fetch(PDO::FETCH_ASSOC);
 
 		if($unRegistro){
-			$unEvento = new evento($unRegistro['event_id'], $name, $unRegistro['site'], $unRegistro['language']);
+			$unEvento = new evento($unRegistro['id'], $name, $unRegistro['site'], $unRegistro['language']);
 			return $unEvento;
 		}
 
@@ -347,7 +347,7 @@
 		$datos['site'] = trim($data['site']);
 		$datos['language'] = trim($data['language']);
 
-		$unEvento = new evento($datos);
+		$unEvento = new evento($datos, null);
 
 		$unEvento->save();
 
@@ -369,7 +369,7 @@
 	function dbConnect(){
 		$ruta = 'mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306';
 		$usuario = 'root';
-		$password = 'root';
+		$password = '';
 		$opciones = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
 
 		try {

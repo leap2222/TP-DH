@@ -26,6 +26,7 @@
       $unEvento = guardarEvento($_POST);
       $unEvento->setStatus($estado);
       Eventos::Guardar($unEvento);
+      header('location: VerEventos.php');
     }
   }
 ?>

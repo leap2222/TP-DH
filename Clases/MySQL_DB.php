@@ -10,7 +10,7 @@ class MySQL_DB extends DB
       $this->conn = $conn;
     }else{
       try {
-        $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306', 'root', 'root', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        $this->conn = new PDO('mysql:host=localhost; dbname=tpi_db; charset=utf8; port=3306', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch (Exception $e) {
         echo $e->getMessage();
@@ -94,14 +94,6 @@ class MySQL_DB extends DB
     $sql = 'select '.$campos.' from '.$tabla;
     //print_r($sql); exit;
 
-    // if($db = dbConnect()){
-    //     $ConsultaALaBase = $db->prepare($sql);
-    //     $ConsultaALaBase->execute();
-    // }else{
-    //     echo "Conexion fallida";
-    //     exit;
-    //   }
-
     try {
       $ConsultaALaBase = $this->conn->prepare($sql);
       $ConsultaALaBase->execute();
@@ -111,33 +103,12 @@ class MySQL_DB extends DB
     return $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  //Me conecto a la base de datos
-  // if($db = dbConnect()) {
-  //   // Ejecuto la lectura
-  //   $CadenaDeBusqueda = "SELECT id, name, site, language FROM tpi_db.events";
-  //   $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
-  //   $ConsultaALaBase->execute();
-  //   //$EventosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
-  //
-  // } else {
-  //     echo "Conexion fallida";
-  //     exit;
-  //   }
-
 
 
   public function find($tabla, $id)
   {
     $sql = 'select * from '.$tabla.' where id = :id'; //fecth
 
-    // if($db = dbConnect()){
-    //     $ConsultaALaBase = $db->prepare($sql);
-    //     $ConsultaALaBase->bindValue(':id', $id);
-    //     $ConsultaALaBase->execute();
-    // }else{
-    //     echo "Conexion fallida";
-    //     exit;
-    //   }
     try {
       $stmt = $this->conn->prepare($sql);
       $stmt->bindValue(':id', $id);

@@ -1,6 +1,7 @@
 <?php
 
   require_once("funciones.php");
+  require_once("Clases/Inscripciones.php");
 
   if (!$usuario) {
 	 	header('location: login.php');
@@ -17,9 +18,11 @@
     exit;
   }
     $Evento = traerEventoPorId($_GET['id']);
+    //print_r($Evento->getId());exit;
 
     // COMENTARIO
     $usuariosInscriptos = Inscripciones::ObtenerTodas($Evento->getId());
+    
     $comentariosDelEvento = Comentarios::ObtenerTodos($Evento->getId());
     $nuevo = null;
 

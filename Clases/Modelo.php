@@ -55,7 +55,6 @@ class Modelo
 
   public function find($id){
     $reg = $this->db->find($this->table, $id);
-
     if($reg){
       foreach ($reg as $attr => $value) {
         $this->setAttr($attr, $value);

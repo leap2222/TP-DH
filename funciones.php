@@ -1,4 +1,7 @@
 <?php
+	require_once('Clases/DB.php');
+	require_once('Clases/MySQL_DB.php');
+	require_once('Clases/Modelo.php');
 	require_once("Clases/Usuarios.php");
 	require_once("Clases/usuario.php");
 	require_once("Clases/Eventos.php");
@@ -7,6 +10,7 @@
 	require_once("Clases/comentario.php");
 	require_once("Clases/inscripcion.php");
 	require_once("Clases/Inscripciones.php");
+
 
 	error_reporting(E_ALL);
   ini_set('display_errors', 1);
@@ -20,6 +24,8 @@
 
 	$idiomas = ["Español", "Inglés", "Aleman", "Frances", "Italiano", "Ruso", "Chino", "Japonés", "Coreano"];
 
+	$userPictures = 'userPictures/';
+	$eventPictures = 'eventPictures/';
 
 	// Chequeo si está la cookie seteada y se la paso a session para auto-logueo
 	if (isset($_COOKIE['id'])) {
@@ -34,69 +40,54 @@
 
 	// == FUNCTION - validar ==
 
-	function validar($data, $archivo) {
+	function validar($data) {
 		$errores = [];
 
-		$nombre = trim($data['nombre']);
-		$email = trim($data['email']);
-		$pais = trim($data['pais']);
-		$sexo = isset($_POST['sexo']) ? trim($data['sexo']) : "";
 		$pass = trim($data['pass']);
 		$rpass = trim($data['rpass']);
+		$photo = trim($data['photo']);
 
 
-		if ($nombre == '') {
-			$errores['nombre'] = "Completa tu nombre";
+		if (trim($data['name']) == '') {
+			$errores['name'] = "Completa tu nombre";
 		}
 
-		if ($pais == '0') {
-			$errores['pais'] = "Debes elegir tu pais de procedencia";
+		if (trim($data['country']) == '0') {
+			$errores['country'] = "Debes elegir tu pais de procedencia";
 		}
 
-		if ($email == '') {
+		if (trim($data['email']) == '') {
 			$errores['email'] = "Completa tu email";
-		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Mail invalido
+		} elseif (!filter_var(trim($data['email']), FILTER_VALIDATE_EMAIL)) { // Mail invalido
 			$errores['email'] = "Por favor poner un email valido";
 		} else
-			if(!estaLogueado()) {
-				if (buscarPorEmail($email)) {
-				$errores['email'] = "Este email ya existe.";
-			}
+			if (buscarPorEmail(trim($data['email']))) {
+			$errores['email'] = "Este email ya existe.";
 		}
 
-		if($sexo == ''){
+		if(trim($data['sex']) == ''){
 			$errores['sexo'] = "Complete el sexo";
 		}
 
-		if(!estaLogueado()) {
-			if ($pass == '' || $rpass == '') {
-				$errores['pass'] = "Por favor completa tus passwords";
-			}
+		if ($pass == '' || $rpass == '') {
+			$errores['pass'] = "Por favor completa tus passwords";
 		}
 
 		if ($pass != $rpass) {
 			$errores['pass'] = "Tus contraseñas no coinciden";
 		}
 
-		// if ($_FILES[$archivo]['error'] != UPLOAD_ERR_OK) { // Si no subieron ninguna imagen
-		// 	if(!estaLogueado()) {
-		// 		$errores['avatar'] = "No subiste ninguna foto!";
-		// 	}
-		// } else {
-		// 		$ext = strtolower(pathinfo($_FILES[$archivo]['name'], PATHINFO_EXTENSION));
-		// 		if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
-		// 			$errores['avatar'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
-		// 		}
-		// 	}
+		if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
+	 		$ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+	 		if ($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg') {
+	 			$errores['photo'] = "Formatos admitidos: JPG, JPEG, PNG o GIF";
+	 		}
+	 	}
 		return $errores;
 	}
 
 
-	// FUNCTION - estaLogueado
-	/*
-		- No recibe parámetros
-		- Pregunta si está guardado en SESIÓN el ID del $usuarios
-	*/
+
 	function estaLogueado() {
 		return isset($_SESSION['id']);
 	}

@@ -1,5 +1,25 @@
+
 </div>
 </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="col-sm">
+    <?php if($usuario):?>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+          <li class="nav-item active"><a href="VerEventos.php" class="nav-link btn btn-primary">Eventos</a></li>
+          <li class="nav-item active"><a href="VerUsuarios.php" class="nav-link btn btn-primary">Usuarios</a></li>
+          <li class="nav-item active"><a href="EditarUsuario.php" class="nav-link btn btn-primary">Editar Perfil</a></li>
+          <?php if($usuario->isAdmin()): ?>
+            <li class="nav-item active"><a href="CrearEvento.php" class="nav-link btn btn-primary">Cargar Evento</a></li>
+          <?php endif; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+  </div>
+</nav>
+
 
 <div class="row">
   <div class="col-sm">

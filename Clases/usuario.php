@@ -1,13 +1,8 @@
 <?php
-  require_once('DB.php');
-  //require 'JSON_DB.php';
-  require_once('MySQL_DB.php');
-  require_once('Modelo.php');
-
   class usuario extends Modelo{
 
     public $table = 'users';
-    public $columns = ['id', 'name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id'];
+    public $columns = ['id', 'name', 'email', 'password', 'age', 'telephone', 'country', 'website', 'message', 'sex', 'language', 'role_id', 'photo'];
 
 
     public function getId() {
@@ -59,7 +54,7 @@
     }
 
     public function getPhoto(){
-      return $this->getAttr('photo');
+      return $this->getAttr('photo') ? $this->getAttr('photo') : 'profile.jpg';
     }
 
     public function isAdmin() {
@@ -86,7 +81,6 @@
 
 
     public function Loguear($mail, $pass) {
-  		require_once("funciones.php");
   		$usuario = buscarPorEmail($mail);
 
   		if($usuario) {

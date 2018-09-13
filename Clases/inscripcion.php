@@ -20,7 +20,6 @@
       return $this->getAttr('user_id');
     }
 
-
     public function Guardar(){
       try {
         $db = dbConnect();
@@ -33,7 +32,6 @@
          exit;
       }
     }
-
 
     public function Eliminar() {
       try {

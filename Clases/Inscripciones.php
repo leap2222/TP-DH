@@ -2,13 +2,8 @@
 
   class Inscripciones {
 
-    public static $Cantidad;
     public static $TodasLasInscripciones;
     public static $TodosLosEventosDelUsuario;
-
-    public static function Guardar($nuevaInscripcion){
-      self::$TodasLasInscripciones[] = $nuevaInscripcion;
-    }
 
     public static function ObtenerTodas($event_id) {
       if (!isset(self::$TodasLasInscripciones)) {
@@ -51,7 +46,6 @@
           self::$TodosLosEventosDelUsuario[] = $inscripcion;
         }
       }
-
       return self::$TodosLosEventosDelUsuario;
     }
   }

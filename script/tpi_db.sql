@@ -44,30 +44,6 @@ INSERT INTO `comments` VALUES (27,0,1,4,'hola estoy contento','0000-00-00 00:00:
 UNLOCK TABLES;
 
 --
--- Table structure for table `event_status`
---
-
-DROP TABLE IF EXISTS `event_status`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_status` (
-  `status_id` int(11) NOT NULL,
-  `value` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `event_status`
---
-
-LOCK TABLES `event_status` WRITE;
-/*!40000 ALTER TABLE `event_status` DISABLE KEYS */;
-INSERT INTO `event_status` VALUES (1,'Activo'),(2,'Inactivo');
-/*!40000 ALTER TABLE `event_status` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `events`
 --
 
@@ -129,37 +105,6 @@ INSERT INTO `inscriptions` VALUES (3,4,5,NULL,NULL),(4,4,8,NULL,NULL),(6,4,2,NUL
 UNLOCK TABLES;
 
 --
--- Table structure for table `matches_users`
---
-
-DROP TABLE IF EXISTS `matches_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `matches_users` (
-  `match_id` int(10) NOT NULL AUTO_INCREMENT,
-  `user1_id` int(10) NOT NULL,
-  `user2_id` int(10) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`match_id`),
-  KEY `user_match_user_id_foreign` (`match_id`),
-  KEY `user_match_user1_id_foreign` (`user1_id`),
-  KEY `user_match_user2_id_foreign` (`user2_id`),
-  CONSTRAINT `user_match_user1_id_foreign` FOREIGN KEY (`user1_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `user_match_user2_id_foreign` FOREIGN KEY (`user2_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `matches_users`
---
-
-LOCK TABLES `matches_users` WRITE;
-/*!40000 ALTER TABLE `matches_users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `matches_users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `replies`
 --
 
@@ -182,29 +127,6 @@ CREATE TABLE `replies` (
 LOCK TABLES `replies` WRITE;
 /*!40000 ALTER TABLE `replies` DISABLE KEYS */;
 /*!40000 ALTER TABLE `replies` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `roles`
---
-
-DROP TABLE IF EXISTS `roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `roles` (
-  `id` int(11) NOT NULL,
-  `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `roles`
---
-
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -254,4 +176,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-12 22:55:56
+-- Dump completed on 2018-09-13 19:46:35

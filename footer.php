@@ -13,6 +13,7 @@
           <li class="nav-item active"><a href="EditarUsuario.php" class="nav-link btn btn-primary">Editar Perfil</a></li>
           <?php if($usuario->isAdmin()): ?>
             <li class="nav-item active"><a href="CrearEvento.php" class="nav-link btn btn-primary">Cargar Evento</a></li>
+            <li class="nav-item active"><a href="ImportarDB.php" class="nav-link btn btn-primary">ImportarDB</a></li>
           <?php endif; ?>
         </ul>
       </div>

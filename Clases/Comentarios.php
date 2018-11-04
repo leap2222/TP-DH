@@ -17,7 +17,7 @@
             //Me conecto a la base de datos
             if($db = dbConnect()) {
               // Ejecuto la lectura
-              $CadenaDeBusqueda = "SELECT comments.id, event_id, user_id, parent_id, comment, timestamp, users.name, users.photo FROM tpi_db.comments left join tpi_db.users on comments.user_id = users.id where event_id = '{$event_id}' order by comments.id";
+              $CadenaDeBusqueda = "SELECT comments.id, event_id, user_id, parent_id, text, users.name, users.photo FROM tpi_db.comments left join tpi_db.users on comments.user_id = users.id where event_id = '{$event_id}' order by comments.id";
               $ConsultaALaBase = $db->prepare($CadenaDeBusqueda);
               $ConsultaALaBase->execute();
               //$ComentariosADevolver = $ConsultaALaBase->fetchAll(PDO::FETCH_ASSOC); //Esto devuelve un array de array
@@ -39,8 +39,7 @@
                 $unComentario->event_id = $unRegistro['event_id'];
                 $unComentario->user_id = $unRegistro['user_id'];
                 $unComentario->parent_id = $unRegistro['parent_id'];
-                $unComentario->comment = $unRegistro['comment'];
-                $unComentario->timestamp = $unRegistro['timestamp'];
+                $unComentario->comment = $unRegistro['text'];
                 $unComentario->user_name = $unRegistro['name'];
                 $unComentario->user_photo = $unRegistro['photo'];
 
